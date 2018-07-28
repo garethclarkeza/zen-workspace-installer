@@ -2,6 +2,7 @@ WORKSPACE_INSTALLER_BRANCH=ubuntu-server-18.04
 WORKSPACE_REPO_BRANCH=hive-ubuntu
 WORKSPACE_REPO='git@bitbucket.org:pixelventuresZA/workspace.git'
 WORKSPACE_ROOT_FOLDER='/media/sf_workspace'
+WORKSPACE_WIN_HOSTS_FOLDER='/media/sf_win_hosts'
 BASH_SCRIPTS_ROOT='/usr/bin/'
 BASH_SCRIPTS_SOURCE_ROOT='/media/sf_workspace/packages/bash/*.sh'
 BASH_SCRIPTS_DEFAULT_PERMISSIONS=775

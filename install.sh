@@ -40,17 +40,17 @@ echo 'Including installation utilities'
 source utils.sh
 
 # quick check to make sure we are on the correct install branch and it is up to date
-echo 'Including installation utilities'
+echo 'Verifying the correct workspace installer branch'
 git checkout ${WORKSPACE_INSTALLER_BRANCH}
 git pull origin ${WORKSPACE_INSTALLER_BRANCH}
 
 # GET THE SSH SERVER RUNNING WITH ACCESS
-source setup-ssh.sh
+# source setup-ssh.sh
 
 # ADD VBOX UBUNTU GUEST ADDITIONS
 # The process will need to stop at this point so that you can add the required shared volumes to
 # the virtual box container, which can only be done once the server is not running.
-source setup-guest-additions.sh
+#source setup-guest-additions.sh
 
 # SETUP DEVELOPMENT TOOLS AND THE WORKSPACE - MAIN STUFF HAPPENS HERE
 source setup-workspace.sh
