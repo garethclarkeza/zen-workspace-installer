@@ -39,7 +39,7 @@ git checkout ${WORKSPACE_INSTALLER_BRANCH}
 git pull origin ${WORKSPACE_INSTALLER_BRANCH}
 
 chmod o+x "${INSTALL_FOLDER}/*.sh"
-
+exit 1
 # GET THE SSH SERVER RUNNING WITH ACCESS
 source setup-ssh.sh
 

@@ -46,3 +46,23 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - File size: > 10GB (from personal experience 10GB is the absolute minimum that should be attempted, if you have the space I would suggest a minimum of around 20-40GB)
  - Hard disk file type: VDI
  - Storage on physical location: either fixed size or dynamically allocated that only allocates the space to the VM when it is required (although it does not get smaller by itself)
+
+#### Installing Zen Workspace
+ - Login to your linux server VM
+ - Zen Workspace is installed via an install script, to get start, on your Linux Server, go to your home folder ```cd ~``` and then ```git clone git@github.com:garethclarkeza/zen-workspace-installer.git```
+ - ```cd ~/zen-workspace-installer```
+ - ```chmod o+x ./install.sh```
+ - ```./install.sh```
+ - Follow the prompts, the process will stop when you need to shutdown the VM to add the shared folders that link your Windows workspace with your Linux workspace.
+ - Add the following 2 share to your VirtualBox VM settings.
+ - Once this is complete, restart the server in headless mode as you will now only ever access the server via an SSH client, like PuTTY or WinSSHclient.
+ - When the server has rebooted, login again via ssh client go back into the installer folder ```cd zen-workspace-installer```
+ - ```./install.sh```
+ - This will then allow the process to continue where you left off on your installation.
+ - Follow the output and prompts
+ - Well done! :P Your Linux Server with docker support and development environment server is now running
+
+### What Now?
+Coming soon
+
+
