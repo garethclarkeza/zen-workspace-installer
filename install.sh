@@ -5,7 +5,7 @@ INSTALL_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # @todo check requirements (git, vim, repo access, etc)
 
-cd ${INSTALL_LOCATION}
+cd ${INSTALL_FOLDER}
 
 # Confirm before proceeding with deployment
 read -p "Install new workspace? Please make sure that the VBoxLinuxAdditions.iso is loaded as well. This should only be done once. [y/N] " -n 1 -r
@@ -19,8 +19,8 @@ fi
 if [[ ! -f '.env' ]]
 then
     echo '.env file was not found, setting up default env file, please edit as needed and then continue:'
-    cp "${INSTALL_FOLDER}/env-example" "${INSTALL_FOLDER}/.env"
-    vim .env
+    cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
+    vim ${INSTALL_FOLDER}/.env
     ENV_LOADED=true
 fi
 
@@ -30,16 +30,20 @@ then
     exit 1
 fi
 
+echo 'Making installing files executable'
+chmod o+x ${INSTALL_FOLDER}/*.sh
+chmod 775 ${INSTALL_FOLDER}/*.sh
+
 # BEGIN INSTALLATION
 # This can only be loaded after the .env file is setup
+echo 'Including installation utilities'
 source utils.sh
 
 # quick check to make sure we are on the correct install branch and it is up to date
+echo 'Including installation utilities'
 git checkout ${WORKSPACE_INSTALLER_BRANCH}
 git pull origin ${WORKSPACE_INSTALLER_BRANCH}
 
-chmod o+x "${INSTALL_FOLDER}/*.sh"
-exit 1
 # GET THE SSH SERVER RUNNING WITH ACCESS
 source setup-ssh.sh
 
@@ -59,6 +63,5 @@ sudo apt autoremove
 echo
 echo "${GREEN}Your new workspace has been successfully setup! Congratulations.${NC}"
 echo
-
-
 echo 'Would you like to remove the installation files?'
+echo
