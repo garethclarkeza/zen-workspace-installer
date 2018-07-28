@@ -32,14 +32,14 @@ fi
 
 # BEGIN INSTALLATION
 # This can only be loaded after the .env file is setup
-source setup-utils.sh
+source utils.sh
 
 # quick check to make sure we are on the correct install branch and it is up to date
 git checkout ${WORKSPACE_INSTALLER_BRANCH}
 git pull origin ${WORKSPACE_INSTALLER_BRANCH}
 
 chmod o+x "${INSTALL_FOLDER}/*.sh"
-
+exit 1
 # GET THE SSH SERVER RUNNING WITH ACCESS
 source setup-ssh.sh
 
