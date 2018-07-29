@@ -16,6 +16,9 @@ echo 'Installing Laradock'
 echo
 git clone ${LARADOCK_REPO}
 cd laradock
+git checkout ${LARADOCK_BRANCH}
+git pull origin ${LARADOCK_BRANCH}
+
 # @todo allow for importing custom backup .env
 echo 'Setting up .env file and opening it in VIM for you to edit if required.'
 cp env-example .env
@@ -24,7 +27,7 @@ echo ''
 echo 'Building docker services, this may take a while...'
 echo ''
 
-docker-compose build ${DOCKER_STACK1}
+docker-compose build nginx apache2 php-fpm redis mongo mysql workspace
 
 echo ''
 echo 'Initializing docker services!'
