@@ -41,9 +41,6 @@ source utils.sh
 
 # quick check to make sure we are on the correct install branch and it is up to date
 echo 'Verifying the correct workspace installer branch'
-#git checkout ${WORKSPACE_INSTALLER_BRANCH}
-#git pull origin ${WORKSPACE_INSTALLER_BRANCH}
-
 
 # GET THE SSH SERVER RUNNING WITH ACCESS
 # source setup-ssh.sh
@@ -56,11 +53,11 @@ echo 'Verifying the correct workspace installer branch'
 # SETUP DEVELOPMENT TOOLS AND THE WORKSPACE - MAIN STUFF HAPPENS HERE
 echo 'Setting up workspace'
 cd ${INSTALL_FOLDER}
-source setup-workspace.sh
+#source setup-workspace.sh
 cd ${INSTALL_FOLDER}
-echo 'Setting up dev utils'
+#echo 'Setting up dev utils'
 cd ${INSTALL_FOLDER}
-source setup-dev-utils.sh
+#source setup-dev-utils.sh
 echo 'Setting up docker'
 cd ${INSTALL_FOLDER}
 source setup-docker.sh
