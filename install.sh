@@ -66,6 +66,9 @@ then
     source setup-ssh.sh
     echo 'Completed SSH setup'
     echo 'guest-additions' > ${STATUS_FILE}
+else
+    echo -e "${YELLOW}Skipping SSH setup...${NC}"
+    echo
 fi
 
 # ADD VBOX UBUNTU GUEST ADDITIONS
@@ -98,6 +101,9 @@ then
     echo "${RED}Please make sure to restart the server.{$NC}"
     echo
     exit 1
+else
+    echo -e "${YELLOW}Skipping guest additions installation...${NC}"
+    echo
 fi
 
 # ZEN WORKSPACE SETUP
@@ -108,6 +114,9 @@ then
     source setup-workspace.sh
     echo 'Completed setting up workspace'
     echo 'dev-utils' > ${STATUS_FILE}
+else
+    echo -e "${YELLOW}Skipping workspace setup...${NC}"
+    echo
 fi
 
 # DEVELOPMENT UTILITIES AND FEATURES
@@ -121,11 +130,12 @@ then
 fi
 
 # DOCKER AND LARADOCK SETUP
-if [[ $(cat ${STATUS_FILE}) =~ 'docker' ]]
+if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock' ]]
 then
-    echo 'Setting up docker'
+    echo 'Setting up docker and laradock'
     cd ${INSTALL_FOLDER}
     source setup-docker.sh
+    echo 'Completed installation and setup of docker and laradock'
     echo 'cleanup' > ${STATUS_FILE}
 fi
 
@@ -148,3 +158,7 @@ then
     echo 'Would you like to remove the installation files?'
     echo
 fi
+
+echo
+echo 'Please logout of all active sessions and re-login to take full advantage of your new server'
+echo
