@@ -4,6 +4,7 @@ WORKSPACE_REPO=git@bitbucket.org:pixelventuresZA/workspace.git
 WORKSPACE_ROOT_FOLDER=/media/sf_workspace
 WORKSPACE_WIN_HOSTS_FOLDER=/media/sf_win_hosts
 LARADOCK_REPO=git@github.com:garethclarkeza/laradock.git
+LARADOCK_BRANCH=workspace-ubuntu18
 BASH_SCRIPTS_ROOT=/usr/bin/
 BASH_SCRIPTS_SOURCE_ROOT=/media/sf_workspace/packages/bash/*.sh
 BASH_SCRIPTS_DEFAULT_PERMISSIONS=775
