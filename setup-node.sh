@@ -52,11 +52,14 @@ function installNodeSetup {
     yarn --version
 
     echo "==> List installed node versions"
-    nvm ls
+    #nvm ls
 
-    nvm cache clear
+    #nvm cache clear
+    echo 'done'
+    #return
     echo "==> Please Logout and Login back to take changes effect"
     echo
 }
 
-$@
+installNodeSetup
+

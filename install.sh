@@ -45,7 +45,7 @@ echo 'Verifying the correct workspace installer branch'
 #git pull origin ${WORKSPACE_INSTALLER_BRANCH}
 
 
- GET THE SSH SERVER RUNNING WITH ACCESS
+# GET THE SSH SERVER RUNNING WITH ACCESS
 # source setup-ssh.sh
 
 # ADD VBOX UBUNTU GUEST ADDITIONS
@@ -54,16 +54,25 @@ echo 'Verifying the correct workspace installer branch'
 #source setup-guest-additions.sh
 
 # SETUP DEVELOPMENT TOOLS AND THE WORKSPACE - MAIN STUFF HAPPENS HERE
+echo 'Setting up workspace'
+cd ${INSTALL_FOLDER}
 source setup-workspace.sh
-exit 1
+cd ${INSTALL_FOLDER}
+echo 'Setting up dev utils'
+cd ${INSTALL_FOLDER}
 source setup-dev-utils.sh
-source setup-setup-docker.sh
+echo 'Setting up docker'
+cd ${INSTALL_FOLDER}
+source setup-docker.sh
 
 echo 'Cleaning up...'
+
 sudo apt autoremove
+nvm cache clear
 
 echo
 echo "${GREEN}Your new workspace has been successfully setup! Congratulations.${NC}"
 echo
 echo 'Would you like to remove the installation files?'
 echo
+
