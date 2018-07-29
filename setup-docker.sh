@@ -4,16 +4,17 @@ echo
 echo 'Installing Docker'
 echo
 
+cd /tmp
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 sudo apt install docker-ce docker-compose
 sudo usermod -aG docker ${USER}
 
-cd "${WORKSPACE_ROOT_FOLDER}/services/"
+cd ${WORKSPACE_ROOT_FOLDER}/services/
 echo
 echo 'Installing Laradock'
 echo
-git clone git@github.com:garethclarkeza/laradock.git
+git clone ${LARADOCK_REPO}
 cd laradock
 # @todo allow for importing custom backup .env
 echo 'Setting up .env file and opening it in VIM for you to edit if required.'
@@ -36,3 +37,4 @@ echo 'Docker should now be running!'
 echo "Visit your new workspace at http://${HOSTNAME}/ from your Windows Host."
 docker ps
 echo ''
+

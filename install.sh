@@ -41,9 +41,6 @@ source utils.sh
 
 # quick check to make sure we are on the correct install branch and it is up to date
 echo 'Verifying the correct workspace installer branch'
-#git checkout ${WORKSPACE_INSTALLER_BRANCH}
-#git pull origin ${WORKSPACE_INSTALLER_BRANCH}
-
 
 # GET THE SSH SERVER RUNNING WITH ACCESS
 # source setup-ssh.sh
@@ -54,15 +51,25 @@ echo 'Verifying the correct workspace installer branch'
 #source setup-guest-additions.sh
 
 # SETUP DEVELOPMENT TOOLS AND THE WORKSPACE - MAIN STUFF HAPPENS HERE
-source setup-workspace.sh
-source setup-dev-utils.sh
-source setup-setup-docker.sh
+echo 'Setting up workspace'
+cd ${INSTALL_FOLDER}
+#source setup-workspace.sh
+cd ${INSTALL_FOLDER}
+#echo 'Setting up dev utils'
+cd ${INSTALL_FOLDER}
+#source setup-dev-utils.sh
+echo 'Setting up docker'
+cd ${INSTALL_FOLDER}
+source setup-docker.sh
 
 echo 'Cleaning up...'
+
 sudo apt autoremove
+nvm cache clear
 
 echo
 echo "${GREEN}Your new workspace has been successfully setup! Congratulations.${NC}"
 echo
 echo 'Would you like to remove the installation files?'
 echo
+
