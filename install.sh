@@ -52,6 +52,7 @@ then
     echo 'Making installing files executable'
     chmod o+x ${INSTALL_FOLDER}/*.sh
     chmod 775 ${INSTALL_FOLDER}/*.sh
+    echo 'ssh' > ${STATUS_FILE}
 fi
 
 # ALWAYS INCLUDE THE UTILS
