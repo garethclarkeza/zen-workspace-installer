@@ -11,6 +11,9 @@ echo
 echo 'Installing workspace scripts'
 install_workspace_scripts
 echo
+echo 'completed installing workspace scripts'
+exit 1
+echo
 echo 'Setting up default hosts'
 
 # add windows_host with the clients connected IP address to ubuntu hosts file

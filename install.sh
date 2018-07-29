@@ -8,7 +8,7 @@ INSTALL_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd ${INSTALL_FOLDER}
 
 # Confirm before proceeding with deployment
-read -p "Install new workspace? Please make sure that the VBoxLinuxAdditions.iso is loaded as well. This should only be done once. [y/N] " -n 1 -r
+read -p "Install new workspace? Please make sure that the VBoxLinuxAdditions.iso is loaded as well. This should only be done once. [Y/n] " -n 1 -r
 echo
 
 if [[ $REPLY =~ ^[Nn]$ ]]
@@ -43,6 +43,7 @@ source utils.sh
 echo 'Verifying the correct workspace installer branch'
 git checkout ${WORKSPACE_INSTALLER_BRANCH}
 git pull origin ${WORKSPACE_INSTALLER_BRANCH}
+
 
 # GET THE SSH SERVER RUNNING WITH ACCESS
 # source setup-ssh.sh
