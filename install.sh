@@ -46,13 +46,15 @@ then
 fi
 
 # BEGIN INSTALLATION
+cd ${INSTALL_FOLDER}
+
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
     echo 'Making installing files executable'
     chmod o+x ${INSTALL_FOLDER}/*.sh
     chmod 775 ${INSTALL_FOLDER}/*.sh
-    echo 'ssh' > ${STATUS_FILE}
+    echo 'guest-additions' > ${STATUS_FILE}
 fi
 
 # ALWAYS INCLUDE THE UTILS
@@ -60,27 +62,16 @@ echo 'Including installation utilities'
 source utils.sh
 echo 'Installation utilities installed'
 
-# GET THE SSH SERVER RUNNING WITH ACCESS
-if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
-then
-    echo 'Seting up SSH access and automation'
-    source setup-ssh.sh
-    echo 'Completed SSH setup'
-    echo 'guest-additions' > ${STATUS_FILE}
-else
-    echo -e "${YELLOW}Skipping SSH setup...${NC}"
-    echo
-fi
-
 # ADD VBOX UBUNTU GUEST ADDITIONS
 # The process will need to stop at this point so that you can add the required shared volumes to
 # the virtual box container, which can only be done once the server is not running.
 if [[ $(cat ${STATUS_FILE}) =~ 'guest-additions' ]]
 then
     echo 'Setting up Linux Guest Additions'
+    cd ${INSTALL_FOLDER}
     source setup-guest-additions.sh
 
-    echo 'workspace' > ${STATUS_FILE}
+    echo 'ssh' > ${STATUS_FILE}
     echo
     echo -e "${GREEN}VBox Linux Additions has been successfully installed and your user has been added the the vboxsf group.${NC}"
     echo
@@ -107,6 +98,19 @@ else
     echo
 fi
 
+# GET THE SSH SERVER RUNNING WITH ACCESS
+if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
+then
+    echo 'Seting up SSH access and automation'
+    cd ${INSTALL_FOLDER}
+    source setup-ssh.sh
+    echo 'Completed SSH setup'
+    echo 'workspace' > ${STATUS_FILE}
+else
+    echo -e "${YELLOW}Skipping SSH setup...${NC}"
+    echo
+fi
+
 # ZEN WORKSPACE SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]
 then
@@ -123,7 +127,6 @@ fi
 # DEVELOPMENT UTILITIES AND FEATURES
 if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils' ]]
 then
-    cd ${INSTALL_FOLDER}
     echo 'Setting up dev utils'
     cd ${INSTALL_FOLDER}
     source setup-dev-utils.sh
@@ -150,7 +153,6 @@ fi
 if [[ $(cat ${STATUS_FILE}) =~ 'cleanup' ]]
 then
     echo 'Cleaning up...'
-
     echo 'complete' > ${STATUS_FILE}
     sudo apt autoremove
     nvm cache clear

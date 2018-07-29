@@ -14,6 +14,7 @@ cat ${INSTALL_FOLDER}/known_hosts >> ~/.ssh/known_hosts
 echo
 echo "${RED}In order to setup the system more easily, please add your ssh public key to github.com, bitbucket.org and gitlab:${NC}"
 echo
+sudo apt-get install xclip
 cat ~/.ssh/id_rsa.pub | xclip
 echo "${WHITE}"
 cat ~/.ssh/id_rsa.pub
