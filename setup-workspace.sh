@@ -1,19 +1,11 @@
 #!/usr/bin/env bash
 
-echo 'Starting workspace installation and setup'
 echo
 echo 'Fetching the latest version of Zen Workspace'
+echo
+echo -e "git clone ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}"
+echo
 
-echo 'repo folder'
-echo ${WORKSPACE_REPO}
-echo 'repo branch'
-echo ${WORKSPACE_REPO_BRANCH}
-echo 'repo branch'
-echo ${WORKSPACE_REPO_BRANCH}
-echo -e "test git clone ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}"
-#exit 1
-
-echo 'cloning repo:'
 cd /
 git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}
 cd ${WORKSPACE_ROOT_FOLDER}
@@ -59,6 +51,12 @@ then
 fi
 
 ln -s ${WORKSPACE_ROOT_FOLDER}/config/bash/.bash_* ~/
+
+if [ -n "$(grep 'unset color_prompt force_color_prompt' ~/.bashrc)" ]
+then
+    echo 'Removing unsetting of color vars in bashrc which are required in .bash_aliases.'
+    sudo sed -i".bak" "/unset color_prompt force_color_prompt/d" ~/.bashrc
+fi
 
 source ~/.bashrc
 

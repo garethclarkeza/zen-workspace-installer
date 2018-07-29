@@ -14,42 +14,50 @@ then
     echo 'init' > ${STATUS_FILE}
 fi
 
-# Confirm before proceeding with deployment
-read -p "Install new workspace? Please make sure that the VBoxLinuxAdditions.iso is loaded as well. This should only be done once. [Y/n] " -n 1 -r
-echo
-
-if [[ $REPLY =~ ^[Nn]$ ]]
+if [[ $(cat ${STATUS_FILE}) =~ 'init' ]]
 then
-    exit 0
-fi
+    # Confirm before proceeding with deployment
+    read -p "Install new workspace to '${INSTALL_FOLDER}'? Please make sure that the VBoxLinuxAdditions.iso is loaded as well. This should only be done once. [Y/n] " -n 1 -r
+    echo
 
-if [[ ! -f '.env' ]]
-then
-    echo '.env file was not found, setting up default env file, please edit as needed and then continue:'
-    cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
-    vim ${INSTALL_FOLDER}/.env
-    ENV_LOADED=true
-fi
+    if [[ $REPLY =~ ^[Nn]$ ]]
+    then
+        echo
+        echo -e "Please insert the guest additions iso into the VM as per readme file and then try again!"
+        echo
+        exit 0
+    fi
 
-if [[ ! ${ENV_LOADED} ]]
-then
-    echo '.env file was never loaded, and there have been too many attempts, please create a .env file file in the root of the workspace'
-    exit 1
+    if [[ ! -f '.env' ]]
+    then
+        echo '.env file was not found, setting up default env file, please edit as needed and then continue:'
+        cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
+        vim ${INSTALL_FOLDER}/.env
+        ENV_LOADED=true
+    fi
+
+    if [[ ! ${ENV_LOADED} ]]
+    then
+        echo '.env file was never loaded, and there have been too many attempts, please create a .env file file in the root of the workspace'
+        exit 1
+    fi
+
+    echo 'start' > ${STATUS_FILE}
 fi
 
 # BEGIN INSTALLATION
 # This can only be loaded after the .env file is setup
-if [[ $(cat ${STATUS_FILE}) =~ 'init' ]]
+if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
     echo 'Making installing files executable'
     chmod o+x ${INSTALL_FOLDER}/*.sh
     chmod 775 ${INSTALL_FOLDER}/*.sh
-
-    echo 'Including installation utilities'
-    source utils.sh
-    echo 'Installation utilities installed'
-    echo 'ssh' > ${STATUS_FILE}
 fi
+
+# ALWAYS INCLUDE THE UTILS
+echo 'Including installation utilities'
+source utils.sh
+echo 'Installation utilities installed'
 
 # GET THE SSH SERVER RUNNING WITH ACCESS
 if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
@@ -67,15 +75,29 @@ if [[ $(cat ${STATUS_FILE}) =~ 'guest-additions' ]]
 then
     echo 'Setting up Linux Guest Additions'
     source setup-guest-additions.sh
-    echo 'Setup of Linux Guest Addtions complete'
+
     echo 'workspace' > ${STATUS_FILE}
     echo
-    echo "${RED}The system will now shutdown in 10 seconds so that you can add the 2 shared volumes in your VM as per readme file.${NC}"
+    echo -e "${GREEN}VBox Linux Additions has been successfully installed and your user has been added the the vboxsf group.${NC}"
     echo
-    echo "${WHITE}Once you have shared the volumes, restart the VM in headless mode (and connect via your SSH details).${NC}"
+    echo -e "${WHITE}You need to shutdown this server and add the 2 shared volumes to the image in Virtual Box."
+    echo -e "Please refer to the readme file for more details.${NC}"
+    echo
+    read -p "${RED}Shutdown the server to add your shared folders?${WHITE} [y/N]${NC}" -n 1 -r
     echo
 
-    sudo shutdown -h 10
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        echo
+        echo "${RED}Shutting down in 10 seconds, refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
+        echo
+        sudo shutdown -h 10
+    fi
+    echo
+    echo "${RED}Refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
+    echo "${RED}Please make sure to restart the server.{$NC}"
+    echo
+    exit 1
 fi
 
 # ZEN WORKSPACE SETUP

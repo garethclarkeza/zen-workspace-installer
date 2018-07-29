@@ -28,18 +28,8 @@ then
     sudo groupadd -g 998 vboxsf
     sudo ./VBoxLinuxAdditions.run
     sudo usermod -aG vboxsf ${USER}
-
+else
+    echo -e "${RED}Please insert the guest additions iso into the VM as per readme file and then try again!${NC}"
     echo
-    echo -e "${GREEN}VBox Linux Additions has been successfully installed and your user has been added the the vboxsf group.${NC}"
-    echo
-    echo -e "${WHITE}You need to shutdown this server and add the 2 shared volumes to the image in Virtual Box."
-    echo -e "Please refer to the readme file for more details.${NC}"
-    echo
-    read -p "${RED}Shutdown the server to add your shared folders?${NC} [y/N]" -n 1 -r
-    echo
-
-    if [[ $REPLY =~ ^[Yy]$ ]]
-    then
-        sudo shutdown -h now
-    fi
+    exit 1
 fi
