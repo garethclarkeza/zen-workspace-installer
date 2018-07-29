@@ -44,7 +44,8 @@ read -p 'continue: '
 sudo visudo
 
 echo
-echo 'SSH has been successfully setup, please exit and login with the following credentials:'
+echo 'SSH has been successfully setup, here are you credentials to add to your Windows SSH client to '
+echo 'connect to this server, you should start your VM in headless mode and only connect via your SSH client.'
 echo
 echo 'x-----------------------------------------------------------------------------------x'
 echo -e "  IP Address:\t$(hostname  -I | cut -f1 -d' ')"
@@ -53,4 +54,3 @@ echo -e '  Password:\t***** (use your putty private key that you previously used
 echo -e '  Port:\t\t22'
 echo 'x-----------------------------------------------------------------------------------x'
 echo
-

@@ -25,6 +25,7 @@ then
     echo 'Running VBox Linux Additions'
     echo
 
+    sudo groupadd -g 998 vboxsf
     sudo ./VBoxLinuxAdditions.run
     sudo usermod -aG vboxsf ${USER}
 
