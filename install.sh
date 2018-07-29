@@ -44,7 +44,6 @@ echo 'Verifying the correct workspace installer branch'
 git checkout ${WORKSPACE_INSTALLER_BRANCH}
 git pull origin ${WORKSPACE_INSTALLER_BRANCH}
 
-exit 1
  GET THE SSH SERVER RUNNING WITH ACCESS
 # source setup-ssh.sh
 
@@ -55,6 +54,7 @@ exit 1
 
 # SETUP DEVELOPMENT TOOLS AND THE WORKSPACE - MAIN STUFF HAPPENS HERE
 source setup-workspace.sh
+exit 1
 source setup-dev-utils.sh
 source setup-setup-docker.sh
 

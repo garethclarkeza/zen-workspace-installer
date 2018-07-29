@@ -4,6 +4,13 @@ echo 'Starting workspace installation and setup'
 echo
 echo 'Fetching the latest version of Zen Workspace'
 
+echo 'git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}'
+echo 'git checkout -b ${WORKSPACE_REPO_BRANCH}'
+echo 'git pull origin ${WORKSPACE_REPO_BRANCH}'
+exit 1
+
+
+
 git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}
 git checkout -b ${WORKSPACE_REPO_BRANCH}
 git pull origin ${WORKSPACE_REPO_BRANCH}
