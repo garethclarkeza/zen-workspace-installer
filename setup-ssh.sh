@@ -8,8 +8,8 @@ mkdir ~/.ssh
 chmod 700 ~/.ssh
 ssh-keygen -t rsa
 
-# COPY OVER SAVE FREQUENTLY USED TRUSTED HOSTS
-cp ${INSTALL_FOLDER}/known_hosts ~/.ssh/known_hosts
+# COPY OVER FREQUENTLY USED TRUSTED HOSTS
+cat ${INSTALL_FOLDER}/known_hosts >> ~/.ssh/known_hosts
 
 echo
 echo "${RED}In order to setup the system more easily, please add your ssh public key to github.com, bitbucket.org and gitlab:${NC}"
@@ -38,6 +38,8 @@ echo 'Hit any key to continue after copying the above line'
 echo
 read -p 'continue: '
 
+#sudo echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 # @todo do this automatically
 sudo visudo
 
@@ -51,3 +53,4 @@ echo -e '  Password:\t***** (use your putty private key that you previously used
 echo -e '  Port:\t\t22'
 echo 'x-----------------------------------------------------------------------------------x'
 echo
+

@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+
+sudo su -
+
+cat >> /etc/sudoers << EOF
+gareth ALL=(ALL) NOPASSWD: ALL
+EOF
+
+echo 'in root'
+quit
+
+echo 
+echo 'complete'
+echo
+exit 1
+
 ENV_LOADED=false
 INSTALL_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
