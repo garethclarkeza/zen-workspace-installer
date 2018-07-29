@@ -44,8 +44,8 @@ echo 'Verifying the correct workspace installer branch'
 git checkout ${WORKSPACE_INSTALLER_BRANCH}
 git pull origin ${WORKSPACE_INSTALLER_BRANCH}
 
-
-# GET THE SSH SERVER RUNNING WITH ACCESS
+exit 1
+ GET THE SSH SERVER RUNNING WITH ACCESS
 # source setup-ssh.sh
 
 # ADD VBOX UBUNTU GUEST ADDITIONS
