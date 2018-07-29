@@ -128,6 +128,9 @@ then
     cd ${INSTALL_FOLDER}
     source setup-dev-utils.sh
     echo 'docker' > ${STATUS_FILE}
+else
+    echo -e "${YELLOW}Skipping dev utilities...${NC}"
+    echo
 fi
 
 # DOCKER AND LARADOCK SETUP
@@ -138,6 +141,9 @@ then
     source setup-docker.sh
     echo 'Completed installation and setup of docker and laradock'
     echo 'cleanup' > ${STATUS_FILE}
+else
+    echo -e "${YELLOW}Skipping docker and laradock...${NC}"
+    echo
 fi
 
 # FINISH UP BY CLEANING UP AFTER SETUP
@@ -148,6 +154,9 @@ then
     echo 'complete' > ${STATUS_FILE}
     sudo apt autoremove
     nvm cache clear
+else
+    echo -e "${YELLOW}Skipping cleanup...${NC}"
+    echo
 fi
 
 # COMPLETE WITH INSTALLATION, THE FILES SHOULD BE UNINSTALLED
