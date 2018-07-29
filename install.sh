@@ -41,8 +41,9 @@ source utils.sh
 
 # quick check to make sure we are on the correct install branch and it is up to date
 echo 'Verifying the correct workspace installer branch'
-git checkout ${WORKSPACE_INSTALLER_BRANCH}
-git pull origin ${WORKSPACE_INSTALLER_BRANCH}
+#git checkout ${WORKSPACE_INSTALLER_BRANCH}
+#git pull origin ${WORKSPACE_INSTALLER_BRANCH}
+
 
  GET THE SSH SERVER RUNNING WITH ACCESS
 # source setup-ssh.sh
