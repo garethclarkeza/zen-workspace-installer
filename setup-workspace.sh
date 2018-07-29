@@ -50,7 +50,8 @@ then
     mv ~/.bash_helpers ~/_bash_helpers
 fi
 
-ln -s ${WORKSPACE_ROOT_FOLDER}/config/bash/.bash_* ~/
+ln -s ${WORKSPACE_ROOT_FOLDER}/config/bash/.bash_aliases ~/.bash_aliases
+ln -s ${WORKSPACE_ROOT_FOLDER}/config/bash/.bash_helpers ~/.bash_helpers
 
 if [ -n "$(grep 'unset color_prompt force_color_prompt' ~/.bashrc)" ]
 then
