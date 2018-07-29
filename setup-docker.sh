@@ -55,6 +55,7 @@ then
     echo 'Building docker services, this may take a while...'
     echo
 
+    cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
     sg docker -c "docker-compose build nginx apache2 php-fpm redis mongo mysql workspace"
 
     echo

@@ -156,7 +156,6 @@ then
     echo 'Cleaning up...'
     echo 'complete' > ${STATUS_FILE}
     sudo apt autoremove
-    nvm cache clear
 else
     echo -e "${YELLOW}Skipping cleanup...${NC}"
     echo
