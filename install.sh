@@ -86,7 +86,8 @@ then
         echo
         echo "${RED}Shutting down in 10 seconds, refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
         echo
-        sudo shutdown -h 10
+        read -p  'shutdown now: '
+        sudo shutdown -h now && exit
     fi
     echo
     echo "${RED}Refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
