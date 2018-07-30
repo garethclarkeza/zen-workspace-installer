@@ -51,7 +51,7 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
 
 ##### Create Virtual Hard Disk
  - File location: use the default or select your own location (whichever drive this is on is where the space required for the VM is going to come from, although I suggest this space be on a SSD drive for better performance)
- - File size: > 10GB (from personal experience 10GB is the absolute minimum that should be attempted, if you have the space I would suggest a minimum of around 20-40GB)
+ - File size: > 20GB (from personal experience 20GB is the absolute minimum that should be attempted - especially when dealing with large databases, if you have the space I would suggest a minimum of around >40GB)
  - Hard disk file type: VDI
  - Storage on physical location: either fixed size or dynamically allocated that only allocates the space to the VM when it is required (although it does not get smaller by itself)
 
