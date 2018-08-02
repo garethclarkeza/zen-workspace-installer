@@ -15,25 +15,25 @@ PHP_EXTENSIONS="php${PHP_VERSION}-zip php${PHP_VERSION}-xml php${PHP_VERSION}-sq
 sudo apt-get install -y ${PHP_EXTENSIONS}
 
 # INSTALL COMPOSER
-echo 
+echo
 echo 'Installing Composer Package Manager'
-echo 
+echo
+
 cd /tmp
 curl -o- https://getcomposer.org/installer | php
-sudo mv composer.phar /usr/bin/composer
-sudo chmod 775 /usr/bin/composer
+sudo mv composer.phar ${BASH_SCRIPTS_ROOT}composer
+sudo chmod ${BASH_SCRIPTS_DEFAULT_PERMISSIONS} /usr/bin/composer
 
 echo 'completed installing composer'
 
 # INSTALL NODE/NPM/YARN
 echo ''
 echo 'Installing NodeJS, NPM and Yarn'
-echo 
+echo
 
 
 cd ${INSTALL_FOLDER}
 source setup-node.sh
 installNodeSetup
-
-echo 'NPM has been succcessfully setup'
-
+echo 'NPM has been successfully setup'
+echo
