@@ -28,7 +28,7 @@ To get going with setting up your own Zen Workspace, please carry on reading on 
 1. Have a github.com account. (you will need to add an ssh key to your github account)
 1. If you have not already - install PuTTY, PuTTYgen and Pageant. (for an SSH client, I recommend using WinSSHterm - but you can use whatever you prefer)
 1. Make sure you have your favourite code editor installed and for way less hair pulling down the line, make sure you code editors save line endings in UNIX/MAC format which is ```\n``` and not the Windows ```\r\n```.
-1. Make sure you have created your workspace folder in the location you want it, like ```C:\workspace```, ```D:\web```, ```~\www``` etc (remember that this folder is where your IDE will point to and should be in an easy to access safe location).
+1. Make sure you have created your *EMPTY* workspace folder in the location you want it, like ```C:\workspace```, ```D:\web```, ```~\www``` etc (remember that this folder is where your IDE will point to and should be in an easy to access safe location).
 1. [OPTIONAL] This may be a little insecure, however, for easy and more automated management of your Windows hosts file, I suggest giving modify access to your ```C:\Windows\System32\drivers\etc\hosts``` which you will later share onto your linux server.
 
 The following tools are not required on Windows, but may make your development experience more enjoyable as you can run these from Windows just as you would from Linux.
@@ -60,9 +60,38 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Hard disk file type: VDI
  - Storage on physical location: either fixed size or dynamically allocated that only allocates the space to the VM when it is required (although it does not get smaller by itself)
 
+##### Finalize Setup of VM
+ - *coming soon*
+
+#### Ubuntu Server 18.04 Setup
+ - Start the VM in normal mode
+ - A menu with will up on the screen, follow along belong
+ - install
+ - select language, country and keyboard layout (dont autodetect keyboard)
+ - enter a hostname
+ - select mirror location, package and proxy
+ - ..................................installing :<
+ - enter your full name
+ - username (something short and lower case "eg. ubuntu, your-name")
+ - select a password
+ - select timezone
+ - partition: guided - use entire disk and select the disk to partition (there should only be one) and then write changes to disk when it asks
+ - ..................................installing :<
+ - how to manage system upgrades? upto u, but i suggest install security update automatically
+ - additional software selection, here was my selection:
+    - samba file server (test leaving this out)
+    - large selection of fonts (not sure how useful this is)
+    - openssh server (important)
+    - basic ubuntu server (important unless you install the stuff you need from this package manually)
+ - ..................................installing :<
+ - Install GRUB boot loader = yes
+ - set clock to UTC
+ - when "installation complete" -> continue
+
 #### Server, Zen Workspace and Docker
  - Login to your linux server VM
- - Zen Workspace is installed via an install script, to get start, on your Linux Server, go to your home folder ```cd ~``` and then ```git clone git@github.com:garethclarkeza/zen-workspace-installer.git```
+ - Run ```git config --global user.email "your@email.address" && git config --global user.name "Your Name"```
+ - Zen Workspace is installed via an install script, to get start, on your Linux Server, go to your home folder ```cd ~``` and then ```git clone https://github.com/garethclarkeza/zen-workspace-installer.git``` and enter your github username/password.
  - ```cd ~/zen-workspace-installer```
  - ```chmod 775 ./install.sh```
  - ```./install.sh```
@@ -70,7 +99,7 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Add the following 2 share to your VirtualBox VM settings.
     1. ```C:\<workspace> -> workspace``` (auto-mount, make permanent)
     1. ```C:\Windows\System32\drivers\etc -> win_hosts``` (auto-mount, make permanent)
- - Once this is complete, restart the server in headless mode as you will now only ever access the server via an SSH client, like PuTTY or WinSSHclient.
+ - Once this is complete, restart the server in headless mode as you will now only ever access the server via an SSH client, like PuTTY or WinSSHterm.
  - When the server has rebooted, login again via ssh client go back into the installer folder ```cd zen-workspace-installer```
  - ```./install.sh```
  - This will then allow the process to continue where you left off on your installation.
@@ -78,4 +107,4 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Well done! :P Your Linux Server with docker support and development environment server is now running
 
 ### What Now?
-Coming soon, readme will soon be updated in the zen-workspace readme file.
+Better documentation and installation workflow. Coming soon, readme will soon be updated in the zen-workspace readme file.
