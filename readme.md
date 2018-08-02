@@ -41,8 +41,10 @@ The following tools are not required on Windows, but may make your development e
 ### Installation
 Once you have met the above requirements, please do a fresh restart and then continue below.
 
+
 #### Virtual Box
 The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox Manager, make sure no other VM's are running.
+
 
 ##### Setting up a new VM
  - Create a new VM
@@ -63,6 +65,7 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
 ##### Finalize Setup of VM
  - *coming soon*
 
+
 #### Ubuntu Server 18.04 Setup
  - Start the VM in normal mode
  - A menu with will up on the screen, follow along belong
@@ -70,23 +73,30 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - select language, country and keyboard layout (dont autodetect keyboard)
  - enter a hostname
  - select mirror location, package and proxy
- - ..................................installing :<
+
+```..................................installing :<```
+
  - enter your full name
  - username (something short and lower case "eg. ubuntu, your-name")
  - select a password
  - select timezone
  - partition: guided - use entire disk and select the disk to partition (there should only be one) and then write changes to disk when it asks
- - ..................................installing :<
+
+```..................................installing :<```
+
  - how to manage system upgrades? upto u, but i suggest install security update automatically
  - additional software selection, here was my selection:
     - samba file server (test leaving this out)
     - large selection of fonts (not sure how useful this is)
     - openssh server (important)
     - basic ubuntu server (important unless you install the stuff you need from this package manually)
- - ..................................installing :<
+
+```..................................installing :<```
+
  - Install GRUB boot loader = yes
  - set clock to UTC
  - when "installation complete" -> continue
+
 
 #### Server, Zen Workspace and Docker
  - Login to your linux server VM
@@ -100,11 +110,13 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
     1. ```C:\<workspace> -> workspace``` (auto-mount, make permanent)
     1. ```C:\Windows\System32\drivers\etc -> win_hosts``` (auto-mount, make permanent)
  - Once this is complete, restart the server in headless mode as you will now only ever access the server via an SSH client, like PuTTY or WinSSHterm.
- - When the server has rebooted, login again via ssh client go back into the installer folder ```cd zen-workspace-installer```
- - ```./install.sh```
+ - When the server has rebooted, login again via ssh client go back into the installer folder.
+ - Run ```cd zen-workspace-installer && ./install.sh```.
  - This will then allow the process to continue where you left off on your installation.
- - Follow the output and prompts
- - Well done! :P Your Linux Server with docker support and development environment server is now running
+ - Follow the output and prompts.
+ - Well done! :P Your Linux Server with docker support and development environment server is now running.
+ - Open your browser, the welcome page should be visible at http://workspace/.
+
 
 ### What Now?
 Better documentation and installation workflow. Coming soon, readme will soon be updated in the zen-workspace readme file.
