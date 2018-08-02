@@ -15,7 +15,7 @@ then
     sudo systemctl restart ssh
 
     echo
-    echo 'Docker installed'
+    echo 'Docker installed. You are now going to be logged out, please log back in to continue.'
     echo
 
     echo 'laradock-install' > ${STATUS_FILE}
