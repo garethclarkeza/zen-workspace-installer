@@ -25,7 +25,7 @@ do
     fi
 done
 
-if [[ $HAS_SUDOERS_NOPASSWD = true ]]
+if [[ ${HAS_SUDOERS_NOPASSWD} = true ]]
 then
     echo -e "${GREEN}[SKIPPING]${WHITE}\tA record for your user already exists in the sudoers files.${NC}"
 else
