@@ -33,7 +33,7 @@ then
     echo 'Laradock installed'
     echo
 
-    echo 'laradock-build' > ${STATUS_FILE}
+    echo 'docker' > ${STATUS_FILE}
 fi
 
 # INSTALLATION AND SETUP OF DOCKER
