@@ -7,6 +7,12 @@ then
     echo 'Installing Laradock'
     echo
 
+    if [[ ! -f ${WORKSPACE_ROOT_FOLDER}/readme.md ]]
+    then
+        echo "${RED}[ERROR]${WHITE} Zen Workspace services folder does not exist... was the workspace installed properly?${NC}"
+        exit 1
+    fi
+
     cd ${WORKSPACE_ROOT_FOLDER}/services/
     git clone ${LARADOCK_REPO} laradock
     cd laradock
@@ -45,12 +51,10 @@ then
     sudo systemctl restart ssh
 
     echo
-    echo 'Docker installed. You are now going to be logged out, please log back in to continue.'
-    echo "${RED}If you experience any issues{$NC} during the next phase of installation, it means your access rights have not been refreshed, please logout and back in."
+    echo "${RED}Docker installed. You now need to logged out, please log back in to continue.${NC}"
     echo
-
     echo 'laradock-build' > ${STATUS_FILE}
-    echo
+    exit 0
 fi
 
 # BUILDING AND SPINNING UP DEFAULT LARADOCK ENVIRONMENT

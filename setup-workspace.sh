@@ -11,6 +11,13 @@ git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}
 cd ${WORKSPACE_ROOT_FOLDER}
 echo "checking out branch: ${WORKSPACE_REPO_BRANCH}"
 echo 'git checkout ${WORKSPACE_REPO_BRANCH}'
+
+if [[ ! -f ${WORKSPACE_ROOT_FOLDER}/readme.md ]]
+then
+    echo "${RED}[ERROR]${WHITE} There was an error fetching the repo. Please check for errors and make sure that your SSH key has been added to github.${NC}"
+    exit 1
+fi
+
 git checkout ${WORKSPACE_REPO_BRANCH}
 echo "pulling latest origin branch: ${WORKSPACE_REPO_BRANCH}"
 git pull origin ${WORKSPACE_REPO_BRANCH}
