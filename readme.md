@@ -10,6 +10,7 @@ The install script will setup your complete workspace environment. Your base wor
 
 The other main component of the Zen Workspace is the use of Docker and Docker Compose managed via Laradock. You can run multiple projects at the same time via virtual hosts configuration, as well as easily switching in and out services and new versions.
 
+
 ### Requirements
 
 To get going with setting up your own Zen Workspace, please carry on reading on what you need to do before you get going.
@@ -54,16 +55,52 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Version: Ubuntu (64-bit)
  - Memory Size: > 1024MB (I would suggest giving the server between 2048 - 4096MB depending on what you can spare from your system)
  - Hard disk: Create a virtual disk now
- - Click Create
+ - Click *Create*
 
 ##### Create Virtual Hard Disk
  - File location: use the default or select your own location (whichever drive this is on is where the space required for the VM is going to come from, although I suggest this space be on a SSD drive for better performance)
  - File size: > 25GB (from personal experience 25GB is the absolute minimum that should be attempted - especially when dealing with large databases, if you have the space I would suggest a minimum of around >60GB)
  - Hard disk file type: VDI
  - Storage on physical location: either fixed size or dynamically allocated that only allocates the space to the VM when it is required (although it does not get smaller by itself)
+ - Click *Create*
 
 ##### Finalize Setup of VM
- - *coming soon*
+ - Your new VM should be created now, right-click on it and edit the settings
+ - Under: General > Advanced - just set both the shared clipboard and drag'ndrop to bidirectional
+ - Under: System > Motherboard
+    - make sure you are happy with the amount of memory you shared
+    - in the boot order options, uncheck floppy, and move hard disk to the very top and optical in second position and must be checked
+ - Under: System > Processor
+    - This is really gonna depend on your CPU and how many threads it has. If you can spare it I would suggest 2 processors (you can always change this later)
+    - Enable PAE/NX (important!)
+ - Under: Display > Screen
+    - Since there is not much need for it (unless you use X-Server or something), I just share 64mb video memory
+    - Don't change any of these settings unless you know what you doing and want to
+ - Under: Storage
+    - You will see a CD icon saying *Empty* under the IDE controller
+    - Click on it and under attributes that come up on the right, click the CD icon and click 'Choose Virtualbox Optical Disk File'
+    - Select the ISO image that you downloaded above, the ubuntu server mini.iso
+ - Under: Audio
+    - Disable (unless for some reason you want it)
+ - Under: Network > Adapter 1
+    - Enable network adapter (it should already be enabled)
+    - Change the attached to from NAT -> Bridged Adapter
+ - Under: Shared Folders
+    - Add a new share (this will be your workspace)
+    - Folder path: find your *EMPTY* workspace folder that you will be using
+    - Folder name: workspace
+    - Read-only: disabled
+    - Auto-mount: enabled
+    - Click OK
+    - Add another new share (this will be a link to your windows hosts folder - very important that the access to this folder was setup as instructed above)
+    - Folder path: C:\Windows\System32\drivers\etc
+    - Folder name: win_hosts
+    - Read-only: disabled
+    - Auto-mount: enabled
+    - Click OK
+- Under: User Interface
+    - I just uncheck all the boxes, unless you really need any of these options you can disable them all, especially since we will be running in headless mode.
+- and that is it for configuring your VM! Click the OK button at the bottom to save changes
 
 
 #### Ubuntu Server 18.04 Setup
@@ -119,4 +156,5 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
 
 
 ### What Now?
+
 Better documentation and installation workflow. Coming soon, readme will soon be updated in the zen-workspace readme file.
