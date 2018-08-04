@@ -1,19 +1,29 @@
 #!/usr/bin/env bash
 
+#COLOURS
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+BLUE=`tput setaf 4`
+PURPLE=`tput setaf 5`
+CYAN=`tput setaf 6`
+WHITE=`tput setaf 7`
+BLACK=`tput setaf 8`
+NC=`tput sgr0` # reset colour
+
 ENV_LOADED=false
 INSTALL_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 STATUS_FILE=${INSTALL_FOLDER}/status
 
 # @todo check requirements (git, vim, repo access, etc)
-
+echo
+echo "${YELLOW}[PRECHECK]${WHITE} Checking for previous installation state...${NC}"
 cd ${INSTALL_FOLDER}
-
-echo
-echo 'Checking for previous installation state...'
-echo
 
 if [[ ! -f ${STATUS_FILE} ]]
 then
+    echo "${YELLOW}[PRECHECK]${WHITE} No previous installations were detected, starting new installation${NC}"
+
     touch ${STATUS_FILE}
     echo 'init' > ${STATUS_FILE}
 fi
@@ -21,18 +31,28 @@ fi
 if [[ $(cat ${STATUS_FILE}) =~ 'init' ]]
 then
     # Confirm before proceeding with deployment
-    echo "Install new workspace to '${INSTALL_FOLDER}'? Please make sure that the VBoxLinuxAdditions.iso is loaded as well."
-    read -p "This should only be done once. [Y/n] " -n 1 -r
+    echo "${GREEN}Would you like to install a new version of Zen Workspace?${NC}"
+    echo 'Please make sure that the VBoxLinuxAdditions.iso is loaded as well (see readme).'
+    echo
+    read -p "${RED}This should only be done once.${WHITE} [Y/n]${NC} " -n 1 -r
     echo
 
     if [[ $REPLY =~ ^[Nn]$ ]]
     then
         echo
-        echo -e "Please insert the guest additions iso into the VM as per readme file and then try again!"
+        echo "${RED}Please insert the guest additions iso into the VM as per readme file and then try again!${NC}"
         echo
         exit 0
     fi
 
+    echo 'env' > ${STATUS_FILE}
+else
+    echo "${YELLOW}[PRECHECK]${WHITE} Previous installation has been detected, continuing installation...${NC}"
+    echo ""
+fi
+
+if [[ $(cat ${STATUS_FILE}) =~ 'env' ]]
+then
     if [[ ! -f '.env' ]]
     then
         echo
@@ -59,23 +79,26 @@ fi
 
 # BEGIN INSTALLATION
 
+# ALWAYS INCLUDE THE UTILS
+echo ' -> Including installation utilities'
+source ${INSTALL_FOLDER}/utils.sh
+
+
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
     echo ' -> Making installation files executable'
     chmod chmod 775 ${INSTALL_FOLDER}/*.sh
+
     echo ' -> Updating APT package manager'
     sudo apt update -y && sudo apt upgrade -y --allow-unautenticated
+
     echo 'guest-additions' > ${STATUS_FILE}
 else
     echo
     echo -e "${YELLOW}Continuing from previous installation...${NC}"
     echo
 fi
-
-# ALWAYS INCLUDE THE UTILS
-echo ' -> Including installation utilities'
-source ${INSTALL_FOLDER}/utils.sh
 
 
 
