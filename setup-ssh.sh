@@ -25,7 +25,7 @@ do
     fi
 done
 
-if [[ ${HAS_SUDOERS_NOPASSWD} ]]
+if [[ $HAS_SUDOERS_NOPASSWD = true ]]
 then
     echo -e "${GREEN}[SKIPPING]${WHITE}\tA record for your user already exists in the sudoers files.${NC}"
 else
@@ -33,7 +33,7 @@ else
     echo -e "${USER}\tALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers > /dev/null
 fi
 
-cat ~/.ssh/id_rsa.pub | xclipx -o
+cat ~/.ssh/id_rsa.pub | xclip -o
 
 echo
 echo "${GREEN}Your public key has been copied to your clipboard!${NC}"
@@ -46,7 +46,7 @@ echo '  key and paste it into the editor that opens.'
 echo
 echo "${YELLOW}'x--------------------------------------------------------------------------------------------------------------------------------------x'x${NC}"
 echo
-read -p  'Press any key to continue to edit the authorized hosts file.'
+read -p  'Press any key to continue to edit the authorized hosts file... '
 echo
 
 # @todo copy public key over to any approved hosts (tbd)
