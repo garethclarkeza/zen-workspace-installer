@@ -105,7 +105,7 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
 
 #### Ubuntu Server 18.04 Setup
  - Start the VM in normal mode
- - A menu with will up on the screen, follow along belong
+ - A menu with will up on the screen, follow along below...
  - install
  - select language, country and keyboard layout (dont autodetect keyboard)
  - enter a hostname
@@ -123,8 +123,8 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
 
  - how to manage system upgrades? upto u, but i suggest install security update automatically
  - additional software selection, here was my selection:
-    - samba file server (test leaving this out)
-    - large selection of fonts (not sure how useful this is)
+    - samba file server (only if you gonna need it)
+    - large selection of fonts (may be required for certain graphics libraries)
     - openssh server (important)
     - basic ubuntu server (important unless you install the stuff you need from this package manually)
 
@@ -133,14 +133,25 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Install GRUB boot loader = yes
  - set clock to UTC
  - when "installation complete" -> continue
+ - the server will reboot and you will be given a login prompt
 
+#### Final Pre-installation tasks (after installing your VM)
+ - When the VM has finished rebooting, a login prompt will appear, login with your username and password
+ - Type the following command: ```hostname  -I | cut -f1 -d' '``` this will output the VMs IP address, copy this
+ - Now shutdown your VM and stop it completely
+ - Once your VM is no longer running, go back into its settings
+ - Under: Storage
+    - Select the CD drive again (it should show the name of the ubuntu iso)
+    - In the attributes, click the CD icon and choose VBoxGuestAdditions.iso from the options
+ - Save your settings and restart your VM in headless mode
 
 #### Server, Zen Workspace and Docker
- - Login to your linux server VM
- - Run ```git config --global user.email "your@email.address" && git config --global user.name "Your Name"```
+ - Once your server boots back up (may take a minute), then you should be able to login with your SSH client
+ - Use your SSH client and login to your linux server VM with the IP address you got and your username and password on port 22. You may also want to add your PPK private key to your connection (it will fail at first until we get SSH setup correctly, but you just use your password as fallback)
+ - Run ```git config --global user.email "your@email.address" && git config --global user.name "Your Name" && git config --global core.editor "vim"``` (i set my default editor to vim, but you can use whatever u want)
  - Zen Workspace is installed via an install script, to get start, on your Linux Server, go to your home folder ```cd ~``` and then ```git clone https://github.com/garethclarkeza/zen-workspace-installer.git``` and enter your github username/password.
  - ```cd ~/zen-workspace-installer```
- - ```chmod 775 ./install.sh```
+ - ```chmod 775 ./*.sh```
  - ```./install.sh```
  - Follow the prompts, the process will stop when you need to shutdown the VM to add the shared folders that link your Windows workspace with your Linux workspace.
  - Add the following 2 share to your VirtualBox VM settings.
