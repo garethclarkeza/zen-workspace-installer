@@ -33,18 +33,21 @@ else
     echo -e "${USER}\tALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers > /dev/null
 fi
 
-cat ~/.ssh/id_rsa.pub | xclip -o
+cat ~/.ssh/id_rsa.pub | xclip
 
+
+echo "${YELLOW}x--------------------------------------------------------------------------------------------------------------------------------------x"
 echo
-echo "${GREEN}Your public key has been copied to your clipboard!${NC}"
-echo "${YELLOW}In order to setup the system more easily, please add your ssh public key to github.com, bitbucket.org and gitlab:${NC}"
+echo "  ${GREEN}Your public key has been copied to your clipboard!${WHITE}"
 echo
-echo "${YELLOW}'x--------------------------------------------------------------------------------------------------------------------------------------x'${WHITE}"
+cat ~/.ssh/id_rsa.pub
 echo
-echo '  Make sure you have loaded your private key into pageant and that it is running, copy the OpenSSH public key that you got when generating your '
+echo "  ${BLUE}In order to setup the system more easily, please add your ssh public key to github.com, bitbucket.org and gitlab:${WHITE}"
+echo
+echo '  Make sure you have loaded your private key into pageant and that it is running, copy the OpenSSH public key that you got when generating your'
 echo '  key and paste it into the editor that opens.'
 echo
-echo "${YELLOW}'x--------------------------------------------------------------------------------------------------------------------------------------x'x${NC}"
+echo "${YELLOW}x--------------------------------------------------------------------------------------------------------------------------------------x${NC}"
 echo
 read -p  'Press any key to continue to edit the authorized hosts file... '
 echo
@@ -54,15 +57,15 @@ vim ~/.ssh/authorized_keys
 
 echo
 echo "${GREEN}SSH has been successfully setup, here are you credentials to add to your Windows SSH client to connect to this server, you should start your VM in headless mode and only connect via your SSH client.${NC}"
-echo "${YELLOW}"
-echo 'x--------------------------------------------------------------------------------------------------------------------------------------x'
+echo
+echo "${YELLOW}x--------------------------------------------------------------------------------------------------------------------------------------x${NC}"
 echo
 echo -e "  IP Address:\t${WHITE}$(hostname  -I | cut -f1 -d' ')${YELLOW}"
 echo -e "  Username:\t${WHITE}${USER}${YELLOW}"
 echo -e "  Password:\t${WHITE}***** (use your putty private key that you previously used above or your password if you really want)${YELLOW}"
 echo -e "  Port:\t\t${WHITE}22${YELLOW}"
 echo
-echo 'x--------------------------------------------------------------------------------------------------------------------------------------x'
+echo "${YELLOW}x--------------------------------------------------------------------------------------------------------------------------------------x${NC}"
 echo "${NC}"
 read -p  'Continue? '
 echo
