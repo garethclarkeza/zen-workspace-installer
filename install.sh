@@ -112,15 +112,13 @@ else
     echo
 fi
 
-exit 1
-
 # ADD VBOX UBUNTU GUEST ADDITIONS
 # The process will need to stop at this point so that you can add the required shared volumes to
 # the virtual box container, which can only be done once the server is not running.
 if [[ $(cat ${STATUS_FILE}) =~ 'guest-additions' ]]
 then
     echo -e " ${GREEN}[INSTALLING]${WHITE}\tUpdating APT package manager${NC}"
-    sudo apt update -y > /dev/null && sudo apt upgrade -y > /dev/null
+    sudo apt update -y && sudo apt upgrade -y
 
     echo -e " ${GREEN}[INSTALLING]${WHITE}\tSetting up Linux Guest Additions"
 
@@ -131,34 +129,16 @@ then
     echo
     echo -e "${GREEN}VBox Linux Additions has been successfully installed and your user has been added the the vboxsf group.${NC}"
     echo
-    echo -e "${WHITE}You need to shutdown this server and add the 2 shared volumes to the image in Virtual Box."
-    echo -e "Please refer to the readme file for more details.${NC}"
+    echo -e "${WHITE}You need to make SURE that you added the 2 virtualbox shares."
+    echo -e "Please refer to the readme file for more details."
     echo
-    read -p "${RED}Shutdown the server to add your shared folders?${WHITE} [y/N]${NC}" -n 1 -r
+    echo -e "You need to logout now and log in again in order to continue with the installation!${NC}"
     echo
-
-    if [[ $REPLY =~ ^[Yy]$ ]]
-    then
-        echo
-        echo "${RED}Shutting down in 10 seconds, refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
-        echo
-        read -p  'press any key to shutdown the server...'
-        echo
-#        sudo shutdown -h now && exit
-        exit 1
-    fi
-
-    echo
-    echo "${RED}Refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
-    echo "${RED}Please make sure to restart the server.{$NC}"
-    echo
-    exit 1
+    exit 0
 else
     echo -e "${YELLOW}Skipping guest additions installation...${NC}"
     echo
 fi
-
-exit
 
 # ZEN WORKSPACE SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]

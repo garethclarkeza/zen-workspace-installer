@@ -35,7 +35,7 @@ fi
 
 cat ~/.ssh/id_rsa.pub | xclip
 
-
+echo
 echo "${YELLOW}x--------------------------------------------------------------------------------------------------------------------------------------x"
 echo
 echo "  ${GREEN}Your public key has been copied to your clipboard!${WHITE}"
@@ -56,9 +56,10 @@ echo
 vim ~/.ssh/authorized_keys
 
 echo
-echo "${GREEN}SSH has been successfully setup, here are you credentials to add to your Windows SSH client to connect to this server, you should start your VM in headless mode and only connect via your SSH client.${NC}"
-echo
 echo "${YELLOW}x--------------------------------------------------------------------------------------------------------------------------------------x${NC}"
+echo
+echo "  ${GREEN}SSH has been successfully setup, here are you credentials to add to your Windows SSH client to connect to this server, you should"
+echo "  start your VM in headless mode and only connect via your SSH client.${YELLOW}"
 echo
 echo -e "  IP Address:\t${WHITE}$(hostname  -I | cut -f1 -d' ')${YELLOW}"
 echo -e "  Username:\t${WHITE}${USER}${YELLOW}"
