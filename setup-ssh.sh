@@ -48,3 +48,6 @@ echo -e "  Password:\t${WHITE}***** (use your putty private key that you previou
 echo -e "  Port:\t\t${WHITE}22${YELLOW}"
 echo 'x-----------------------------------------------------------------------------------x'
 echo "${NC}"
+
+sudo systemctl restart ssh
+

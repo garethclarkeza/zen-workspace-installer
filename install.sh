@@ -90,19 +90,28 @@ source ${INSTALL_FOLDER}/utils.sh
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
     echo ' -> Making installation files executable'
-    chmod chmod 775 ${INSTALL_FOLDER}/*.sh
+    chmod 775 ${INSTALL_FOLDER}/*.sh
 
-    echo ' -> Updating APT package manager'
-    sudo apt update -y && sudo apt upgrade -y --allow-unautenticated
-
-    echo 'guest-additions' > ${STATUS_FILE}
+    echo 'ssh' > ${STATUS_FILE}
 else
     echo
     echo -e "${YELLOW}Continuing from previous installation...${NC}"
     echo
 fi
 
-
+# GET THE SSH SERVER RUNNING WITH ACCESS
+if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
+then
+    echo ' -> Setting up SSH access and automation'
+    cd ${INSTALL_FOLDER}
+    source setup-ssh.sh
+    echo 'Completed SSH setup'
+    echo 'guest-additions' > ${STATUS_FILE}
+else
+    echo
+    echo -e "${YELLOW}SSH already setup, skipping...${NC}"
+    echo
+fi
 
 
 # ADD VBOX UBUNTU GUEST ADDITIONS
@@ -110,6 +119,9 @@ fi
 # the virtual box container, which can only be done once the server is not running.
 if [[ $(cat ${STATUS_FILE}) =~ 'guest-additions' ]]
 then
+    echo ' -> Updating APT package manager'
+    sudo apt update -y && sudo apt upgrade -y --allow-unautenticated
+
     echo 'Setting up Linux Guest Additions'
     cd ${INSTALL_FOLDER}
     source setup-guest-additions.sh
@@ -141,20 +153,6 @@ then
     exit 1
 else
     echo -e "${YELLOW}Skipping guest additions installation...${NC}"
-    echo
-fi
-
-# GET THE SSH SERVER RUNNING WITH ACCESS
-if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
-then
-    echo ' -> Setting up SSH access and automation'
-    cd ${INSTALL_FOLDER}
-    source setup-ssh.sh
-    echo 'Completed SSH setup'
-    echo 'workspace' > ${STATUS_FILE}
-else
-    echo
-    echo -e "${YELLOW}SSH already setup, skipping...${NC}"
     echo
 fi
 
