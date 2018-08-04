@@ -81,7 +81,7 @@ echo "${GREEN}Your system is ready to begin installation of your ${WHITE}Zen Wor
 echo
 
 # ALWAYS INCLUDE THE UTILS
-echo -e " ${CYAN}[CONFIG]${WHITE}\tIncluding installation utilities${NC}"
+echo -e "${CYAN}[CONFIG]${WHITE}\tIncluding installation utilities${NC}"
 
 source ${INSTALL_FOLDER}/utils.sh
 
@@ -89,7 +89,7 @@ source ${INSTALL_FOLDER}/utils.sh
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
-    echo -e " ${CYAN}[CONFIG]${WHITE}\tMaking installation files executable${NC}"
+    echo -e "${CYAN}[CONFIG]${WHITE}\tMaking installation files executable${NC}"
     chmod 775 ${INSTALL_FOLDER}/*.sh
 
     echo 'ssh' > ${STATUS_FILE}
@@ -102,7 +102,7 @@ fi
 # GET THE SSH SERVER RUNNING WITH ACCESS
 if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
 then
-    echo -e " ${GREEN}[INSTALLING]${WHITE}\tSetting up SSH access and automation${NC}"
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up SSH access and automation${NC}"
     cd ${INSTALL_FOLDER}
     source setup-ssh.sh
     echo 'guest-additions' > ${STATUS_FILE}
