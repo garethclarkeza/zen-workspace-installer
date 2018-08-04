@@ -10,6 +10,7 @@ The install script will setup your complete workspace environment. Your base wor
 
 The other main component of the Zen Workspace is the use of Docker and Docker Compose managed via Laradock. You can run multiple projects at the same time via virtual hosts configuration, as well as easily switching in and out services and new versions.
 
+
 ### Requirements
 
 To get going with setting up your own Zen Workspace, please carry on reading on what you need to do before you get going.
@@ -54,21 +55,57 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Version: Ubuntu (64-bit)
  - Memory Size: > 1024MB (I would suggest giving the server between 2048 - 4096MB depending on what you can spare from your system)
  - Hard disk: Create a virtual disk now
- - Click Create
+ - Click *Create*
 
 ##### Create Virtual Hard Disk
  - File location: use the default or select your own location (whichever drive this is on is where the space required for the VM is going to come from, although I suggest this space be on a SSD drive for better performance)
  - File size: > 25GB (from personal experience 25GB is the absolute minimum that should be attempted - especially when dealing with large databases, if you have the space I would suggest a minimum of around >60GB)
  - Hard disk file type: VDI
  - Storage on physical location: either fixed size or dynamically allocated that only allocates the space to the VM when it is required (although it does not get smaller by itself)
+ - Click *Create*
 
 ##### Finalize Setup of VM
- - *coming soon*
+ - Your new VM should be created now, right-click on it and edit the settings
+ - Under: General > Advanced - just set both the shared clipboard and drag'ndrop to bidirectional
+ - Under: System > Motherboard
+    - make sure you are happy with the amount of memory you shared
+    - in the boot order options, uncheck floppy, and move hard disk to the very top and optical in second position and must be checked
+ - Under: System > Processor
+    - This is really gonna depend on your CPU and how many threads it has. If you can spare it I would suggest 2 processors (you can always change this later)
+    - Enable PAE/NX (important!)
+ - Under: Display > Screen
+    - Since there is not much need for it (unless you use X-Server or something), I just share 64mb video memory
+    - Don't change any of these settings unless you know what you doing and want to
+ - Under: Storage
+    - You will see a CD icon saying *Empty* under the IDE controller
+    - Click on it and under attributes that come up on the right, click the CD icon and click 'Choose Virtualbox Optical Disk File'
+    - Select the ISO image that you downloaded above, the ubuntu server mini.iso
+ - Under: Audio
+    - Disable (unless for some reason you want it)
+ - Under: Network > Adapter 1
+    - Enable network adapter (it should already be enabled)
+    - Change the attached to from NAT -> Bridged Adapter
+ - Under: Shared Folders
+    - Add a new share (this will be your workspace)
+    - Folder path: find your *EMPTY* workspace folder that you will be using
+    - Folder name: workspace
+    - Read-only: disabled
+    - Auto-mount: enabled
+    - Click OK
+    - Add another new share (this will be a link to your windows hosts folder - very important that the access to this folder was setup as instructed above)
+    - Folder path: C:\Windows\System32\drivers\etc
+    - Folder name: win_hosts
+    - Read-only: disabled
+    - Auto-mount: enabled
+    - Click OK
+- Under: User Interface
+    - I just uncheck all the boxes, unless you really need any of these options you can disable them all, especially since we will be running in headless mode.
+- and that is it for configuring your VM! Click the OK button at the bottom to save changes
 
 
 #### Ubuntu Server 18.04 Setup
  - Start the VM in normal mode
- - A menu with will up on the screen, follow along belong
+ - A menu with will up on the screen, follow along below...
  - install
  - select language, country and keyboard layout (dont autodetect keyboard)
  - enter a hostname
@@ -86,8 +123,8 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
 
  - how to manage system upgrades? upto u, but i suggest install security update automatically
  - additional software selection, here was my selection:
-    - samba file server (test leaving this out)
-    - large selection of fonts (not sure how useful this is)
+    - samba file server (only if you gonna need it)
+    - large selection of fonts (may be required for certain graphics libraries)
     - openssh server (important)
     - basic ubuntu server (important unless you install the stuff you need from this package manually)
 
@@ -96,14 +133,25 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Install GRUB boot loader = yes
  - set clock to UTC
  - when "installation complete" -> continue
+ - the server will reboot and you will be given a login prompt
 
+#### Final Pre-installation tasks (after installing your VM)
+ - When the VM has finished rebooting, a login prompt will appear, login with your username and password
+ - Type the following command: ```hostname  -I | cut -f1 -d' '``` this will output the VMs IP address, copy this
+ - Now shutdown your VM and stop it completely
+ - Once your VM is no longer running, go back into its settings
+ - Under: Storage
+    - Select the CD drive again (it should show the name of the ubuntu iso)
+    - In the attributes, click the CD icon and choose VBoxGuestAdditions.iso from the options
+ - Save your settings and restart your VM in headless mode
 
 #### Server, Zen Workspace and Docker
- - Login to your linux server VM
- - Run ```git config --global user.email "your@email.address" && git config --global user.name "Your Name"```
+ - Once your server boots back up (may take a minute), then you should be able to login with your SSH client
+ - Use your SSH client and login to your linux server VM with the IP address you got and your username and password on port 22. You may also want to add your PPK private key to your connection (it will fail at first until we get SSH setup correctly, but you just use your password as fallback)
+ - Run ```git config --global user.email "your@email.address" && git config --global user.name "Your Name" && git config --global core.editor "vim"``` (i set my default editor to vim, but you can use whatever u want)
  - Zen Workspace is installed via an install script, to get start, on your Linux Server, go to your home folder ```cd ~``` and then ```git clone https://github.com/garethclarkeza/zen-workspace-installer.git``` and enter your github username/password.
  - ```cd ~/zen-workspace-installer```
- - ```chmod 775 ./install.sh```
+ - ```chmod 775 ./*.sh```
  - ```./install.sh```
  - Follow the prompts, the process will stop when you need to shutdown the VM to add the shared folders that link your Windows workspace with your Linux workspace.
  - Add the following 2 share to your VirtualBox VM settings.
@@ -119,4 +167,5 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
 
 
 ### What Now?
+
 Better documentation and installation workflow. Coming soon, readme will soon be updated in the zen-workspace readme file.

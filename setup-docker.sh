@@ -7,6 +7,12 @@ then
     echo 'Installing Laradock'
     echo
 
+    if [[ ! -f ${WORKSPACE_ROOT_FOLDER}/readme.md ]]
+    then
+        echo "${RED}[ERROR]${WHITE} Zen Workspace services folder does not exist... was the workspace installed properly?${NC}"
+        exit 1
+    fi
+
     cd ${WORKSPACE_ROOT_FOLDER}/services/
     git clone ${LARADOCK_REPO} laradock
     cd laradock
@@ -23,11 +29,7 @@ then
 
     vim .env
 
-    echo
-    echo 'Laradock installed'
-    echo
-
-    echo 'laradock-build' > ${STATUS_FILE}
+    echo 'docker' > ${STATUS_FILE}
 fi
 
 # INSTALLATION AND SETUP OF DOCKER
@@ -45,34 +47,40 @@ then
     sudo systemctl restart ssh
 
     echo
-    echo 'Docker installed. You are now going to be logged out, please log back in to continue.'
-    echo "${RED}If you experience any issues{$NC} during the next phase of installation, it means your access rights have not been refreshed, please logout and back in."
+    echo "${RED}Docker installed. You now need to logged out, please log back in to continue.${NC}"
     echo
-
     echo 'laradock-build' > ${STATUS_FILE}
-    echo
+    exit 0
 fi
 
 # BUILDING AND SPINNING UP DEFAULT LARADOCK ENVIRONMENT
 # NOTE - this may fail if your docker group access has not yet been activated
 if [[ $(cat ${STATUS_FILE}) =~ 'laradock-build' ]]
 then
+    if [[ ! -f ${WORKSPACE_ROOT_FOLDER}/readme.md ]]
+    then
+        echo "${RED}[ERROR]${WHITE} Zen Workspace services folder does not exist... was the workspace installed properly? Did you setup your SSH key in github.com?${NC}"
+        exit 1
+    fi
+
     echo
-    echo 'Building popular docker containers, this may take a while...'
-    echo
+    echo "${WHITE}Building popular docker containers, this may take a while...${NC}"
+    echo '------------'
 
     cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
-    sg docker -c "docker-compose build nginx apache2 php-fpm redis mongo mysql workspace"
+    docker-compose build workspace php-fpm nginx apache2 redis mongo mysql
 
     echo
-    echo 'Initializing docker services!'
+    echo "${WHITE}Initializing default server!${NC}"
+    echo '------------'
+
+    docker-compose up -d nginx
+
+    echo
+    echo "${GREEN}Zen Workspace and Docker should now be up and running!"
+    echo "Visit your new workspace at ${WHITE}http://workspace.zen/${GREEN} from your Windows Host.${NC}"
     echo
 
-    sg docker -c "docker-compose up -d ${DOCKER_STACK1}"
-
-    echo
-    echo 'Docker should now be running!'
-    echo "Visit your new workspace at http://${HOSTNAME}/ from your Windows Host."
-    sg docker -c "docker-compose ps"
+    docker-compose ps
     echo
 fi

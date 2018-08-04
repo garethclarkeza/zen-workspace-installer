@@ -1,23 +1,28 @@
 #!/usr/bin/env bash
 
+#COLOURS
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+BLUE=`tput setaf 4`
+PURPLE=`tput setaf 5`
+CYAN=`tput setaf 6`
+WHITE=`tput setaf 7`
+BLACK=`tput setaf 8`
+NC=`tput sgr0` # reset colour
+
 ENV_LOADED=false
 INSTALL_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 STATUS_FILE=${INSTALL_FOLDER}/status
 
 # @todo check requirements (git, vim, repo access, etc)
-
+echo
+echo -e "${YELLOW}[PRECHECK]${WHITE}\tChecking for previous installation state...${NC}"
 cd ${INSTALL_FOLDER}
-
-echo
-echo ' -> Checking for previous installation state...'
-echo
 
 if [[ ! -f ${STATUS_FILE} ]]
 then
-    echo
-    echo ' -> No previous installations were detected, starting new installation'
-    echo
-
+    echo -e "${YELLOW}[PRECHECK]${WHITE}\tNo previous installations were detected, starting new installation${NC}"
     touch ${STATUS_FILE}
     echo 'init' > ${STATUS_FILE}
 fi
@@ -25,40 +30,43 @@ fi
 if [[ $(cat ${STATUS_FILE}) =~ 'init' ]]
 then
     # Confirm before proceeding with deployment
-    echo "Install new workspace to '${INSTALL_FOLDER}'? Please make sure that the VBoxLinuxAdditions.iso is loaded as well."
-    read -p "This should only be done once. [Y/n] " -n 1 -r
+    echo
+    echo "${GREEN}Would you like to install a new version of Zen Workspace?${NC}"
+    echo 'Please make sure that the VBoxLinuxAdditions.iso is loaded as well (see readme).'
+    echo
+    read -p "${RED}This should only be done once.${WHITE} [Y/n]${NC} " -n 1 -r
     echo
 
     if [[ $REPLY =~ ^[Nn]$ ]]
     then
         echo
-        echo -e "Please insert the guest additions iso into the VM as per readme file and then try again!"
+        echo "${RED}Please insert the guest additions iso into the VM as per readme file and then try again!${NC}"
         echo
         exit 0
     fi
 
     echo 'env' > ${STATUS_FILE}
+else
+    echo -e "${YELLOW}[PRECHECK]${WHITE}\tPrevious installation has been detected, continuing installation...${NC}"
 fi
 
+# MAKE SURE THE ENV FILE IS INITIALIZED
 if [[ $(cat ${STATUS_FILE}) =~ 'env' ]]
 then
     if [[ ! -f '.env' ]]
     then
-        echo
-        echo ' -> Installer .env file not found!'
-        echo ' -> Setting up default env file.'
+        echo -e "${YELLOW}[PRECHECK]${WHITE}\tInstaller .env file not found! Creating one from the default.${NC}"
         cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
-        echo
-        read -p  'Press any key to continue and edit your .env file to fit your requirements...'
-        echo
+        read -p  "${CYAN}[CONFIG]${WHITE}\tPress any key to continue and edit your .env file to fit your requirements...${NC}"
         vim ${INSTALL_FOLDER}/.env
         ENV_LOADED=true
     fi
 
     if [[ ! ${ENV_LOADED} ]]
     then
-        echo 'Installer .env file was never loaded, please create an .env file file in the root folder of the installer.'
-        echo 'You can copy from the example file in the installer folder env-example. Exiting installation...'
+        echo
+        echo -e "${RED}[ERROR]${WHITE}\tInstaller .env file was never loaded, please create an .env file file in the root folder of the installer."
+        echo "You can copy from the example file in the installer folder env-example. Exiting installation...${NC}"
         echo
         exit 1
     fi
@@ -67,6 +75,15 @@ then
 fi
 
 # BEGIN INSTALLATION
+echo
+echo "${GREEN}Your system is ready to begin installation of your ${WHITE}Zen Workspace${GREEN}!${NC}"
+echo
+
+# ALWAYS INCLUDE THE UTILS
+echo -e "${CYAN}[CONFIG]${WHITE}\tIncluding installation utilities${NC}"
+
+source ${INSTALL_FOLDER}/utils.sh
+
 
 # ALWAYS INCLUDE THE UTILS
 echo ' -> Including installation utilities'
@@ -78,72 +95,54 @@ exit 0
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
-    echo ' -> Making installation files executable'
-    chmod chmod 775 ${INSTALL_FOLDER}/*.sh
+    echo -e "${CYAN}[CONFIG]${WHITE}\tMaking installation files executable${NC}"
+    chmod 775 ${INSTALL_FOLDER}/*.sh
 
-    echo ' -> Updating APT package manager'
-    sudo apt update -y && sudo apt upgrade -y --allow-unautenticated
-
-    echo 'guest-additions' > ${STATUS_FILE}
+    echo 'ssh' > ${STATUS_FILE}
 else
     echo
     echo -e "${YELLOW}Continuing from previous installation...${NC}"
     echo
 fi
 
-
-
+# GET THE SSH SERVER RUNNING WITH ACCESS
+if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
+then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up SSH access and automation${NC}"
+    cd ${INSTALL_FOLDER}
+    source setup-ssh.sh
+    echo 'guest-additions' > ${STATUS_FILE}
+else
+    echo
+    echo -e "${YELLOW}SSH already setup, skipping...${NC}"
+    echo
+fi
 
 # ADD VBOX UBUNTU GUEST ADDITIONS
 # The process will need to stop at this point so that you can add the required shared volumes to
 # the virtual box container, which can only be done once the server is not running.
 if [[ $(cat ${STATUS_FILE}) =~ 'guest-additions' ]]
 then
-    echo 'Setting up Linux Guest Additions'
+    echo -e " ${GREEN}[INSTALLING]${WHITE}\tUpdating APT package manager${NC}"
+    sudo apt update -y && sudo apt upgrade -y
+
+    echo -e " ${GREEN}[INSTALLING]${WHITE}\tSetting up Linux Guest Additions"
+
     cd ${INSTALL_FOLDER}
     source setup-guest-additions.sh
 
-    echo 'ssh' > ${STATUS_FILE}
+    echo 'workspace' > ${STATUS_FILE}
     echo
     echo -e "${GREEN}VBox Linux Additions has been successfully installed and your user has been added the the vboxsf group.${NC}"
     echo
-    echo -e "${WHITE}You need to shutdown this server and add the 2 shared volumes to the image in Virtual Box."
-    echo -e "Please refer to the readme file for more details.${NC}"
+    echo -e "${WHITE}You need to make SURE that you added the 2 virtualbox shares."
+    echo -e "Please refer to the readme file for more details."
     echo
-    read -p "${RED}Shutdown the server to add your shared folders?${WHITE} [y/N]${NC}" -n 1 -r
+    echo -e "You need to logout now and log in again in order to continue with the installation!${NC}"
     echo
-
-    if [[ $REPLY =~ ^[Yy]$ ]]
-    then
-        echo
-        echo "${RED}Shutting down in 10 seconds, refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
-        echo
-        read -p  'press any key to shutdown the server...'
-        echo
-        sudo shutdown -h now && exit
-    fi
-
-    echo
-    echo "${RED}Refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
-    echo "${RED}Please make sure to restart the server.{$NC}"
-    echo
-    exit 1
+    exit 0
 else
     echo -e "${YELLOW}Skipping guest additions installation...${NC}"
-    echo
-fi
-
-# GET THE SSH SERVER RUNNING WITH ACCESS
-if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
-then
-    echo ' -> Setting up SSH access and automation'
-    cd ${INSTALL_FOLDER}
-    source setup-ssh.sh
-    echo 'Completed SSH setup'
-    echo 'workspace' > ${STATUS_FILE}
-else
-    echo
-    echo -e "${YELLOW}SSH already setup, skipping...${NC}"
     echo
 fi
 
@@ -192,6 +191,7 @@ then
     echo 'complete' > ${STATUS_FILE}
     sudo apt autoremove
     sudo rm -rf /tmp/*
+    # remove backup files like _bash_aliases, _bash_helpers
 else
     echo -e "${YELLOW}Skipping cleanup...${NC}"
     echo
