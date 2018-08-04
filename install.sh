@@ -22,7 +22,7 @@ cd ${INSTALL_FOLDER}
 
 if [[ ! -f ${STATUS_FILE} ]]
 then
-    echo -e "${YELLOW}[PRECHECK]${WHITE}\tNo previous installations were detected, starting new installation${NC}"
+    echo -e " ${YELLOW}[PRECHECK]${WHITE}\tNo previous installations were detected, starting new installation${NC}"
 
     touch ${STATUS_FILE}
     echo 'init' > ${STATUS_FILE}
@@ -48,7 +48,7 @@ then
 
     echo 'env' > ${STATUS_FILE}
 else
-    echo -e "${YELLOW}[PRECHECK]${WHITE}\tPrevious installation has been detected, continuing installation...${NC}"
+    echo -e " ${YELLOW}[PRECHECK]${WHITE}\tPrevious installation has been detected, continuing installation...${NC}"
 fi
 
 # MAKE SURE THE ENV FILE IS INITIALIZED
@@ -56,10 +56,9 @@ if [[ $(cat ${STATUS_FILE}) =~ 'env' ]]
 then
     if [[ ! -f '.env' ]]
     then
-        echo -e "${YELLOW}[PRECHECK]${WHITE}\tInstaller .env file not found! Creating one from the default.${NC}"
+        echo -e " ${YELLOW}[PRECHECK]${WHITE}\tInstaller .env file not found! Creating one from the default.${NC}"
         cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
-        echo
-        read -p  "${CYAN}[CONFIG]${WHITE}\tPress any key to continue and edit your .env file to fit your requirements...${NC}"
+        read -p  " ${CYAN}[CONFIG]${WHITE}\tPress any key to continue and edit your .env file to fit your requirements...${NC}"
         vim ${INSTALL_FOLDER}/.env
         ENV_LOADED=true
     fi
@@ -67,8 +66,8 @@ then
     if [[ ! ${ENV_LOADED} ]]
     then
         echo
-        echo -e "${RED}[ERROR]${WHITE}\tInstaller .env file was never loaded, please create an .env file file in the root folder of the installer."
-        echo "${WHITE}You can copy from the example file in the installer folder env-example. Exiting installation...${NC}"
+        echo -e " ${RED}[ERROR]${WHITE}\tInstaller .env file was never loaded, please create an .env file file in the root folder of the installer."
+        echo "You can copy from the example file in the installer folder env-example. Exiting installation...${NC}"
         echo
         exit 1
     fi
@@ -78,11 +77,11 @@ fi
 
 # BEGIN INSTALLATION
 echo
-echo "${GREEN}Your system is ready to begin installation of your ${WHITE}Zen Workspace${GREEN}!${NC}"
+echo " ${GREEN}Your system is ready to begin installation of your ${WHITE}Zen Workspace${GREEN}!${NC}"
 echo
 
 # ALWAYS INCLUDE THE UTILS
-echo -e "${CYAN}[CONFIG]${WHITE}\tIncluding installation utilities"
+echo -e " ${CYAN}[CONFIG]${WHITE}\tIncluding installation utilities${NC}"
 
 source ${INSTALL_FOLDER}/utils.sh
 
@@ -90,7 +89,7 @@ source ${INSTALL_FOLDER}/utils.sh
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
-    echo -e "${CYAN}[CONFIG]${WHITE}\tMaking installation files executable"
+    echo -e " ${CYAN}[CONFIG]${WHITE}\tMaking installation files executable${NC}"
     chmod 775 ${INSTALL_FOLDER}/*.sh
 
     echo 'ssh' > ${STATUS_FILE}
@@ -103,10 +102,9 @@ fi
 # GET THE SSH SERVER RUNNING WITH ACCESS
 if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
 then
-    echo ' -> Setting up SSH access and automation'
+    echo -e " ${GREEN}[INSTALLING]${WHITE}\tSetting up SSH access and automation${NC}"
     cd ${INSTALL_FOLDER}
     source setup-ssh.sh
-    echo 'Completed SSH setup'
     echo 'guest-additions' > ${STATUS_FILE}
 else
     echo
@@ -114,20 +112,22 @@ else
     echo
 fi
 
+exit 1
 
 # ADD VBOX UBUNTU GUEST ADDITIONS
 # The process will need to stop at this point so that you can add the required shared volumes to
 # the virtual box container, which can only be done once the server is not running.
 if [[ $(cat ${STATUS_FILE}) =~ 'guest-additions' ]]
 then
-    echo ' -> Updating APT package manager'
-    sudo apt update -y && sudo apt upgrade -y --allow-unautenticated
+    echo -e " ${GREEN}[INSTALLING]${WHITE}\tUpdating APT package manager${NC}"
+    sudo apt update -y > /dev/null && sudo apt upgrade -y > /dev/null
 
-    echo 'Setting up Linux Guest Additions'
+    echo -e " ${GREEN}[INSTALLING]${WHITE}\tSetting up Linux Guest Additions"
+
     cd ${INSTALL_FOLDER}
     source setup-guest-additions.sh
 
-    echo 'ssh' > ${STATUS_FILE}
+    echo 'workspace' > ${STATUS_FILE}
     echo
     echo -e "${GREEN}VBox Linux Additions has been successfully installed and your user has been added the the vboxsf group.${NC}"
     echo
@@ -144,7 +144,8 @@ then
         echo
         read -p  'press any key to shutdown the server...'
         echo
-        sudo shutdown -h now && exit
+#        sudo shutdown -h now && exit
+        exit 1
     fi
 
     echo
@@ -156,6 +157,8 @@ else
     echo -e "${YELLOW}Skipping guest additions installation...${NC}"
     echo
 fi
+
+exit
 
 # ZEN WORKSPACE SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]
