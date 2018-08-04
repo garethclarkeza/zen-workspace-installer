@@ -31,6 +31,7 @@ fi
 if [[ $(cat ${STATUS_FILE}) =~ 'init' ]]
 then
     # Confirm before proceeding with deployment
+    echo
     echo "${GREEN}Would you like to install a new version of Zen Workspace?${NC}"
     echo 'Please make sure that the VBoxLinuxAdditions.iso is loaded as well (see readme).'
     echo
@@ -48,28 +49,26 @@ then
     echo 'env' > ${STATUS_FILE}
 else
     echo "${YELLOW}[PRECHECK]${WHITE} Previous installation has been detected, continuing installation...${NC}"
-    echo ""
 fi
 
+# MAKE SURE THE ENV FILE IS INITIALIZED
 if [[ $(cat ${STATUS_FILE}) =~ 'env' ]]
 then
     if [[ ! -f '.env' ]]
     then
-        echo
-        echo ' -> Installer .env file not found!'
-        echo ' -> Setting up default env file.'
+        echo "${YELLOW}[PRECHECK]${WHITE} Installer .env file not found! Creating one from the default.${NC}"
         cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
         echo
-        read -p  'Press any key to continue and edit your .env file to fit your requirements...'
-        echo
+        read -p  "${CYAN}[CONFIG]${WHITE} Press any key to continue and edit your .env file to fit your requirements...${NC}"
         vim ${INSTALL_FOLDER}/.env
         ENV_LOADED=true
     fi
 
     if [[ ! ${ENV_LOADED} ]]
     then
-        echo 'Installer .env file was never loaded, please create an .env file file in the root folder of the installer.'
-        echo 'You can copy from the example file in the installer folder env-example. Exiting installation...'
+        echo
+        echo "${RED}[ERROR]${WHITE} Installer .env file was never loaded, please create an .env file file in the root folder of the installer."
+        echo "${WHITE}You can copy from the example file in the installer folder env-example. Exiting installation...${NC}"
         echo
         exit 1
     fi
@@ -78,6 +77,9 @@ then
 fi
 
 # BEGIN INSTALLATION
+echo
+echo "${GREEN}Your system is ready to begin installation of your Zen Workspace${GREEN}!${NC}"
+echo
 
 # ALWAYS INCLUDE THE UTILS
 echo ' -> Including installation utilities'
