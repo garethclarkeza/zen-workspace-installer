@@ -9,11 +9,15 @@ STATUS_FILE=${INSTALL_FOLDER}/status
 cd ${INSTALL_FOLDER}
 
 echo
-echo 'Checking for previous installation state...'
+echo ' -> Checking for previous installation state...'
 echo
 
 if [[ ! -f ${STATUS_FILE} ]]
 then
+    echo
+    echo ' -> No previous installations were detected, starting new installation'
+    echo
+
     touch ${STATUS_FILE}
     echo 'init' > ${STATUS_FILE}
 fi
@@ -33,6 +37,11 @@ then
         exit 0
     fi
 
+    echo 'env' > ${STATUS_FILE}
+fi
+
+if [[ $(cat ${STATUS_FILE}) =~ 'env' ]]
+then
     if [[ ! -f '.env' ]]
     then
         echo
@@ -59,23 +68,28 @@ fi
 
 # BEGIN INSTALLATION
 
+# ALWAYS INCLUDE THE UTILS
+echo ' -> Including installation utilities'
+source ${INSTALL_FOLDER}/utils.sh
+
+exit 0
+
+
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
     echo ' -> Making installation files executable'
     chmod chmod 775 ${INSTALL_FOLDER}/*.sh
+
     echo ' -> Updating APT package manager'
     sudo apt update -y && sudo apt upgrade -y --allow-unautenticated
+
     echo 'guest-additions' > ${STATUS_FILE}
 else
     echo
     echo -e "${YELLOW}Continuing from previous installation...${NC}"
     echo
 fi
-
-# ALWAYS INCLUDE THE UTILS
-echo ' -> Including installation utilities'
-source ${INSTALL_FOLDER}/utils.sh
 
 
 
