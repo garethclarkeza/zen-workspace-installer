@@ -22,7 +22,7 @@ cd ${INSTALL_FOLDER}
 
 if [[ ! -f ${STATUS_FILE} ]]
 then
-    echo -e " ${YELLOW}[PRECHECK]${WHITE}\tNo previous installations were detected, starting new installation${NC}"
+    echo -e "${YELLOW}[PRECHECK]${WHITE}\tNo previous installations were detected, starting new installation${NC}"
 
     touch ${STATUS_FILE}
     echo 'init' > ${STATUS_FILE}
@@ -48,7 +48,7 @@ then
 
     echo 'env' > ${STATUS_FILE}
 else
-    echo -e " ${YELLOW}[PRECHECK]${WHITE}\tPrevious installation has been detected, continuing installation...${NC}"
+    echo -e "${YELLOW}[PRECHECK]${WHITE}\tPrevious installation has been detected, continuing installation...${NC}"
 fi
 
 # MAKE SURE THE ENV FILE IS INITIALIZED
@@ -56,9 +56,9 @@ if [[ $(cat ${STATUS_FILE}) =~ 'env' ]]
 then
     if [[ ! -f '.env' ]]
     then
-        echo -e " ${YELLOW}[PRECHECK]${WHITE}\tInstaller .env file not found! Creating one from the default.${NC}"
+        echo -e "${YELLOW}[PRECHECK]${WHITE}\tInstaller .env file not found! Creating one from the default.${NC}"
         cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
-        read -p  " ${CYAN}[CONFIG]${WHITE}\tPress any key to continue and edit your .env file to fit your requirements...${NC}"
+        read -p  "${CYAN}[CONFIG]${WHITE}\tPress any key to continue and edit your .env file to fit your requirements...${NC}"
         vim ${INSTALL_FOLDER}/.env
         ENV_LOADED=true
     fi
@@ -66,7 +66,7 @@ then
     if [[ ! ${ENV_LOADED} ]]
     then
         echo
-        echo -e " ${RED}[ERROR]${WHITE}\tInstaller .env file was never loaded, please create an .env file file in the root folder of the installer."
+        echo -e "${RED}[ERROR]${WHITE}\tInstaller .env file was never loaded, please create an .env file file in the root folder of the installer."
         echo "You can copy from the example file in the installer folder env-example. Exiting installation...${NC}"
         echo
         exit 1
@@ -77,7 +77,7 @@ fi
 
 # BEGIN INSTALLATION
 echo
-echo " ${GREEN}Your system is ready to begin installation of your ${WHITE}Zen Workspace${GREEN}!${NC}"
+echo "${GREEN}Your system is ready to begin installation of your ${WHITE}Zen Workspace${GREEN}!${NC}"
 echo
 
 # ALWAYS INCLUDE THE UTILS
