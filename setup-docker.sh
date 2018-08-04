@@ -1,26 +1,5 @@
 #!/usr/bin/env bash
 
-# INSTALLATION AND SETUP OF DOCKER
-if [[ $(cat ${STATUS_FILE}) =~ 'docker' ]]
-then
-    echo
-    echo 'Installing Docker'
-    echo
-
-    cd /tmp
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-    sudo apt install -y docker-ce docker-compose
-    sudo usermod -aG docker ${USER}
-    sudo systemctl restart ssh
-
-    echo
-    echo 'Docker installed. You are now going to be logged out, please log back in to continue.'
-    echo
-
-    echo 'laradock-install' > ${STATUS_FILE}
-fi
-
 # INSTALLATION AND SETUP OF LARADOCK
 if [[ $(cat ${STATUS_FILE}) =~ 'laradock-install' ]]
 then
@@ -38,6 +17,10 @@ then
     echo 'Setting up .env file and opening it in VIM for you to edit if required.'
     cp env-example .env
 
+    echo
+    read -p  'Press any key to continue to editing your laradock .env file...'
+    echo
+
     vim .env
 
     echo
@@ -47,12 +30,35 @@ then
     echo 'laradock-build' > ${STATUS_FILE}
 fi
 
+# INSTALLATION AND SETUP OF DOCKER
+if [[ $(cat ${STATUS_FILE}) =~ 'docker' ]]
+then
+    echo
+    echo 'Installing Docker'
+    echo
+
+    cd /tmp
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+    sudo apt install -y docker-ce docker-compose
+    sudo usermod -aG docker ${USER}
+    sudo systemctl restart ssh
+
+    echo
+    echo 'Docker installed. You are now going to be logged out, please log back in to continue.'
+    echo "${RED}If you experience any issues{$NC} during the next phase of installation, it means your access rights have not been refreshed, please logout and back in."
+    echo
+
+    echo 'laradock-build' > ${STATUS_FILE}
+    echo
+fi
+
 # BUILDING AND SPINNING UP DEFAULT LARADOCK ENVIRONMENT
 # NOTE - this may fail if your docker group access has not yet been activated
 if [[ $(cat ${STATUS_FILE}) =~ 'laradock-build' ]]
 then
     echo
-    echo 'Building docker services, this may take a while...'
+    echo 'Building popular docker containers, this may take a while...'
     echo
 
     cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
@@ -67,6 +73,6 @@ then
     echo
     echo 'Docker should now be running!'
     echo "Visit your new workspace at http://${HOSTNAME}/ from your Windows Host."
-    sg docker -c "docker ps"
+    sg docker -c "docker-compose ps"
     echo
 fi

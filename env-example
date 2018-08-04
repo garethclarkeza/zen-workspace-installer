@@ -11,6 +11,7 @@ BASH_SCRIPTS_DEFAULT_PERMISSIONS=775
 NODE_VERSION=10
 NVM_VERSION=0.33.11
 PHP_VERSION=7.2
+JDK_VERSION=
 DOCKER_LEMP='nginx mysql php-fpm workspace'
 DOCKER_LAMP='apache2 mysql php-fpm workspace'
 DOCKER_STACK1='nginx mysql redis php-fpm workspace'

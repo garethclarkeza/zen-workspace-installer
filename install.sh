@@ -8,6 +8,10 @@ STATUS_FILE=${INSTALL_FOLDER}/status
 
 cd ${INSTALL_FOLDER}
 
+echo
+echo 'Checking for previous installation state...'
+echo
+
 if [[ ! -f ${STATUS_FILE} ]]
 then
     touch ${STATUS_FILE}
@@ -17,7 +21,8 @@ fi
 if [[ $(cat ${STATUS_FILE}) =~ 'init' ]]
 then
     # Confirm before proceeding with deployment
-    read -p "Install new workspace to '${INSTALL_FOLDER}'? Please make sure that the VBoxLinuxAdditions.iso is loaded as well. This should only be done once. [Y/n] " -n 1 -r
+    echo "Install new workspace to '${INSTALL_FOLDER}'? Please make sure that the VBoxLinuxAdditions.iso is loaded as well."
+    read -p "This should only be done once. [Y/n] " -n 1 -r
     echo
 
     if [[ $REPLY =~ ^[Nn]$ ]]
@@ -30,15 +35,22 @@ then
 
     if [[ ! -f '.env' ]]
     then
-        echo '.env file was not found, setting up default env file, please edit as needed and then continue:'
+        echo
+        echo ' -> Installer .env file not found!'
+        echo ' -> Setting up default env file.'
         cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
+        echo
+        read -p  'Press any key to continue and edit your .env file to fit your requirements...'
+        echo
         vim ${INSTALL_FOLDER}/.env
         ENV_LOADED=true
     fi
 
     if [[ ! ${ENV_LOADED} ]]
     then
-        echo '.env file was never loaded, and there have been too many attempts, please create a .env file file in the root of the workspace'
+        echo 'Installer .env file was never loaded, please create an .env file file in the root folder of the installer.'
+        echo 'You can copy from the example file in the installer folder env-example. Exiting installation...'
+        echo
         exit 1
     fi
 
@@ -46,21 +58,27 @@ then
 fi
 
 # BEGIN INSTALLATION
-cd ${INSTALL_FOLDER}
 
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
-    echo 'Making installing files executable'
-    chmod o+x ${INSTALL_FOLDER}/*.sh
-    chmod 775 ${INSTALL_FOLDER}/*.sh
+    echo ' -> Making installation files executable'
+    chmod chmod 775 ${INSTALL_FOLDER}/*.sh
+    echo ' -> Updating APT package manager'
+    sudo apt update -y && sudo apt upgrade -y --allow-unautenticated
     echo 'guest-additions' > ${STATUS_FILE}
+else
+    echo
+    echo -e "${YELLOW}Continuing from previous installation...${NC}"
+    echo
 fi
 
 # ALWAYS INCLUDE THE UTILS
-echo 'Including installation utilities'
-source utils.sh
-echo 'Installation utilities installed'
+echo ' -> Including installation utilities'
+source ${INSTALL_FOLDER}/utils.sh
+
+
+
 
 # ADD VBOX UBUNTU GUEST ADDITIONS
 # The process will need to stop at this point so that you can add the required shared volumes to
@@ -86,9 +104,11 @@ then
         echo
         echo "${RED}Shutting down in 10 seconds, refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
         echo
-        read -p  'shutdown now: '
+        read -p  'press any key to shutdown the server...'
+        echo
         sudo shutdown -h now && exit
     fi
+
     echo
     echo "${RED}Refer to the readme file for instructions on adding the VirtualBox VM volumes.${NC}"
     echo "${RED}Please make sure to restart the server.{$NC}"
@@ -102,13 +122,14 @@ fi
 # GET THE SSH SERVER RUNNING WITH ACCESS
 if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
 then
-    echo 'Seting up SSH access and automation'
+    echo ' -> Setting up SSH access and automation'
     cd ${INSTALL_FOLDER}
     source setup-ssh.sh
     echo 'Completed SSH setup'
     echo 'workspace' > ${STATUS_FILE}
 else
-    echo -e "${YELLOW}Skipping SSH setup...${NC}"
+    echo
+    echo -e "${YELLOW}SSH already setup, skipping...${NC}"
     echo
 fi
 
@@ -131,14 +152,14 @@ then
     echo 'Setting up dev utils'
     cd ${INSTALL_FOLDER}
     source setup-dev-utils.sh
-    echo 'docker' > ${STATUS_FILE}
+    echo 'laradock-install' > ${STATUS_FILE}
 else
     echo -e "${YELLOW}Skipping dev utilities...${NC}"
     echo
 fi
 
 # DOCKER AND LARADOCK SETUP
-if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock' ]]
+if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock-' ]]
 then
     echo 'Setting up docker and laradock'
     cd ${INSTALL_FOLDER}
@@ -156,6 +177,7 @@ then
     echo 'Cleaning up...'
     echo 'complete' > ${STATUS_FILE}
     sudo apt autoremove
+    sudo rm -rf /tmp/*
 else
     echo -e "${YELLOW}Skipping cleanup...${NC}"
     echo
