@@ -31,5 +31,6 @@ then
 else
     echo -e "${RED}Please insert the guest additions iso into the VM as per readme file and then try again!${NC}"
     echo
+    read -p "Press any key to exit"
     exit 1
 fi

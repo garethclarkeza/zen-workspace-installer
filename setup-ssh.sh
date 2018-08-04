@@ -27,31 +27,24 @@ echo
 echo 'Press any key to continue to edit the authorized hosts file.'
 echo
 read -p  'continue: '
+
 # @todo copy public key over to any approved hosts (tbd)
 vim ~/.ssh/authorized_keys
 
 echo
-echo "Copy the following to the bottom of the file that is about to open: "
+echo 'Adding your user to sudoers file so you no longer have to type your password when you sudo :)'
 echo
-echo "${USER} ALL=(ALL) NOPASSWD: ALL"
-echo
-echo 'Hit any key to continue after copying the above line'
-echo
-read -p 'continue: '
 
-#sudo echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-# @todo do this automatically
-sudo visudo
+echo -e "${USER}\tALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers > /dev/null
 
 echo
 echo 'SSH has been successfully setup, here are you credentials to add to your Windows SSH client to '
 echo 'connect to this server, you should start your VM in headless mode and only connect via your SSH client.'
-echo
+echo "${YELLOW}"
 echo 'x-----------------------------------------------------------------------------------x'
-echo -e "  IP Address:\t$(hostname  -I | cut -f1 -d' ')"
-echo -e "  Username:\t${USER}"
-echo -e '  Password:\t***** (use your putty private key that you previously used above or your password if you really want)'
-echo -e '  Port:\t\t22'
+echo -e "  IP Address:\t${WHITE}$(hostname  -I | cut -f1 -d' ')${YELLOW}"
+echo -e "  Username:\t${WHITE}${USER}${YELLOW}"
+echo -e "  Password:\t${WHITE}***** (use your putty private key that you previously used above or your password if you really want)${YELLOW}"
+echo -e "  Port:\t\t${WHITE}22${YELLOW}"
 echo 'x-----------------------------------------------------------------------------------x'
-echo
+echo "${NC}"
