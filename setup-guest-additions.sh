@@ -10,7 +10,7 @@ then
     echo 'Updating package manager and installing required packages...'
     echo
 
-    sudo apt-get update && sudo apt-get upgrade
+    sudo apt-get update -yqq && sudo apt-get upgrade -yqq
     sudo apt-get install -y dkms build-essential linux-headers-generic apt-transport-https linux-headers-$(uname -r)
 
     echo

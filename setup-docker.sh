@@ -29,10 +29,6 @@ then
 
     vim .env
 
-    echo
-    echo 'Laradock installed'
-    echo
-
     echo 'docker' > ${STATUS_FILE}
 fi
 
@@ -61,22 +57,30 @@ fi
 # NOTE - this may fail if your docker group access has not yet been activated
 if [[ $(cat ${STATUS_FILE}) =~ 'laradock-build' ]]
 then
+    if [[ ! -f ${WORKSPACE_ROOT_FOLDER}/readme.md ]]
+    then
+        echo "${RED}[ERROR]${WHITE} Zen Workspace services folder does not exist... was the workspace installed properly? Did you setup your SSH key in github.com?${NC}"
+        exit 1
+    fi
+
     echo
-    echo 'Building popular docker containers, this may take a while...'
-    echo
+    echo "${WHITE}Building popular docker containers, this may take a while...${NC}"
+    echo '------------'
 
     cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
-    sg docker -c "docker-compose build nginx apache2 php-fpm redis mongo mysql workspace"
+    docker-compose build workspace php-fpm nginx apache2 redis mongo mysql
 
     echo
-    echo 'Initializing docker services!'
+    echo "${WHITE}Initializing default server!${NC}"
+    echo '------------'
+
+    docker-compose up -d nginx
+
+    echo
+    echo "${GREEN}Zen Workspace and Docker should now be up and running!"
+    echo "Visit your new workspace at ${WHITE}http://workspace.zen/${GREEN} from your Windows Host.${NC}"
     echo
 
-    sg docker -c "docker-compose up -d ${DOCKER_STACK1}"
-
-    echo
-    echo 'Docker should now be running!'
-    echo "Visit your new workspace at http://${HOSTNAME}/ from your Windows Host."
-    sg docker -c "docker-compose ps"
+    docker-compose ps
     echo
 fi

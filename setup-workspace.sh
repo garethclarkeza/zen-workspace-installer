@@ -9,8 +9,6 @@ echo
 cd /
 git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}
 cd ${WORKSPACE_ROOT_FOLDER}
-echo "checking out branch: ${WORKSPACE_REPO_BRANCH}"
-echo 'git checkout ${WORKSPACE_REPO_BRANCH}'
 
 if [[ ! -f ${WORKSPACE_ROOT_FOLDER}/readme.md ]]
 then
@@ -18,6 +16,7 @@ then
     exit 1
 fi
 
+echo "checking out branch: ${WORKSPACE_REPO_BRANCH}"
 git checkout ${WORKSPACE_REPO_BRANCH}
 echo "pulling latest origin branch: ${WORKSPACE_REPO_BRANCH}"
 git pull origin ${WORKSPACE_REPO_BRANCH}
@@ -30,11 +29,12 @@ echo
 echo 'Setting up default hosts'
 
 # add windows_host with the clients connected IP address to ubuntu hosts file
-manage-hosts addhost windows_host ${HOST_IP_ADDRESS}
+manage-hosts addhost windows.host ${HOST_IP_ADDRESS}
 
 # add ubuntu servers IP address to windows under the selected ubuntu hostname
 manage-hosts win-addhost ${HOSTNAME} ${LOCAL_IP_ADDRESS}
 manage-hosts win-addhost workspace ${LOCAL_IP_ADDRESS}
+manage-hosts win-addhost workspace.zen ${LOCAL_IP_ADDRESS}
 
 echo
 echo 'Setting up workspace links to windows volumes'

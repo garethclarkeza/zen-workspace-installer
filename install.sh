@@ -185,6 +185,7 @@ then
     echo 'complete' > ${STATUS_FILE}
     sudo apt autoremove
     sudo rm -rf /tmp/*
+    # remove backup files like _bash_aliases, _bash_helpers
 else
     echo -e "${YELLOW}Skipping cleanup...${NC}"
     echo
