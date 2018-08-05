@@ -67,15 +67,22 @@ then
     echo "${WHITE}Building popular docker containers, this may take a while...${NC}"
     echo '------------'
 
+    # INSTALL THE WELCOME PAGE COMPOSER PACKAGES
+    cd ${WORKSPACE_ROOT_FOLDER}/www/sandbox/hello
+    composer install
+
     cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
     docker-compose build workspace php-fpm nginx apache2 mongo mysql
 
+    clear
     echo
     echo "${WHITE}Initializing default server!${NC}"
     echo '------------'
 
+
     docker-compose up -d nginx
 
+    clear
     echo
     echo "${GREEN}Zen Workspace and Docker should now be up and running!"
     echo "Visit your new workspace at ${WHITE}http://workspace.zen/${GREEN} from your Windows Host.${NC}"
