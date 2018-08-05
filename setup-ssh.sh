@@ -4,12 +4,23 @@ echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up SSH key${NC}"
 cd ~
 # @todo allow for importing custom backup ssh files
 
-mkdir ~/.ssh > /dev/null
+if [[ ! -d ~/.ssh ]]
+then
+    mkdir ~/.ssh > /dev/null
+fi
+
 chmod -R 700 ~/.ssh > /dev/null
-ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P ""
+
+if [[ ! -f ~/.ssh/id_rsa ]]
+then
+    ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P ""
+fi
 
 # COPY OVER FREQUENTLY USED TRUSTED HOSTS
-cat ${INSTALL_FOLDER}/known_hosts >> ~/.ssh/known_hosts
+if [[ ! -f ~/.ssh/id_rsa ]]
+then
+    cat ${INSTALL_FOLDER}/known_hosts >> ~/.ssh/known_hosts
+fi
 
 # THIS WILL FORCE A PASSWORD REQUEST FOR SUDO, AFTER THIS THE SUDOERS FILE CAN BE UPDATED SO PASSWORD IS NO LONGER REQUIRED WHEN USING SUDO
 sudo apt-get -y install xclip > /dev/null
