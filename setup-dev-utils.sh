@@ -38,6 +38,7 @@ fi
 # INSTALLATION PHP extensions for selected PHP version
 if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils-php-ext' ]]
 then
+    clear
     echo
     echo " -> Installing PHP${PHP_VERSION} extensions"
     echo
@@ -69,6 +70,7 @@ fi
 # INSTALL COMPOSER
 if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils-composer' ]]
 then
+    clear
     echo
     echo ' -> Installing Composer PHP package manager'
     echo
@@ -84,11 +86,13 @@ fi
 # INSTALL NODE/NPM/YARN
 if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils-node' ]]
 then
+    clear
     echo
     echo ' -> Installing NodeJS, NPM and Yarn'
     echo
     cd ${INSTALL_FOLDER}
     source setup-node.sh
     installNodeSetup
+    clear
 fi
 
