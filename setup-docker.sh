@@ -70,7 +70,7 @@ then
     composer install
 
     cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
-    docker-compose build workspace php-fpm nginx apache2 mongo mysql
+    docker-compose build php-fpm
 
     clear
     echo
