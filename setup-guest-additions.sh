@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 echo
 read -p "${RED}Have you set the CDROM in VirtualBox to use the VBoxLinuxAdditions.iso ?${NC} [y/N]" -n 1 -r
 echo

@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 echo 'Fetching the latest version of Zen Workspace'
 echo -e "git clone ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}"
 

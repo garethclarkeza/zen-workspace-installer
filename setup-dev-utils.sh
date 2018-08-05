@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # INSTALLATION OF SOME DEV UTILS, MYSQL CLIENT, SUPERVISOR, JRE AND PHP
 if [[ $(cat ${STATUS_FILE}) = 'dev-utils' ]]
 then

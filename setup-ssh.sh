@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up SSH key${NC}"
 cd ~
 # @todo allow for importing custom backup ssh files

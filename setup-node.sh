@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Install node and npm via nvm - https://github.com/creationix/nvm
 function installNodeSetup {
     set -e

@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # INSTALLATION AND SETUP OF LARADOCK
 if [[ $(cat ${STATUS_FILE}) =~ 'laradock-install' ]]
 then

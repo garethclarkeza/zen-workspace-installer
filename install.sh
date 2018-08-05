@@ -33,7 +33,6 @@ fi
 if [[ ! -f ~/.bash_profile ]]
 then
     cp ${INSTALL_FOLDER}/.bash_profile ~/
-    source ~/.bash_profile
 fi
 
 # @todo check requirements (git, vim, repo access, etc)
@@ -102,7 +101,7 @@ echo
 
 # ALWAYS INCLUDE THE UTILS
 echo -e "${CYAN}[CONFIG]${WHITE}\tIncluding installation utilities${NC}"
-source ${INSTALL_FOLDER}/utils.sh
+. ${INSTALL_FOLDER}/utils.sh
 
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
@@ -122,7 +121,7 @@ if [[ $(cat ${STATUS_FILE}) =~ 'ssh' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up SSH access and automation${NC}"
     cd ${INSTALL_FOLDER}
-    source setup-ssh.sh
+    . setup-ssh.sh
     echo 'guest-additions' > ${STATUS_FILE}
 else
     echo
@@ -141,7 +140,7 @@ then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up Linux Guest Additions"
 
     cd ${INSTALL_FOLDER}
-    source setup-guest-additions.sh
+    . setup-guest-additions.sh
 
     echo 'workspace' > ${STATUS_FILE}
     echo
@@ -163,7 +162,7 @@ if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]
 then
     echo 'Setting up workspace'
     cd ${INSTALL_FOLDER}
-    source setup-workspace.sh
+    . setup-workspace.sh
     echo 'Completed setting up workspace'
     echo 'dev-utils' > ${STATUS_FILE}
 else
@@ -185,7 +184,7 @@ if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils' ]]
 then
     echo 'Setting up dev utils'
     cd ${INSTALL_FOLDER}
-    source setup-dev-utils.sh
+    . setup-dev-utils.sh
     echo 'laradock-install' > ${STATUS_FILE}
 else
     echo -e "${YELLOW}Skipping dev utilities...${NC}"
@@ -197,7 +196,7 @@ if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock-' 
 then
     echo 'Setting up docker and laradock'
     cd ${INSTALL_FOLDER}
-    source setup-docker.sh
+    . setup-docker.sh
     echo 'Completed installation and setup of docker and laradock'
     echo 'cleanup' > ${STATUS_FILE}
 else
