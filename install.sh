@@ -232,7 +232,7 @@ then
         rm -f ~/_docker_stacks
     fi
 
-    sed -i '\/zen-workspace-installer\/install.sh continue/d' ~/.bash_profile
+#    sed -i '\/zen-workspace-installer\/install.sh continue/d' ~/.bash_profile
 else
     echo -e "${YELLOW}Skipping cleanup...${NC}"
     echo
