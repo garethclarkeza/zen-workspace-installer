@@ -246,8 +246,6 @@ then
     echo
     echo "${GREEN}Your new workspace has been successfully setup! Congratulations.${NC}"
     echo
-    echo 'Would you like to remove the installation files?'
-    echo
 fi
 
 echo
