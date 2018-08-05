@@ -28,10 +28,6 @@ then
         echo
         exit 0
     fi
-else
-
-    echo "${RED}FAILED!!!${NC}"
-    exit 1
 fi
 
 if [[ ! -f ~/.bash_profile ]]
