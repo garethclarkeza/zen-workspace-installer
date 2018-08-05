@@ -18,6 +18,8 @@ fi
 
 echo "checking out branch: ${WORKSPACE_REPO_BRANCH}"
 git checkout ${WORKSPACE_REPO_BRANCH}
+sleep 5
+exit 1
 echo "pulling latest origin branch: ${WORKSPACE_REPO_BRANCH}"
 git pull origin ${WORKSPACE_REPO_BRANCH}
 echo

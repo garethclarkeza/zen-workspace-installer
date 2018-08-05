@@ -89,9 +89,6 @@ source ${INSTALL_FOLDER}/utils.sh
 echo ' -> Including installation utilities'
 source ${INSTALL_FOLDER}/utils.sh
 
-exit 0
-
-
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
@@ -157,6 +154,14 @@ then
 else
     echo -e "${YELLOW}Skipping workspace setup...${NC}"
     echo
+fi
+
+# CHECK TO MAKE SURE WORKSPACE WAS INSTALLED - EVERYTHING PAST THIS POINT NEEDS IT
+if [[ ! -f ${WORKSPACE_ROOT_FOLDER}/readme.md ]]
+then
+    echo "${RED}[ERROR]${WHITE} There was an error fetching the workspace from the github repo. Please check for errors and make sure that your SSH key has been added to github.${NC}"
+    echo
+    exit 1
 fi
 
 # DEVELOPMENT UTILITIES AND FEATURES
