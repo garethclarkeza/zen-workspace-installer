@@ -68,7 +68,7 @@ then
     echo '------------'
 
     cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
-    docker-compose build workspace php-fpm nginx apache2 redis mongo mysql
+    docker-compose build workspace php-fpm nginx apache2 mongo mysql
 
     echo
     echo "${WHITE}Initializing default server!${NC}"

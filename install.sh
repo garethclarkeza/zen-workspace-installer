@@ -15,6 +15,31 @@ ENV_LOADED=false
 INSTALL_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 STATUS_FILE=${INSTALL_FOLDER}/status
 
+if [[ $1 = 'continue' ]]
+then
+    echo
+    read -p "${RED}Do you want to continue with your installation of Zen Workspace?${WHITE} [Y/n]${NC} " -n 1 -r
+    echo
+
+    if [[ $REPLY =~ ^[Nn]$ ]]
+    then
+        echo
+        echo "${RED}Exiting installation process, to restart goto the installation folder and run ./install.sh or re-login.${NC}"
+        echo
+        exit 0
+    fi
+else
+
+    echo "${RED}FAILED!!!${NC}"
+    exit 1
+fi
+
+if [[ ! -f ~/.bash_profile ]]
+then
+    cp ${INSTALL_FOLDER}/.bash_profile ~/
+    source ~/.bash_profile
+fi
+
 # @todo check requirements (git, vim, repo access, etc)
 echo
 echo -e "${YELLOW}[PRECHECK]${WHITE}\tChecking for previous installation state...${NC}"
@@ -57,7 +82,7 @@ then
     then
         echo -e "${YELLOW}[PRECHECK]${WHITE}\tInstaller .env file not found! Creating one from the default.${NC}"
         cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
-        read -p  "${CYAN}[CONFIG]${WHITE}\tPress any key to continue and edit your .env file to fit your requirements...${NC}"
+        read -p "${CYAN}[CONFIG]${WHITE}        Press any key to continue and edit your .env file to fit your requirements...${NC}"
         vim ${INSTALL_FOLDER}/.env
         ENV_LOADED=true
     fi
@@ -81,16 +106,7 @@ echo
 
 # ALWAYS INCLUDE THE UTILS
 echo -e "${CYAN}[CONFIG]${WHITE}\tIncluding installation utilities${NC}"
-
 source ${INSTALL_FOLDER}/utils.sh
-
-
-# ALWAYS INCLUDE THE UTILS
-echo ' -> Including installation utilities'
-source ${INSTALL_FOLDER}/utils.sh
-
-exit 0
-
 
 # This can only be loaded after the .env file is setup
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
@@ -159,6 +175,15 @@ else
     echo
 fi
 
+# CHECK TO MAKE SURE WORKSPACE WAS INSTALLED - EVERYTHING PAST THIS POINT NEEDS IT
+if [[ ! -f ${WORKSPACE_ROOT_FOLDER}/readme.md ]]
+then
+    echo "${RED}[ERROR]${WHITE} There was an error fetching the workspace from the github repo. "
+    echo "Please check for errors and make sure that your SSH key has been added to github.${NC}"
+    echo
+    exit 1
+fi
+
 # DEVELOPMENT UTILITIES AND FEATURES
 if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils' ]]
 then
@@ -191,7 +216,28 @@ then
     echo 'complete' > ${STATUS_FILE}
     sudo apt autoremove
     sudo rm -rf /tmp/*
-    # remove backup files like _bash_aliases, _bash_helpers
+
+    if [ -f ~/_bash_profile ];
+    then
+        rm -f ~/_bash_profile
+    fi
+
+    if [ -f ~/_bash_helpers ];
+    then
+        rm -f ~/_bash_helpers
+    fi
+
+    if [ -f ~/_bash_aliases ];
+    then
+        rm -f ~/_bash_aliases
+    fi
+
+    if [ -f ~/_docker_stacks ];
+    then
+        rm -f ~/_docker_stacks
+    fi
+
+    sed -i '\/zen-workspace-installer\/install.sh continue/d' ~/.bash_profile
 else
     echo -e "${YELLOW}Skipping cleanup...${NC}"
     echo
@@ -200,6 +246,8 @@ fi
 # COMPLETE WITH INSTALLATION, THE FILES SHOULD BE UNINSTALLED
 if [[ $(cat ${STATUS_FILE}) =~ 'complete' ]]
 then
+    # REMOVE SELF FROM STARTUP
+    sed -i '\/zen-workspace-installer\/install.sh continue/d' ~/.bash_profile
     echo
     echo "${GREEN}Your new workspace has been successfully setup! Congratulations.${NC}"
     echo
