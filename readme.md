@@ -25,12 +25,16 @@ To get going with setting up your own Zen Workspace, please carry on reading on 
     1. Restart your computer when prompted.
 1. Make sure you have VirtualBox installed.
 1. Download this image: http://archive.ubuntu.com/ubuntu/dists/bionic-updates/main/installer-amd64/current/images/netboot/mini.iso
-1. While technically not required, to save you have to use passwords to access the linux server, you should create a SSH key/pair. (@TODO add guide)
+1. While technically not required, to save you have to use passwords to access the linux server, you should create a SSH key/pair. For help on doing this you can read https://www.ssh.com/ssh/putty/windows/puttygen
 1. Have a github.com account. (you will need to add an ssh key to your github account)
 1. If you have not already - install PuTTY, PuTTYgen and Pageant. (for an SSH client, I recommend using WinSSHterm - but you can use whatever you prefer)
 1. Make sure you have your favourite code editor installed and for way less hair pulling down the line, make sure you code editors save line endings in UNIX/MAC format which is ```\n``` and not the Windows ```\r\n```.
 1. Make sure you have created your *EMPTY* workspace folder in the location you want it, like ```C:\workspace```, ```D:\web```, ```~\www``` etc (remember that this folder is where your IDE will point to and should be in an easy to access safe location).
-1. [OPTIONAL] This may be a little insecure, however, for easy and more automated management of your Windows hosts file, I suggest giving modify access to your ```C:\Windows\System32\drivers\etc\hosts``` which you will later share onto your linux server.
+1. [OPTIONAL] This may be a little insecure, however, for easy and more automated management of your Windows hosts file, I suggest giving modify access to your ```C:\Windows\System32\drivers\etc\hosts``` which you will later share onto your linux server. To do this, right-click on the hosts file in windows > propreties > security > edit (you need to be an admin)
+    1. If your name is already in the list, then click on it and give it modfify, read & execute, read and write access
+    1. If your name is not there click add
+    1. In the bottom box type your Windows username and then click check names, it should match and format it correctly
+    1. The as in the first step, go to the user once added and give the correct permissions
 
 The following tools are not required on Windows, but may make your development experience more enjoyable as you can run these from Windows just as you would from Linux.
 
@@ -149,21 +153,15 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Once your server boots back up (may take a minute), then you should be able to login with your SSH client
  - Use your SSH client and login to your linux server VM with the IP address you got and your username and password on port 22. You may also want to add your PPK private key to your connection (it will fail at first until we get SSH setup correctly, but you just use your password as fallback)
  - Run ```git config --global user.email "your@email.address" && git config --global user.name "Your Name" && git config --global core.editor "vim"``` (i set my default editor to vim, but you can use whatever u want)
- - Zen Workspace is installed via an install script, to get start, on your Linux Server, go to your home folder ```cd ~``` and then ```git clone https://github.com/garethclarkeza/zen-workspace-installer.git``` and enter your github username/password.
+ - Zen Workspace is installed via an install script, to get start, on your Linux Server, go to your home folder ```cd ~``` and then ```git clone https://github.com/garethclarkeza/zen-workspace-installer.git``` and enter your github username/password
  - ```cd ~/zen-workspace-installer```
  - ```chmod 775 ./*.sh```
  - ```./install.sh```
- - Follow the prompts, the process will stop when you need to shutdown the VM to add the shared folders that link your Windows workspace with your Linux workspace.
- - Add the following 2 share to your VirtualBox VM settings.
-    1. ```C:\<workspace> -> workspace``` (auto-mount, make permanent)
-    1. ```C:\Windows\System32\drivers\etc -> win_hosts``` (auto-mount, make permanent)
- - Once this is complete, restart the server in headless mode as you will now only ever access the server via an SSH client, like PuTTY or WinSSHterm.
- - When the server has rebooted, login again via ssh client go back into the installer folder.
- - Run ```cd zen-workspace-installer && ./install.sh```.
+ - Follow the prompts, the process will stop occasionally to allow you to exit and re-login (this is for certain group access refreshing)
  - This will then allow the process to continue where you left off on your installation.
  - Follow the output and prompts.
  - Well done! :P Your Linux Server with docker support and development environment server is now running.
- - Open your browser, the welcome page should be visible at http://workspace/.
+ - Open your browser, the welcome page should be visible at http://workspace.zen/.
 
 
 ### What Now?
