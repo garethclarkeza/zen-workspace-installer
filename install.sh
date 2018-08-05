@@ -14,7 +14,6 @@ NC=`tput sgr0` # reset colour
 ENV_LOADED=false
 INSTALL_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 STATUS_FILE=${INSTALL_FOLDER}/status
-USE_INSTALLER_BASH_PROFILE=true
 
 if [[ $1 = 'continue' ]]
 then
@@ -35,7 +34,7 @@ else
     exit 1
 fi
 
-if [[ -f ~/.bash_profile ]]
+if [[ ! -f ~/.bash_profile ]]
 then
     cp ${INSTALL_FOLDER}/.bash_profile ~/
     source ~/.bash_profile
