@@ -13,6 +13,7 @@ then
     sudo apt-get update -yqq && sudo apt-get upgrade -yqq
     sudo apt-get install -y dkms build-essential linux-headers-generic apt-transport-https linux-headers-$(uname -r)
 
+    clear
     echo
     echo 'Setting up mount to load the VBox Linux Additions'
     echo

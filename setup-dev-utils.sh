@@ -21,7 +21,7 @@ then
     echo
     echo 'Checking if valid JDK version supplied in .env file...'
     echo
-    echo "No valid version found (${WHITE}8 & 9 supported{$NC}), if you want to install a JDK, enter a valid version number or"
+    echo "No valid version found (${WHITE}8 & 9 supported${NC}), if you want to install a JDK, enter a valid version number or"
     echo 'any other key to continue... (JDK is optional)'
     echo
     read -p "${RED}Enter a valid Java JDK version (8 or 9) or press any other key to skip installing Java${NC} [*/8/9]" -n 1 -r

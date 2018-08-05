@@ -135,10 +135,10 @@ fi
 # the virtual box container, which can only be done once the server is not running.
 if [[ $(cat ${STATUS_FILE}) =~ 'guest-additions' ]]
 then
-    echo -e " ${GREEN}[INSTALLING]${WHITE}\tUpdating APT package manager${NC}"
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tUpdating APT package manager${NC}"
     sudo apt update -y && sudo apt upgrade -y
 
-    echo -e " ${GREEN}[INSTALLING]${WHITE}\tSetting up Linux Guest Additions"
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up Linux Guest Additions"
 
     cd ${INSTALL_FOLDER}
     source setup-guest-additions.sh
