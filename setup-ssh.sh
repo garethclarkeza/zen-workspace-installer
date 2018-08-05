@@ -15,7 +15,7 @@ then
 fi
 
 # COPY OVER FREQUENTLY USED TRUSTED HOSTS
-if [[ ! -f ~/.ssh/id_rsa ]]
+if [[ ! -f ~/.ssh/known_hosts ]]
 then
     cat ${INSTALL_FOLDER}/known_hosts >> ~/.ssh/known_hosts
 fi
@@ -81,3 +81,4 @@ read -p  'Continue? '
 echo
 
 sudo systemctl restart ssh > /dev/null
+
