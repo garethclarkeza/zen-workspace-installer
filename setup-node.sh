@@ -50,15 +50,6 @@ function installNodeSetup {
     node --version
     npm --version
     yarn --version
-
-    echo "==> List installed node versions"
-    #nvm ls
-
-    #nvm cache clear
-    echo 'done'
-    #return
-    echo "==> Please Logout and Login back to take changes effect"
-    echo
 }
 
 installNodeSetup

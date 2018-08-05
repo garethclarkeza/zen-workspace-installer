@@ -50,7 +50,7 @@ then
     echo "${RED}Docker installed. You now need to logged out, please log back in to continue.${NC}"
     echo
     echo 'laradock-build' > ${STATUS_FILE}
-    exit 0
+    exit 1
 fi
 
 # BUILDING AND SPINNING UP DEFAULT LARADOCK ENVIRONMENT
@@ -91,3 +91,4 @@ then
     docker-compose ps
     echo
 fi
+

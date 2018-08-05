@@ -26,7 +26,7 @@ then
         echo
         echo "${RED}Exiting installation process, to restart goto the installation folder and run ./install.sh or re-login.${NC}"
         echo
-        exit 0
+        exit 1
     fi
 fi
 
@@ -63,7 +63,7 @@ then
         echo
         echo "${RED}Please insert the guest additions iso into the VM as per readme file and then try again!${NC}"
         echo
-        exit 0
+        exit 1
     fi
 
     echo 'env' > ${STATUS_FILE}
@@ -152,7 +152,7 @@ then
     echo
     echo -e "You need to logout now and log in again in order to continue with the installation!${NC}"
     echo
-    exit 0
+    exit 1
 else
     echo -e "${YELLOW}Skipping guest additions installation...${NC}"
     echo
@@ -254,3 +254,5 @@ fi
 echo
 echo 'Please logout of all active sessions and re-login to take full advantage of your new server'
 echo
+exit 0
+
