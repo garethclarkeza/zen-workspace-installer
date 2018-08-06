@@ -25,7 +25,7 @@ To get going with setting up your own Zen Workspace, please carry on reading on 
     1. Restart your computer when prompted.
 1. Make sure you have VirtualBox installed.
 1. Download this image: http://archive.ubuntu.com/ubuntu/dists/bionic-updates/main/installer-amd64/current/images/netboot/mini.iso
-1. While technically not required, to save you have to use passwords to access the linux server, you should create a SSH key/pair. For help on doing this you can read https://www.ssh.com/ssh/putty/windows/puttygen
+1. While technically not required, to save you having to use passwords to access the linux server, you should create a SSH key/pair. For help on doing this you can read https://www.ssh.com/ssh/putty/windows/puttygen
 1. Have a github.com account. (you will need to add an ssh key to your github account)
 1. If you have not already - install PuTTY, PuTTYgen and Pageant. (for an SSH client, I recommend using WinSSHterm - but you can use whatever you prefer)
 1. Make sure you have your favourite code editor installed and for way less hair pulling down the line, make sure you code editors save line endings in UNIX/MAC format which is ```\n``` and not the Windows ```\r\n```.
