@@ -1,35 +1,36 @@
-echo
-read -p "${RED}Have you set the CDROM in VirtualBox to use the VBoxLinuxAdditions.iso ?${NC} [y/N]" -n 1 -r
-echo
+read -p "${GREEN}[INSTALLING]${WHITE}${TAB_SPACES}Have you set the CDROM in VirtualBox to use the VBoxLinuxAdditions.iso ?${NC} ${WHITE}[y/N]${NC} " -n 1 -r
 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    echo
-    echo 'Updating package manager and installing required packages...'
-    echo
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tUpdating package manager and installing required packages..."
 
-    sudo apt-get update -yqq && sudo apt-get upgrade -yqq
-    sudo apt-get install -y dkms build-essential linux-headers-generic apt-transport-https linux-headers-$(uname -r)
+#    sudo apt-get update -yqq && sudo apt-get upgrade -yqq
+#    sudo apt-get install -y dkms build-essential linux-headers-generic apt-transport-https linux-headers-$(uname -r)
 
     clear
-    echo
-    echo 'Setting up mount to load the VBox Linux Additions'
-    echo
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up mount to load the VBox Linux Additions"
 
-    sudo mkdir /media/cdrom
-    sudo mount -r /dev/cdrom --target /media/cdrom
-    cd /media/cdrom/
+#    sudo mkdir /media/cdrom
+#    sudo mount -r /dev/cdrom --target /media/cdrom
 
-    echo
-    echo 'Running VBox Linux Additions'
-    echo
+#    if [[ ! -d /media/cdrom/ || ! -f /media/cdrom/VBoxLinuxAdditions.run ]]
+#    then
+#        echo -e "${RED}[ERROR]${WHITE}\t\tFailed to locate VBoxLinuxAdditions on the cdrom mount"
+#        echo -e "${RED}[ERROR]${WHITE}\t\tPlease check that you have loaded the ISO correctly and try again"
+#        exit 2
+#    fi
 
-    sudo groupadd -g 998 vboxsf
-    sudo ./VBoxLinuxAdditions.run
-    sudo usermod -aG vboxsf ${USER}
+#    cd /media/cdrom/
+
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tRunning VBox Linux Additions"
+
+#    sudo groupadd -g 998 vboxsf
+#    sudo usermod -aG vboxsf ${USER}
+#    sudo ./VBoxLinuxAdditions.run
 else
-    echo -e "${RED}Please insert the guest additions iso into the VM as per readme file and then try again!${NC}"
+    echo
+    echo -e "${RED}[ERROR]${WHITE}\t\t\tPlease insert the guest additions iso into the VM as per readme file and then try again!${NC}"
     echo
     read -p "Press any key to exit"
-    exit 1
+    exit 5
 fi

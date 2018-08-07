@@ -1,10 +1,10 @@
-WORKSPACE_INSTALLER_BRANCH=ubuntu-server-18.04
-WORKSPACE_REPO_BRANCH=master
+WORKSPACE_INSTALLER_BRANCH=master
 WORKSPACE_REPO=https://github.com/garethclarkeza/zen-workspace.git
-WORKSPACE_ROOT_FOLDER=/media/sf_workspace
-WORKSPACE_WIN_HOSTS_FOLDER=/media/sf_win_hosts
+WORKSPACE_REPO_BRANCH=master
 LARADOCK_REPO=https://github.com/garethclarkeza/laradock.git
 LARADOCK_BRANCH=workspace
+WORKSPACE_ROOT_FOLDER=/media/sf_workspace
+WORKSPACE_WIN_HOSTS_FOLDER=/media/sf_win_hosts
 BASH_SCRIPTS_ROOT=/usr/bin/
 BASH_SCRIPTS_SOURCE_ROOT=/media/sf_workspace/packages/bash/*.sh
 BASH_SCRIPTS_DEFAULT_PERMISSIONS=775
