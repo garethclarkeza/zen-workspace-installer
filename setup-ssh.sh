@@ -5,26 +5,23 @@ cd ~
 if [[ ! -d ~/.ssh ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCreating SSH folder${NC}"
-#    mkdir ~/.ssh > /dev/null
+    mkdir ~/.ssh > /dev/null
 fi
 
-#chmod -R 700 ~/.ssh > /dev/null
+chmod -R 700 ~/.ssh > /dev/null
 
 if [[ ! -f ~/.ssh/id_rsa ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tGenerating your private and public keys${NC}"
-#    ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P ""
+    ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -P ""
 fi
 
 # COPY OVER FREQUENTLY USED TRUSTED HOSTS
 if [[ ! -f ~/.ssh/known_hosts ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tAdding trusted known hosts${NC}"
-#    cat ${INSTALL_FOLDER}/known_hosts >> ~/.ssh/known_hosts
+    cat ${INSTALL_FOLDER}/known_hosts >> ~/.ssh/known_hosts
 fi
-
-# THIS WILL FORCE A PASSWORD REQUEST FOR SUDO, AFTER THIS THE SUDOERS FILE CAN BE UPDATED SO PASSWORD IS NO LONGER REQUIRED WHEN USING SUDO
-#sudo apt-get -y install xclip > /dev/null
 
 # CHECK TO SEE IF A NO PASSWORD RECORD EXISTS FOR THE CURRENT USER BEFORE ADDING IT
 HAS_SUDOERS_NOPASSWD=false
@@ -43,10 +40,13 @@ then
     echo -e "${YELLOW}[SKIPPING]${WHITE}\tA record for your user already exists in the sudoers files.${NC}"
 else
     echo -e "${GREEN}[INSTALLING]${WHITE}\tAdding your user to sudoers file so you no longer have to type your password when you sudo :)${NC}"
-#    echo -e "${USER}\tALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers > /dev/null
+    echo -e "${USER}\tALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers > /dev/null
 fi
 
-#cat ~/.ssh/id_rsa.pub | xclip
+# THIS WILL FORCE A PASSWORD REQUEST FOR SUDO, AFTER THIS THE SUDOERS FILE CAN BE UPDATED SO PASSWORD IS NO LONGER REQUIRED WHEN USING SUDO
+sudo apt-get -y install xclip > /dev/null
+sleep 1
+cat ~/.ssh/id_rsa.pub | xclip
 
 echo
 echo "${YELLOW}x--------------------------------------------------------------------------------------------------------------------------------------x"
@@ -87,4 +87,4 @@ echo "${YELLOW}x----------------------------------------------------------------
 echo "${NC}"
 read -p  'Press any key to continue...'
 
-#sudo systemctl restart ssh > /dev/null
+sudo systemctl restart ssh > /dev/null

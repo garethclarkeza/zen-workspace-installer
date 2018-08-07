@@ -4,14 +4,14 @@ then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling Laradock"
 
     cd ${WORKSPACE_ROOT_FOLDER}/services/
-#    git clone ${LARADOCK_REPO} laradock
+    git clone ${LARADOCK_REPO} laradock
     cd laradock
-#    git checkout ${LARADOCK_BRANCH}
-#    git pull origin ${LARADOCK_BRANCH}
+    git checkout ${LARADOCK_BRANCH}
+    git pull origin ${LARADOCK_BRANCH}
 
     # @todo allow for importing custom backup .env
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up .env file and opening it in VIM for you to edit if required."
-#    cp env-example .env
+    cp env-example .env
 
     read -p  "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Would you like to edit your laradock .env file now? [y/N] "
 
@@ -29,11 +29,11 @@ then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling Docker${NC}"
 
     cd /tmp
-#    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-#    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-#    sudo apt install -y docker-ce docker-compose
-#    sudo usermod -aG docker ${USER}
-#    sudo systemctl restart ssh
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+    sudo apt install -y docker-ce docker-compose
+    sudo usermod -aG docker ${USER}
+    sudo systemctl restart ssh
 
     echo -e "${PURPLE}[INSTALLING]${WHITE}\tDocker has been installed. You now need to logged out, please log back in to continue.${NC}"
     update_status 'laradock-build'
@@ -53,26 +53,23 @@ then
 
     # INSTALL THE WELCOME PAGE COMPOSER PACKAGES
     cd ${WORKSPACE_ROOT_FOLDER}${WELCOME_PAGE_PATH}
-#    composer install
+    composer install
 
     cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
-#    docker-compose build php-fpm
-#    docker-compose build nginx
-
+    docker-compose build php-fpm
+    docker-compose build nginx
     clear
+
     echo
     echo "${WHITE}Initializing default server!${NC}"
     echo '----------------------------------------------------------------------------'
 
-#    docker-compose up -d nginx
-
+    docker-compose up -d nginx
     clear
+
     echo
     echo "${GREEN}Zen Workspace and Docker should now be up and running!"
+    echo "${WHITE}----------------------------------------------------------------------------${NC}"
     echo "Visit your new workspace at ${WHITE}http://workspace.zen/${GREEN} from your Windows Host.${NC}"
     echo
-
-#    docker-compose ps
-#    echo
 fi
-

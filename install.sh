@@ -29,7 +29,7 @@ echo -e "${CYAN}[CONFIG]${WHITE}\t\tIncluding installation utilities${NC}"
 if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
     echo -e "${CYAN}[CONFIG]${WHITE}\t\tMaking installation files executable${NC}"
-#    chmod 775 ${INSTALL_FOLDER}/*.sh
+    chmod 775 ${INSTALL_FOLDER}/*.sh
     update_status 'ssh'
 else
     echo -e "${YELLOW}[CONFIG]${WHITE}\t\tContinuing from previous installation...${NC}"
@@ -51,7 +51,7 @@ fi
 if [[ $(cat ${STATUS_FILE}) =~ 'guest-additions' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tUpdating Ubuntu package manager${NC}"
-#    sudo apt update -y && sudo apt upgrade -y
+    sudo apt update -y && sudo apt upgrade -y
 
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up VirtualBox Guest Additions${NC}"
 
@@ -115,9 +115,8 @@ if [[ $(cat ${STATUS_FILE}) =~ 'cleanup' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCleaning up...${NC}"
     update_status 'complete'
-
-#    sudo apt autoremove
-#    sudo rm -rf /tmp/*
+    sudo apt autoremove
+    sudo rm -rf /tmp/*
 else
     echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping cleanup...${NC}"
 fi

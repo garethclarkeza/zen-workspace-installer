@@ -26,7 +26,7 @@ then
         UTILS_TO_INSTALL+=" openjdk-${JDK_VERSION}-jre "
     fi
 
-#    sudo apt install -y ${UTILS_TO_INSTALL}
+    sudo apt install -y ${UTILS_TO_INSTALL}
     clear
     update_status 'dev-utils-php-ext'
 fi
@@ -56,11 +56,10 @@ then
         php-ssh2 \
         php-uuid "
 
-#    sudo apt install -y ${PHP_EXTENSIONS}
+    sudo apt install -y ${PHP_EXTENSIONS}
     sleep 2
     clear
     echo -e "${GREEN}[INSTALLING]${WHITE}\tPHP${PHP_VERSION} extensions have been installed?${NC}"
-
     update_status 'dev-utils-composer'
 fi
 
@@ -71,9 +70,9 @@ then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling Composer PHP package manager${NC}"
 
     cd /tmp
-#    curl -o- https://getcomposer.org/installer | php
-#    sudo mv composer.phar ${BASH_SCRIPTS_ROOT}composer
-#    sudo chmod ${BASH_SCRIPTS_DEFAULT_PERMISSIONS} /usr/bin/composer
+    curl -o- https://getcomposer.org/installer | php
+    sudo mv composer.phar ${BASH_SCRIPTS_ROOT}composer
+    sudo chmod ${BASH_SCRIPTS_DEFAULT_PERMISSIONS} /usr/bin/composer
 
     sleep 2
     clear
