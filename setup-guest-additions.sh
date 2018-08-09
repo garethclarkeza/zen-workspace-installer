@@ -1,5 +1,7 @@
 read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Have you set the CDROM in VirtualBox to use the VBoxLinuxAdditions.iso ?${NC} ${WHITE}[y/N]${NC} " -n 1 -r
 
+echo
+
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tUpdating package manager and installing required packages..."
@@ -28,7 +30,6 @@ then
     sudo usermod -aG vboxsf ${USER}
     sudo ./VBoxLinuxAdditions.run
 else
-    echo
     echo -e "${RED}[ERROR]${WHITE}\t\t\tPlease insert the guest additions iso into the VM as per readme file and then try again!${NC}"
     echo
     read -p "Press any key to exit"
