@@ -7,18 +7,13 @@ then
 fi
 
 # Make the ENV variables for this app available
-while read var; do
-    # todo - add support for comments
-    if [[ ${var} != '' ]]
-    then
-        export "${var}"
-    fi
-done <.env
+source <(sed -E -n 's/[^#]+/export &/ p' ${INSTALL_FOLDER}/.env)
 
 # GLOBAL INSTALLATION VARIABLES
 export WORKSPACE_UTILS_LOADED=true
 export HOST_IP_ADDRESS=${SSH_CLIENT%% *}
-export LOCAL_IP_ADDRESS=$(hostname  -I | cut -f1 -d' ')
+export LOCAL_IP_ADDRESS=$(hostname -I | cut -f1 -d' ')
+
 # THIS IS TO SUPPORT UPDATING IPs DYNAMICALLY WHEN SWITCHING NETWORKS AND RECEIVING A NEW IP ADDRESS (actually only needs to be in the bash_profile stuff)
 #export LAST_HOST_IP_ADDRESS=${SSH_CLIENT%% *}
 #export LAST_LOCAL_IP_ADDRESS=$(hostname  -I | cut -f1 -d' ')

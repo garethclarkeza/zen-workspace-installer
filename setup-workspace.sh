@@ -1,5 +1,5 @@
-echo -e "${GREEN}[INSTALLING]${WHITE}\tFetching the latest version of Zen Workspace"
-echo -e "${GREEN}[INSTALLING]${WHITE}\tCloning Zen Workspace from ${WORKSPACE_REPO} into ${WORKSPACE_ROOT_FOLDER}"
+echo -e "${GREEN}[INSTALLING]${WHITE}\tFetching the latest version of Zen Workspace${NC}"
+echo -e "${GREEN}[INSTALLING]${WHITE}\tCloning Zen Workspace from ${WORKSPACE_REPO} into ${WORKSPACE_ROOT_FOLDER}${NC}"
 
 cd /
 git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}
@@ -15,30 +15,52 @@ install_workspace_scripts
 echo -e "${GREEN}[INSTALLING]${WHITE}\tCompleted installing workspace scripts${NC}"
 echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up default hosts${NC}"
 
+# @todo - check if access is available to windows hosts file
 # add windows_host with the clients connected IP address to ubuntu hosts file
-manage-hosts updatehost windows.host ${HOST_IP_ADDRESS}
+manage-hosts updatehost windows.host ${HOST_IP_ADDRESS} > /dev/null
 
 # add ubuntu servers IP address to windows under the selected ubuntu hostname
-manage-hosts win-addhost ${HOSTNAME} ${LOCAL_IP_ADDRESS}
-manage-hosts win-addhost workspace ${LOCAL_IP_ADDRESS}
-manage-hosts win-updatehost workspace.zen ${LOCAL_IP_ADDRESS}
+manage-hosts win-updatehost ${HOSTNAME} ${LOCAL_IP_ADDRESS} > /dev/null
+manage-hosts win-updatehost workspace.zen ${LOCAL_IP_ADDRESS} > /dev/null
 
 echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up workspace links to windows volumes${NC}"
-echo -e "${GREEN}[INSTALLING]${WHITE}\t - linking workspace to ${WHITE}~/workspace${NC}"
-ln -s ${WORKSPACE_ROOT_FOLDER} ~/workspace
-echo -e "${GREEN}[INSTALLING]${WHITE}\t - linking workspace to ${WHITE}/var/www${NC}"
-sudo ln -s ${WORKSPACE_ROOT_FOLDER} /var/www
-echo -e "${GREEN}[INSTALLING]${WHITE}\t - linking windows hosts file folder to ${WHITE}/etc/win_hosts${NC}"
-sudo ln -s ${WORKSPACE_WIN_HOSTS_FOLDER}/hosts /etc/win_hosts
 
-# LINK WORKSPACE BASH ALIASES TO USERS HOME FOLDER
-for default_script in ${WORKSPACE_ROOT_FOLDER}/config/bash/*; do
-    rm -f ~/${default_script}
-    ln -s ${WORKSPACE_ROOT_FOLDER}/config/bash/${default_script} ~/${default_script}
+# ~/WORKSPACE LINKING
+if [ -d ~/workspace ]; then
+    echo -e "${GREEN}[INSTALLING]\t - linking workspace to ${WHITE}~/workspace${NC}"
+    ln -s ${WORKSPACE_ROOT_FOLDER} ~/workspace
+else
+    echo -e "${YELLOW}[INSTALLING]\t - ${WHITE}~/workspace has already been created${NC}"
+fi
+
+# /VAR/WWW LINKING
+if [ -d /var/www ]; then
+    echo -e "${GREEN}[INSTALLING]\t - linking workspace to ${WHITE}/var/www${NC}"
+    sudo ln -s ${WORKSPACE_ROOT_FOLDER} /var/www
+else
+    echo -e "${YELLOW}[INSTALLING]\t - ${WHITE}/var/www has already been created${NC}"
+fi
+
+# WIN_HOSTS LINKING
+if [ -f /etc/win_hosts ]; then
+    echo -e "${GREEN}[INSTALLING]\t - linking windows hosts file to ${WHITE}/etc/win_hosts${NC}"
+    sudo ln -s ${WORKSPACE_WIN_HOSTS_FOLDER}/hosts /etc/win_hosts
+else
+    echo -e "${YELLOW}[INSTALLING]\t - ${WHITE}/etc/win_hosts has already been created${NC}"
+fi
+
+# LINK WORKSPACE BASH/PROFILE SETTINGS TO USERS HOME FOLDER
+echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying over bash and profile configurations${NC}"
+
+for file in $(du -b ${WORKSPACE_ROOT_FOLDER}/config/bash*/{.??,}*); do
+    if [[ -f $file || -d $file ]]; then
+        echo -e "${GREEN}[INSTALLING]\t - copying over to ~/${file##*/}${NC}"
+        sleep 1
+	    cp --backup=nil -rf ${file} ~/${file##*/}
+    fi
 done
 
-echo -e "${GREEN}[INSTALLING]${WHITE}\tNew bash prompt successfully installed${NC}"
-read -p "${GREEN}[INSTALLING]${WHITE}${TAB_SPACES}Would you to edit your docker stacks file? [y/N]${NC} "
+read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Would you to edit your docker stacks file? [y/N]${NC} "
 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
@@ -46,3 +68,5 @@ then
 fi
 
 source ~/.bash_profile
+echo -e "${GREEN}[INSTALLING]${WHITE}\tNew bash prompt successfully installed${NC}"
+

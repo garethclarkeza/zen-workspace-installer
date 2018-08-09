@@ -19,6 +19,7 @@ TAB_SPACES='    '
 
 tabs 4
 
+# INITIALIZE THE SETUP AND CHECKING FOR CONTINUED INSTALLS
 . ${INSTALL_FOLDER}/init.sh
 
 # ALWAYS INCLUDE THE UTILS
@@ -75,7 +76,9 @@ if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up Zen Workspace${NC}"
     . ${INSTALL_FOLDER}/setup-workspace.sh
+
     die_if_workspace_is_not_installed
+
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCompleted setting up workspace${NC}"
     update_status 'dev-utils'
 else
@@ -115,8 +118,11 @@ if [[ $(cat ${STATUS_FILE}) =~ 'cleanup' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCleaning up...${NC}"
     update_status 'complete'
+
     sudo apt autoremove
     sudo rm -rf /tmp/*
+    # removing bash/profile backups
+    rm -rf ~/~*
 else
     echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping cleanup...${NC}"
 fi
@@ -124,8 +130,8 @@ fi
 # COMPLETE WITH INSTALLATION, THE FILES SHOULD BE UNINSTALLED
 if [[ $(cat ${STATUS_FILE}) =~ 'complete' ]]
 then
-    # REMOVE SELF FROM STARTUP
 #    sed -i '\/zen-workspace-installer\/install.sh continue/d' ~/.bash_profile
+    echo
     echo -e "${GREEN}[COMPLETE]${WHITE}\t\tYour new workspace has been successfully setup! Congratulations.${NC}"
     echo
 fi
