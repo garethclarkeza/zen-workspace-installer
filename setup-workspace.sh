@@ -52,9 +52,9 @@ fi
 # LINK WORKSPACE BASH/PROFILE SETTINGS TO USERS HOME FOLDER
 echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying over bash and profile configurations${NC}"
 
-for file in $(du -b ${WORKSPACE_ROOT_FOLDER}/config/bash*/{.??,}*); do
+for file in $(find ${WORKSPACE_ROOT_FOLDER}/config/bash/ -type f); do
     if [[ -f $file || -d $file ]]; then
-        echo -e "${GREEN}[INSTALLING]\t - copying over to ~/${file##*/}${NC}"
+        echo -e "${GREEN}[INSTALLING]${NC}\t - copying over to ~/${file##*/}${NC}"
         sleep 1
 	    cp --backup=nil -rf ${file} ~/${file##*/}
     fi
