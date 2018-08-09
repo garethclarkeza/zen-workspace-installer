@@ -7,7 +7,6 @@ then
     git clone ${LARADOCK_REPO} laradock
     cd laradock
     git checkout ${LARADOCK_BRANCH}
-    git pull origin ${LARADOCK_BRANCH}
 
     # @todo allow for importing custom backup .env
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up .env file and opening it in VIM for you to edit if required."
@@ -50,6 +49,7 @@ then
 
     echo "${WHITE}Building popular docker containers, this may take a while...${NC}"
     echo '-----------------------------------------------------------------------------'
+    echo 
 
     # INSTALL THE WELCOME PAGE COMPOSER PACKAGES
     cd ${WORKSPACE_ROOT_FOLDER}${WELCOME_PAGE_PATH}
@@ -57,12 +57,19 @@ then
 
     cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
     docker-compose build php-fpm
+    
+    echo
+    sleep 1
+    clear
+    
     docker-compose build nginx
+    sleep 1
     clear
 
     echo
     echo "${WHITE}Initializing default server!${NC}"
     echo '----------------------------------------------------------------------------'
+    echo 
 
     docker-compose up -d nginx
     clear
