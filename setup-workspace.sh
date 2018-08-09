@@ -26,7 +26,7 @@ manage-hosts win-updatehost workspace.zen ${LOCAL_IP_ADDRESS} > /dev/null
 echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up workspace links to windows volumes${NC}"
 
 # ~/WORKSPACE LINKING
-if [ -d ~/workspace ]; then
+if [ ! -d ~/workspace ]; then
     echo -e "${GREEN}[INSTALLING]\t - linking workspace to ${WHITE}~/workspace${NC}"
     ln -s ${WORKSPACE_ROOT_FOLDER} ~/workspace
 else
@@ -34,7 +34,7 @@ else
 fi
 
 # /VAR/WWW LINKING
-if [ -d /var/www ]; then
+if [ ! -d /var/www ]; then
     echo -e "${GREEN}[INSTALLING]\t - linking workspace to ${WHITE}/var/www${NC}"
     sudo ln -s ${WORKSPACE_ROOT_FOLDER} /var/www
 else
@@ -42,7 +42,7 @@ else
 fi
 
 # WIN_HOSTS LINKING
-if [ -f /etc/win_hosts ]; then
+if [ ! -f /etc/win_hosts ]; then
     echo -e "${GREEN}[INSTALLING]\t - linking windows hosts file to ${WHITE}/etc/win_hosts${NC}"
     sudo ln -s ${WORKSPACE_WIN_HOSTS_FOLDER}/hosts /etc/win_hosts
 else
