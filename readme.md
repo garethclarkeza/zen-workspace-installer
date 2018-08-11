@@ -6,10 +6,9 @@
 
 Zen Workspace (geared towards php and node stacks) is an attempt to make developing on Windows as painless as possible. You setup a VirtualBox VM via the guide below and then use an install script to setup your linux image (Ubuntu Server 18.04 currently).
 
-The install script will setup your complete workspace environment. Your base workspace folder must be an empty folder somewhere on your host Windows machine, e.g. ```C:\workspace``` or ```C:\Users\<YourName>\workspace``` - although the folder doesn't need to be called workspace just recommended.
+The install script will setup your complete workspace environment. You need to have a workspace sync folder where there workspace folder you on working on in your VM is backed up to, this folder *should* be empty. 
 
 The other main component of the Zen Workspace is the use of Docker and Docker Compose managed via Laradock. You can run multiple projects at the same time via virtual hosts configuration, as well as easily switching in and out services and new versions.
-
 
 ### Requirements
 
@@ -29,9 +28,9 @@ To get going with setting up your own Zen Workspace, please carry on reading on 
 1. Have a github.com account. (you will need to add an ssh key to your github account)
 1. If you have not already - install PuTTY, PuTTYgen and Pageant. (for an SSH client, I recommend using WinSSHterm - but you can use whatever you prefer)
 1. Make sure you have your favourite code editor installed and for way less hair pulling down the line, make sure you code editors save line endings in UNIX/MAC format which is ```\n``` and not the Windows ```\r\n```.
-1. Make sure you have created your *EMPTY* workspace folder in the location you want it, like ```C:\workspace```, ```D:\web```, ```~\www``` etc (remember that this folder is where your IDE will point to and should be in an easy to access safe location).
+1. Make sure you have created your *EMPTY* workspace sync/backup folder in the location you want it.
 1. [OPTIONAL] This may be a little insecure, however, for easy and more automated management of your Windows hosts file, I suggest giving modify access to your ```C:\Windows\System32\drivers\etc\hosts``` which you will later share onto your linux server. To do this, right-click on the hosts file in windows > propreties > security > edit (you need to be an admin)
-    1. If your name is already in the list, then click on it and give it modfify, read & execute, read and write access
+    1. If your name is already in the list, then click on it and give it modify, read & execute, read and write access
     1. If your name is not there click add
     1. In the bottom box type your Windows username and then click check names, it should match and format it correctly
     1. The as in the first step, go to the user once added and give the correct permissions
@@ -69,7 +68,10 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Click *Create*
 
 ##### Finalize Setup of VM
- - Your new VM should be created now, right-click on it and edit the settings
+ - Your new VM should be created now
+ - Firstly, inside VirtualBox file menu > "Host network manager"
+ - Create a new adapter, no dhcp, ip 192.168.100.101, netmask 255.255.255.0
+ - Then right-click on your new VM and edit the settings
  - Under: General > Advanced - just set both the shared clipboard and drag'ndrop to bidirectional
  - Under: System > Motherboard
     - make sure you are happy with the amount of memory you shared
@@ -87,12 +89,15 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Under: Audio
     - Disable (unless for some reason you want it)
  - Under: Network > Adapter 1
+    - Enable network adapter
+    - Change the attached to Host-only Adapter and select the new adapter you created
+ - Under: Network > Adapter 2
     - Enable network adapter (it should already be enabled)
-    - Change the attached to from NAT -> Bridged Adapter
+    - Change the attached to NAT
  - Under: Shared Folders
-    - Add a new share (this will be your workspace)
-    - Folder path: find your *EMPTY* workspace folder that you will be using
-    - Folder name: workspace
+    - Add a new share (this will be your workspace backup/sync)
+    - Folder path: find your *EMPTY* workspace sync folder that you will be using
+    - Folder name: workspace_sync
     - Read-only: disabled
     - Auto-mount: enabled
     - Click OK
@@ -127,7 +132,7 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
 
  - how to manage system upgrades? upto u, but i suggest install security update automatically
  - additional software selection, here was my selection:
-    - samba file server (only if you gonna need it)
+    - samba file server
     - large selection of fonts (may be required for certain graphics libraries)
     - openssh server (important)
     - basic ubuntu server (important unless you install the stuff you need from this package manually)

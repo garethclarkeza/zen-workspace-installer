@@ -10,6 +10,9 @@ then
         unrar \
         zip \
         unzip \
+        cifs-utils \
+        libpng-dev \
+        traceroute \
         php${PHP_VERSION} \
         php${PHP_VERSION}-fpm \
         php-pear "
