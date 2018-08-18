@@ -1,9 +1,9 @@
 echo -e "${GREEN}[INSTALLING]${WHITE}\tFetching the latest version of Zen Workspace${NC}"
-echo -e "${GREEN}[INSTALLING]${WHITE}\tCloning Zen Workspace from ${WORKSPACE_REPO} into ${WORKSPACE_INSTALL_FOLDER}${NC}"
+echo -e "${GREEN}[INSTALLING]${WHITE}\tCloning Zen Workspace from ${WORKSPACE_REPO} into ${WORKSPACE_APP_FOLDER}${NC}"
 
 cd /
-git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_INSTALL_FOLDER}
-cd ${WORKSPACE_INSTALL_FOLDER}
+git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_APP_FOLDER}
+cd ${WORKSPACE_APP_FOLDER}
 
 if [ ! -d ${WORKSPACE_WWW_FOLDER} ]; then
     sudo mkdir ${WORKSPACE_WWW_FOLDER}
@@ -13,21 +13,21 @@ fi
 
 die_if_workspace_is_not_installed
 
-if [[ ! -d ${WORKSPACE_WWW_FOLDER}/repo && -d ${WORKSPACE_INSTALL_FOLDER}/repo ]]; then
-    cp -r ${WORKSPACE_INSTALL_FOLDER}/repo ${WORKSPACE_WWW_FOLDER}/repo
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/repo && -d ${WORKSPACE_APP_FOLDER}/repo ]]; then
+    cp -r ${WORKSPACE_APP_FOLDER}/repo ${WORKSPACE_WWW_FOLDER}/repo
 fi
 
-if [[ ! -d ${WORKSPACE_WWW_FOLDER}/logs && -d ${WORKSPACE_INSTALL_FOLDER}/logs ]]; then
-    cp -r ${WORKSPACE_INSTALL_FOLDER}/logs ${WORKSPACE_WWW_FOLDER}/logs
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/logs && -d ${WORKSPACE_APP_FOLDER}/logs ]]; then
+    cp -r ${WORKSPACE_APP_FOLDER}/logs ${WORKSPACE_WWW_FOLDER}/logs
 fi
 
-if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_INSTALL_FOLDER}/sandbox ]]; then
-    cp -r ${WORKSPACE_INSTALL_FOLDER}/sandbox ${WORKSPACE_WWW_FOLDER}/sandbox
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_APP_FOLDER}/sandbox ]]; then
+    cp -r ${WORKSPACE_APP_FOLDER}/sandbox ${WORKSPACE_WWW_FOLDER}/sandbox
 fi
 
-if [[ ! -d ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE} && -d ${WORKSPACE_INSTALL_FOLDER}${WORKSPACE_WELCOME_PAGE} ]]; then
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE} && -d ${WORKSPACE_APP_FOLDER}${WORKSPACE_WELCOME_PAGE} ]]; then
     mkdir -p ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE}
-    cp -r ${WORKSPACE_INSTALL_FOLDER}${WORKSPACE_WELCOME_PAGE} ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE}
+    cp -r ${WORKSPACE_APP_FOLDER}${WORKSPACE_WELCOME_PAGE} ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE}
 fi
 
 echo -e "${GREEN}[INSTALLING]${WHITE}\tChecking out Zen Workspace branch: ${WORKSPACE_REPO_BRANCH}${NC}"
@@ -68,7 +68,7 @@ fi
 # LINK WORKSPACE BASH/PROFILE SETTINGS TO USERS HOME FOLDER
 echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying over bash and profile configurations${NC}"
 
-for file in $(find ${WORKSPACE_INSTALL_FOLDER}/config/bash/ -type f); do
+for file in $(find ${WORKSPACE_APP_FOLDER}/config/bash/ -type f); do
     if [[ -f ${file} || -d ${file} ]]; then
         echo -e "${GREEN}[INSTALLING]${NC}\t - copying over to ~/${file##*/}${NC}"
         sleep 1

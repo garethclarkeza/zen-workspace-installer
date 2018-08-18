@@ -18,7 +18,7 @@ export WORKSPACE_UTILS_LOADED=true
 
 # Check to make sure that laradock is installed otherwise exit the script with an error
 function die_if_laradock_is_not_installed {
-    if [[ ! -f ${WORKSPACE_INSTALL_FOLDER}/services/laradock/.env || ! -f ${WORKSPACE_INSTALL_FOLDER}/services/laradock/docker-compose.yml ]]
+    if [[ ! -f ${WORKSPACE_APP_FOLDER}/services/laradock/.env || ! -f ${WORKSPACE_APP_FOLDER}/services/laradock/docker-compose.yml ]]
     then
         echo -e "${RED}[ERROR]${WHITE}\t\tThere was an error fetching the laradock from (${LARADOCK_REPO}:${LARADOCK_BRANCH}).${NC}"
         echo
@@ -28,7 +28,7 @@ function die_if_laradock_is_not_installed {
 
 # Check to make sure that workspace is installed otherwise exit the script with an error
 function die_if_workspace_is_not_installed {
-    if [[ ! -f ${WORKSPACE_INSTALL_FOLDER}/readme.md || ! -d ${WORKSPACE_WWW_FOLDER}${WELCOME_PAGE_PATH} ]]
+    if [[ ! -f ${WORKSPACE_APP_FOLDER}/readme.md || ! -d ${WORKSPACE_WWW_FOLDER}${WELCOME_PAGE_PATH} ]]
     then
         # todo - Add automated testing for git repo and make sure the folder
         echo -e "${RED}[ERROR]${WHITE}\t\tThere was an error fetching the workspace from the github repo. "

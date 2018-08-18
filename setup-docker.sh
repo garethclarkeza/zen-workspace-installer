@@ -3,7 +3,7 @@ if [[ $(cat ${STATUS_FILE}) =~ 'laradock-install' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling Laradock"
 
-    cd ${WORKSPACE_INSTALL_FOLDER}/services/
+    cd ${WORKSPACE_APP_FOLDER}/services/
     git clone ${LARADOCK_REPO} laradock
     cd laradock
     git checkout ${LARADOCK_BRANCH}
