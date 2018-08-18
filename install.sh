@@ -45,9 +45,23 @@ if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
     echo -e "${CYAN}[CONFIG]${WHITE}\t\tMaking installation files executable${NC}"
     chmod 775 ${INSTALL_FOLDER}/*.sh
-    update_status 'ssh'
+    update_status 'netplan'
 else
     echo -e "${YELLOW}[CONFIG]${WHITE}\t\tContinuing from previous installation...${NC}"
+fi
+
+# ZEN WORKSPACE SETUP
+if [[ $(cat ${STATUS_FILE}) =~ 'netplan' ]]
+then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting netplan configuration for host-only network${NC}"
+
+    cat ${INSTALL_FOLDER}/netplan.yaml | sudo tee /etc/netplan/01-netcfg.yaml > /dev/null
+    sudo netplan generate
+    sudo netplan apply
+
+    echo -e "${PURPLE}[INSTALLING]${WHITE}\tNetplan configuration successfully installed, please restart the server in headless mode and you should be able to connect via ${WORKSPACE_IP} in your SSH client!${NC}"
+
+    update_status 'ssh'
 fi
 
 # GET THE SSH SERVER RUNNING WITH ACCESS
@@ -108,25 +122,8 @@ then
 
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSamba has been successfully setup, now you should setup your shares in Windows.${NC}"
 
-    update_status 'netplan'
-fi
-
-# ZEN WORKSPACE SETUP
-if [[ $(cat ${STATUS_FILE}) =~ 'netplan' ]]
-then
-    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting netplan configuration for host-only network${NC}"
-
-    cat ${INSTALL_FOLDER}/netplan.yaml | sudo tee /etc/netplan/01-netcfg.yaml > /dev/null
-    sudo netplan generate
-    sudo netplan apply
-
-    echo -e "${PURPLE}[INSTALLING]${WHITE}\tNetplan configuration successfully installed, please restart the server in headless mode and you should be able to connect via ${WORKSPACE_IP} in your SSH client!${NC}"
-
     update_status 'workspace'
 fi
-
-echo 'completed netplan install'
-exit 0
 
 # ZEN WORKSPACE SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]
@@ -141,6 +138,11 @@ then
 else
     echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping workspace setup...${NC}"
 fi
+
+echo
+echo 'completed workspace'
+echo
+exit 0
 
 die_if_workspace_is_not_installed
 
