@@ -117,6 +117,7 @@ then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting netplan configuration for host-only network${NC}"
 
     sudo cat ${INSTALL_FOLDER}/netplan > /etc/netplan/01-netcfg.yaml
+    cat ${INSTALL_FOLDER}/netplan.yaml | sudo tee /etc/netplan/01-netcfg.yaml > /dev/null
     sudo netplay generate
     sudo netplay apply
 
