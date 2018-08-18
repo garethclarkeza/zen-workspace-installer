@@ -152,14 +152,11 @@ then
 
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSamba has been successfully setup, now you should setup your shares in Windows.${NC}"
     echo
-    read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Please exit and re-login${NC} ${WHITE}[*/8/9]${NC} " -n 1 -r
+    read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Please exit and re-login to refresh your permissions${NC} " -n 1 -r
 
     update_status 'laradock-install'
     exit 0
 fi
-
-echo 'completed samba'
-exit 0
 
 # DOCKER AND LARADOCK SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock-' ]]

@@ -52,10 +52,10 @@ then
     echo
 
     # INSTALL THE WELCOME PAGE COMPOSER PACKAGES
-    cd ${WORKSPACE_WWW_FOLDER}${WELCOME_PAGE_PATH}
+    cd ${WORKSPACE_WWW_FOLDER}/hello/world
     composer install
 
-    cd ${WORKSPACE_WWW_FOLDER}/services/laradock
+    cd ${WORKSPACE_APP_FOLDER}/services/laradock
     docker-compose build php-fpm
 
     echo
