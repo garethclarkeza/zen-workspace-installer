@@ -3,7 +3,7 @@ if [[ $(cat ${STATUS_FILE}) =~ 'laradock-install' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling Laradock"
 
-    cd ${WORKSPACE_ROOT_FOLDER}/services/
+    cd ${WORKSPACE_INSTALL_FOLDER}/services/
     git clone ${LARADOCK_REPO} laradock
     cd laradock
     git checkout ${LARADOCK_BRANCH}
@@ -49,19 +49,19 @@ then
 
     echo "${WHITE}Building popular docker containers, this may take a while...${NC}"
     echo '-----------------------------------------------------------------------------'
-    echo 
+    echo
 
     # INSTALL THE WELCOME PAGE COMPOSER PACKAGES
-    cd ${WORKSPACE_ROOT_FOLDER}${WELCOME_PAGE_PATH}
+    cd ${WORKSPACE_WWW_FOLDER}${WELCOME_PAGE_PATH}
     composer install
 
-    cd ${WORKSPACE_ROOT_FOLDER}/services/laradock
+    cd ${WORKSPACE_WWW_FOLDER}/services/laradock
     docker-compose build php-fpm
-    
+
     echo
     sleep 1
     clear
-    
+
     docker-compose build nginx
     sleep 1
     clear
@@ -69,7 +69,7 @@ then
     echo
     echo "${WHITE}Initializing default server!${NC}"
     echo '----------------------------------------------------------------------------'
-    echo 
+    echo
 
     docker-compose up -d nginx
     clear

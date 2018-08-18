@@ -6,7 +6,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tUpdating package manager and installing required packages..."
 
-    sudo apt-get update -yqq && sudo apt-get upgrade -yqq
+    sudo apt-get update -yqq && sudo apt-get upgrade -y
     sudo apt-get install -y dkms build-essential linux-headers-generic apt-transport-https linux-headers-$(uname -r)
 
     clear

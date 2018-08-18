@@ -1,11 +1,34 @@
 echo -e "${GREEN}[INSTALLING]${WHITE}\tFetching the latest version of Zen Workspace${NC}"
-echo -e "${GREEN}[INSTALLING]${WHITE}\tCloning Zen Workspace from ${WORKSPACE_REPO} into ${WORKSPACE_ROOT_FOLDER}${NC}"
+echo -e "${GREEN}[INSTALLING]${WHITE}\tCloning Zen Workspace from ${WORKSPACE_REPO} into ${WORKSPACE_INSTALL_FOLDER}${NC}"
 
 cd /
-git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_ROOT_FOLDER}
-cd ${WORKSPACE_ROOT_FOLDER}
+git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_INSTALL_FOLDER}
+cd ${WORKSPACE_INSTALL_FOLDER}
+
+if [ ! -d ${WORKSPACE_WWW_FOLDER} ]; then
+    sudo mkdir ${WORKSPACE_WWW_FOLDER}
+    sudo chown -R ${USER}:${USER} ${WORKSPACE_WWW_FOLDER}
+    sudo chmod -R 775 ${WORKSPACE_WWW_FOLDER}
+fi
 
 die_if_workspace_is_not_installed
+
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/repo && -d ${WORKSPACE_INSTALL_FOLDER}/repo ]]; then
+    cp -r ${WORKSPACE_INSTALL_FOLDER}/repo ${WORKSPACE_WWW_FOLDER}/repo
+fi
+
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/logs && -d ${WORKSPACE_INSTALL_FOLDER}/logs ]]; then
+    cp -r ${WORKSPACE_INSTALL_FOLDER}/logs ${WORKSPACE_WWW_FOLDER}/logs
+fi
+
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_INSTALL_FOLDER}/sandbox ]]; then
+    cp -r ${WORKSPACE_INSTALL_FOLDER}/sandbox ${WORKSPACE_WWW_FOLDER}/sandbox
+fi
+
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE} && -d ${WORKSPACE_INSTALL_FOLDER}${WORKSPACE_WELCOME_PAGE} ]]; then
+    mkdir -p ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE}
+    cp -r ${WORKSPACE_INSTALL_FOLDER}${WORKSPACE_WELCOME_PAGE} ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE}
+fi
 
 echo -e "${GREEN}[INSTALLING]${WHITE}\tChecking out Zen Workspace branch: ${WORKSPACE_REPO_BRANCH}${NC}"
 sleep 1
@@ -17,28 +40,21 @@ echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up default hosts${NC}"
 
 # @todo - check if access is available to windows hosts file
 # add windows_host with the clients connected IP address to ubuntu hosts file
-manage-hosts updatehost windows.host ${HOST_IP_ADDRESS} > /dev/null
+manage-hosts updatehost windows.host ${HOST_IP} > /dev/null
+manage-hosts updatehost *.zen ${HOST_IP} > /dev/null
 
 # add ubuntu servers IP address to windows under the selected ubuntu hostname
-manage-hosts win-updatehost ${HOSTNAME} ${LOCAL_IP_ADDRESS} > /dev/null
-manage-hosts win-updatehost workspace.zen ${LOCAL_IP_ADDRESS} > /dev/null
+manage-hosts win-updatehost ${HOSTNAME} ${WORKSPACE_IP} > /dev/null
+manage-hosts win-updatehost *.zen ${WORKSPACE_IP} > /dev/null
 
 echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up workspace links to windows volumes${NC}"
 
 # ~/WORKSPACE LINKING
-if [ ! -d ~/workspace ]; then
+if [ ! -d ~/www ]; then
     echo -e "${GREEN}[INSTALLING]\t - linking workspace to ${WHITE}~/workspace${NC}"
-    ln -s ${WORKSPACE_ROOT_FOLDER} ~/workspace
+    ln -s ${WORKSPACE_WWW_FOLDER} ~/www
 else
     echo -e "${YELLOW}[INSTALLING]\t - ${WHITE}~/workspace has already been created${NC}"
-fi
-
-# /VAR/WWW LINKING
-if [ ! -d /var/www ]; then
-    echo -e "${GREEN}[INSTALLING]\t - linking workspace to ${WHITE}/var/www${NC}"
-    sudo ln -s ${WORKSPACE_ROOT_FOLDER} /var/www
-else
-    echo -e "${YELLOW}[INSTALLING]\t - ${WHITE}/var/www has already been created${NC}"
 fi
 
 # WIN_HOSTS LINKING
@@ -52,8 +68,8 @@ fi
 # LINK WORKSPACE BASH/PROFILE SETTINGS TO USERS HOME FOLDER
 echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying over bash and profile configurations${NC}"
 
-for file in $(find ${WORKSPACE_ROOT_FOLDER}/config/bash/ -type f); do
-    if [[ -f $file || -d $file ]]; then
+for file in $(find ${WORKSPACE_INSTALL_FOLDER}/config/bash/ -type f); do
+    if [[ -f ${file} || -d ${file} ]]; then
         echo -e "${GREEN}[INSTALLING]${NC}\t - copying over to ~/${file##*/}${NC}"
         sleep 1
 	    cp --backup=nil -rf ${file} ~/${file##*/}
@@ -62,6 +78,7 @@ done
 
 read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Would you to edit your docker stacks file? [y/N]${NC} "
 
+# @todo - don't use this file, use the .zen env file
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     vim ~/.docker_stacks
@@ -69,4 +86,3 @@ fi
 
 source ~/.bash_profile
 echo -e "${GREEN}[INSTALLING]${WHITE}\tNew bash prompt successfully installed${NC}"
-

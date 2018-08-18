@@ -14,10 +14,24 @@ NC=`tput sgr0` # reset colour
 ENV_LOADED=false
 INSTALL_FOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 STATUS_FILE=${INSTALL_FOLDER}/status
-WELCOME_PAGE_PATH='/www/sandbox/hello'
+WORKSPACE_ENV_FILE=~/.zen
 TAB_SPACES='    '
 
 tabs 4
+
+#/etc/netplan/<config-file>.cfg
+#network:
+#  version: 2
+#  renderer: networkd
+#  ethernets:
+#    enp0s3:
+#      addresses: [192.168.100.102/24]
+#      dhcp4: no
+#    enp0s8:
+#      dhcp4: yes
+
+#sudo netplan generate
+#sudo netplan apply
 
 # INITIALIZE THE SETUP AND CHECKING FOR CONTINUED INSTALLS
 . ${INSTALL_FOLDER}/init.sh

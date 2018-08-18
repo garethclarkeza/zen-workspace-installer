@@ -17,7 +17,7 @@ then
         php${PHP_VERSION}-fpm \
         php-pear "
 
-    echo -e "${GREEN}[INSTALLING]${WHITE}\tChecking if valid JDK version supplied in .env file..."
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tChecking if valid JDK version supplied in .env file...${NC}"
     echo
     echo -e "\tNo valid version found (${WHITE}8 & 9 supported${NC}), if you want to install a JDK, enter a valid version number or"
     echo -e "\tany other key to continue... (JDK is optional)"
@@ -31,6 +31,33 @@ then
 
     sudo apt install -y ${UTILS_TO_INSTALL}
     clear
+
+    update_status 'dev-utils-mongo'
+fi
+
+# SETUP MONGO UTILS IF REQUESTED
+if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils-mongo' ]]
+then
+    if [[ ${MONGO_UTILS} = true || ${MONGO_SHELL} = true ]]
+    then
+        echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up MongoDB packages${NC}"
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+        echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+        sudo apt-get update
+
+        MONGO_UTILS_TO_INSTALL=''
+
+        if [ ${MONGO_UTILS} = true ]; then
+            MONGO_UTILS_TO_INSTALL+='mongo-org-tools '
+        fi
+
+        if [ ${MONGO_SHELL} = true ]; then
+            MONGO_UTILS_TO_INSTALL+='mongo-org-shell '
+        fi
+
+        sudo apt-get install -y ${MONGO_UTILS_TO_INSTALL}
+    fi
+
     update_status 'dev-utils-php-ext'
 fi
 
@@ -38,7 +65,7 @@ fi
 if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils-php-ext' ]]
 then
     clear
-    echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling PHP${PHP_VERSION} extensions"
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling PHP${PHP_VERSION} extensions${NC}"
 
     PHP_EXTENSIONS=" \
         php${PHP_VERSION}-zip \
@@ -74,8 +101,8 @@ then
 
     cd /tmp
     curl -o- https://getcomposer.org/installer | php
-    sudo mv composer.phar ${BASH_SCRIPTS_ROOT}composer
-    sudo chmod ${BASH_SCRIPTS_DEFAULT_PERMISSIONS} /usr/bin/composer
+    sudo mv composer.phar ${BASH_SCRIPTS_ROOT}/composer
+    sudo chmod ${BASH_SCRIPTS_DEFAULT_PERMISSIONS} ${BASH_SCRIPTS_ROOT}/composer
 
     sleep 2
     clear

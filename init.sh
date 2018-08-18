@@ -64,12 +64,12 @@ fi
 # MAKE SURE THE ENV FILE IS INITIALIZED
 if [[ $(cat ${STATUS_FILE}) =~ 'env' ]]
 then
-    if [[ ! -f '.env' ]]
+    if [[ ! -f '~/.zen' ]]
     then
         echo -e "${BLUE}[PRECHECK]${WHITE}\t\tInstaller .env file not found! Creating one from the default.${NC}"
-        cp ${INSTALL_FOLDER}/env-example ${INSTALL_FOLDER}/.env
+        cp ${INSTALL_FOLDER}/env-example ${WORKSPACE_ENV_FILE}
         read -p "${CYAN}[CONFIG]${WHITE}${TAB_SPACES}${TAB_SPACES}Press any key to continue and edit your .env file to fit your requirements...${NC}"
-        vim ${INSTALL_FOLDER}/.env
+        vim ${WORKSPACE_ENV_FILE}
         ENV_LOADED=true
     fi
 

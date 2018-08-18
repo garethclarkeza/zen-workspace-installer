@@ -44,6 +44,7 @@ else
 fi
 
 # THIS WILL FORCE A PASSWORD REQUEST FOR SUDO, AFTER THIS THE SUDOERS FILE CAN BE UPDATED SO PASSWORD IS NO LONGER REQUIRED WHEN USING SUDO
+sudo apt-get update
 sudo apt-get -y install xclip > /dev/null
 sleep 1
 cat ~/.ssh/id_rsa.pub | xclip
@@ -78,7 +79,7 @@ echo
 echo -e "\t${GREEN}SSH has been successfully setup, here are you credentials to add to your Windows SSH client to connect to this server, you should"
 echo -e "\tstart your VM in headless mode and only connect via your SSH client.${YELLOW}"
 echo
-echo -e "\tIP Address:\t${WHITE}$(hostname  -I | cut -f1 -d' ')${YELLOW}"
+echo -e "\tIP Address:\t${WHITE}${WORKSPACE_IP}${YELLOW}"
 echo -e "\tUsername:\t${WHITE}${USER}${YELLOW}"
 echo -e "\tPassword:\t${WHITE}***** (use your putty private key that you previously used above or your password if you really want)${YELLOW}"
 echo -e "\tPort:\t\t${WHITE}22${YELLOW}"
