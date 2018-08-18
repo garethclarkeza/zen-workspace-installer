@@ -125,10 +125,10 @@ then
     sudo chown -R nobody:nogroup ${SAMBA_PUBLIC}
     sudo chmod -R 0775 ${SAMBA_PUBLIC}
 
-#    sudo addgroup smbgroup
-#    sudo usermod -aG smbgroup ${USER}
-#    sudo smbpasswd -a ${USER}
-
+    sudo addgroup smbgroup
+    sudo usermod -aG smbgroup ${USER}
+    sudo smbpasswd -a ${USER}
+#
     sudo chown -R root:${SHARE_GROUP} ${WORKSPACE_WWW_FOLDER}
     sudo chmod -R 0770 ${WORKSPACE_WWW_FOLDER}
 
@@ -142,11 +142,9 @@ then
 #    read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Please exit and re-login to refresh your permissions${NC} " -n 1 -r
 
     update_status 'laradock-install'
+else
+    echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping Samba shares configuration.${NC}"
 fi
-
-echo 'restart and test samba'
-
-exit 0
 
 # DOCKER AND LARADOCK SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock-' ]]
