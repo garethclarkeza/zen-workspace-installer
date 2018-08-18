@@ -14,15 +14,24 @@ fi
 die_if_workspace_is_not_installed
 
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}/repo && -d ${WORKSPACE_APP_FOLDER}/repo ]]; then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying repo folder over to www${NC}"
     cp -r ${WORKSPACE_APP_FOLDER}/repo ${WORKSPACE_WWW_FOLDER}/repo
 fi
 
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}/logs && -d ${WORKSPACE_APP_FOLDER}/logs ]]; then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying logs folder over to www${NC}"
     cp -r ${WORKSPACE_APP_FOLDER}/logs ${WORKSPACE_WWW_FOLDER}/logs
 fi
 
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_APP_FOLDER}/sandbox ]]; then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying sandbox folder over to www${NC}"
     cp -r ${WORKSPACE_APP_FOLDER}/sandbox ${WORKSPACE_WWW_FOLDER}/sandbox
+fi
+
+#@todo - see how windows deals with this
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/packages && -d ${WORKSPACE_APP_FOLDER}/packages ]]; then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tLinking packages folder into www${NC}"
+    ln -s ${WORKSPACE_APP_FOLDER}/packages ${WORKSPACE_WWW_FOLDER}/packages
 fi
 
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE} && -d ${WORKSPACE_APP_FOLDER}${WORKSPACE_WELCOME_PAGE} ]]; then
@@ -70,9 +79,15 @@ echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying over bash and profile configurati
 
 for file in $(find ${WORKSPACE_APP_FOLDER}/config/bash/ -type f); do
     if [[ -f ${file} || -d ${file} ]]; then
-        echo -e "${GREEN}[INSTALLING]${NC}\t - copying over to ~/${file##*/}${NC}"
+        echo -e "${GREEN}[INSTALLING]${NC}\t - linking to ~/${file##*/}${NC}"
         sleep 1
-	    cp --backup=nil -rf ${file} ~/${file##*/}
+
+        if [[ -f ~/${file##*/} ]]; then
+            mv ~/${file##*/} ~/~${file##*/}
+        fi
+
+        sleep 1
+	    ln -s ${file} ~/${file##*/}
     fi
 done
 

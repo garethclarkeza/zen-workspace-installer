@@ -44,7 +44,7 @@ else
 fi
 
 # THIS WILL FORCE A PASSWORD REQUEST FOR SUDO, AFTER THIS THE SUDOERS FILE CAN BE UPDATED SO PASSWORD IS NO LONGER REQUIRED WHEN USING SUDO
-sudo apt-get update
+sudo apt-get -yqq update
 sudo apt-get -y install xclip > /dev/null
 sleep 1
 cat ~/.ssh/id_rsa.pub | xclip
