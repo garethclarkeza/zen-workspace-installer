@@ -15,8 +15,6 @@ git checkout ${WORKSPACE_REPO_BRANCH}
 #    sudo chmod -R 775 ${WORKSPACE_WWW_FOLDER}
 #fi
 
-die_if_workspace_is_not_installed
-
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}/repo && -d ${WORKSPACE_APP_FOLDER}/repo ]]; then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying repo folder over to www${NC}"
     cp -r ${WORKSPACE_APP_FOLDER}/repo ${WORKSPACE_WWW_FOLDER}/repo
@@ -47,6 +45,8 @@ if [[ ! -d ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE} && -d ${WORKSPACE_AP
     mkdir -p ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE}
     cp -r ${WORKSPACE_APP_FOLDER}${WORKSPACE_WELCOME_PAGE} ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE}
 fi
+
+die_if_workspace_is_not_installed
 
 echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling workspace scripts${NC}"
 install_workspace_scripts
