@@ -100,6 +100,36 @@ else
 fi
 
 # ZEN WORKSPACE SETUP
+if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]
+then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up Zen Workspace${NC}"
+    . ${INSTALL_FOLDER}/setup-workspace.sh
+
+    die_if_workspace_is_not_installed
+
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tCompleted setting up workspace${NC}"
+    update_status 'dev-utils'
+else
+    echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping workspace setup...${NC}"
+fi
+
+die_if_workspace_is_not_installed
+
+# DEVELOPMENT UTILITIES AND FEATURES
+if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils' ]]
+then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up development utilities${NC}"
+    . ${INSTALL_FOLDER}/setup-dev-utils.sh
+    update_status 'samba'
+else
+    echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping dev utilities...${NC}"
+fi
+
+die_if_workspace_is_not_installed
+
+
+
+# ZEN WORKSPACE SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'samba' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting Samba shares for Windows access${NC}"
@@ -122,41 +152,8 @@ then
 
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSamba has been successfully setup, now you should setup your shares in Windows.${NC}"
 
-    update_status 'workspace'
-fi
-
-# ZEN WORKSPACE SETUP
-if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]
-then
-    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up Zen Workspace${NC}"
-    . ${INSTALL_FOLDER}/setup-workspace.sh
-
-    die_if_workspace_is_not_installed
-
-    echo -e "${GREEN}[INSTALLING]${WHITE}\tCompleted setting up workspace${NC}"
-    update_status 'dev-utils'
-else
-    echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping workspace setup...${NC}"
-fi
-
-echo
-echo 'completed workspace'
-echo
-exit 0
-
-die_if_workspace_is_not_installed
-
-# DEVELOPMENT UTILITIES AND FEATURES
-if [[ $(cat ${STATUS_FILE}) =~ 'dev-utils' ]]
-then
-    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up development utilities${NC}"
-    . ${INSTALL_FOLDER}/setup-dev-utils.sh
     update_status 'laradock-install'
-else
-    echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping dev utilities...${NC}"
 fi
-
-die_if_workspace_is_not_installed
 
 # DOCKER AND LARADOCK SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock-' ]]
