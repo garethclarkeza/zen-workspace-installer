@@ -75,7 +75,7 @@ then
 
     . ${INSTALL_FOLDER}/setup-guest-additions.sh
 
-    update_status 'samba'
+    update_status 'workspace'
     echo -e "${GREEN}[INSTALLING]${WHITE}\tVirtualBox Guest Additions has been installed and your user has been added the the vboxsf group.${NC}"
     echo
     echo -e "\t${WHITE}You need to make SURE that you added the 2 virtualbox shares."
@@ -115,8 +115,6 @@ else
 fi
 
 die_if_workspace_is_not_installed
-
-
 
 # ZEN WORKSPACE SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'samba' ]]
