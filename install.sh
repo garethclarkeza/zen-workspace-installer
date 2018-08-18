@@ -144,6 +144,10 @@ then
     update_status 'laradock-install'
 fi
 
+echo 'restart and test samba'
+
+exit 0
+
 # DOCKER AND LARADOCK SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock-' ]]
 then
@@ -177,6 +181,6 @@ if [[ $(cat ${STATUS_FILE}) =~ 'complete' ]]
 then
 #    sed -i '\/zen-workspace-installer\/install.sh continue/d' ~/.bash_profile
     echo
-    echo -e "${GREEN}[COMPLETE]${WHITE}\t\tYour new workspace has been successfully setup! Congratulations.${NC}"
+    echo -e "${GREEN}[COMPLETE]${WHITE}\t\tYour new workspace has been successfully setup! Congratulations. Please restart the server and then add your shares.${NC}"
     echo
 fi

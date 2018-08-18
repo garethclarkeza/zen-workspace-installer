@@ -55,13 +55,12 @@ echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up default hosts${NC}"
 # @todo - check if access is available to windows hosts file
 # add windows_host with the clients connected IP address to ubuntu hosts file
 manage-hosts updatehost windows.host ${HOST_IP} > /dev/null
-manage-hosts updatehost workspace.zen 0.0.0.0 > /dev/null
 manage-hosts updatehost *.zen 0.0.0.0 > /dev/null
 
 # add ubuntu servers IP address to windows under the selected ubuntu hostname
 manage-hosts win-updatehost ${HOSTNAME} ${WORKSPACE_IP} > /dev/null
+manage-hosts win-updatehost hello.zen ${WORKSPACE_IP} > /dev/null
 manage-hosts win-updatehost workspace.zen ${WORKSPACE_IP} > /dev/null
-manage-hosts win-updatehost *.zen ${WORKSPACE_IP} > /dev/null
 
 echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up workspace links to windows volumes${NC}"
 
