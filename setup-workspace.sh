@@ -30,9 +30,9 @@ if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_APP_FOLDER}/sandbox
     cp -r ${WORKSPACE_APP_FOLDER}/sandbox ${WORKSPACE_WWW_FOLDER}/sandbox
 fi
 
-if [[ ! -d ${WORKSPACE_WWW_FOLDER}/readme.md && -d ${WORKSPACE_APP_FOLDER}/readme.md ]]; then
+if [[ ! -f ${WORKSPACE_WWW_FOLDER}/readme.md && -f ${WORKSPACE_APP_FOLDER}/readme.md ]]; then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying readme file over to www${NC}"
-    cp -r ${WORKSPACE_APP_FOLDER}/readme.md ${WORKSPACE_WWW_FOLDER}/readme.md
+    cp ${WORKSPACE_APP_FOLDER}/readme.md ${WORKSPACE_WWW_FOLDER}/readme.md
 fi
 
 #@todo - see how windows deals with this
