@@ -5,11 +5,15 @@ cd /
 git clone -q --progress ${WORKSPACE_REPO} ${WORKSPACE_APP_FOLDER}
 cd ${WORKSPACE_APP_FOLDER}
 
-if [ ! -d ${WORKSPACE_WWW_FOLDER} ]; then
-    sudo mkdir ${WORKSPACE_WWW_FOLDER}
-    sudo chown -R ${USER}:${USER} ${WORKSPACE_WWW_FOLDER}
-    sudo chmod -R 775 ${WORKSPACE_WWW_FOLDER}
-fi
+echo -e "${GREEN}[INSTALLING]${WHITE}\tChecking out Zen Workspace branch: ${WORKSPACE_REPO_BRANCH}${NC}"
+sleep 1
+git checkout ${WORKSPACE_REPO_BRANCH}
+
+#if [ ! -d ${WORKSPACE_WWW_FOLDER} ]; then
+#    sudo mkdir ${WORKSPACE_WWW_FOLDER}
+#    sudo chown -R ${USER}:${USER} ${WORKSPACE_WWW_FOLDER}
+#    sudo chmod -R 775 ${WORKSPACE_WWW_FOLDER}
+#fi
 
 die_if_workspace_is_not_installed
 
@@ -39,9 +43,6 @@ if [[ ! -d ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE} && -d ${WORKSPACE_AP
     cp -r ${WORKSPACE_APP_FOLDER}${WORKSPACE_WELCOME_PAGE} ${WORKSPACE_WWW_FOLDER}${WORKSPACE_WELCOME_PAGE}
 fi
 
-echo -e "${GREEN}[INSTALLING]${WHITE}\tChecking out Zen Workspace branch: ${WORKSPACE_REPO_BRANCH}${NC}"
-sleep 1
-git checkout ${WORKSPACE_REPO_BRANCH}
 echo -e "${GREEN}[INSTALLING]${WHITE}\tInstalling workspace scripts${NC}"
 install_workspace_scripts
 echo -e "${GREEN}[INSTALLING]${WHITE}\tCompleted installing workspace scripts${NC}"

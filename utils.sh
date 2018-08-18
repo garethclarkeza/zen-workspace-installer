@@ -49,15 +49,15 @@ function install_workspace_scripts {
 
         echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying script: ${SOURCE_SCRIPT} to ${BASH_SCRIPTS_ROOT}${BASH_SCRIPT}${NC}"
 
-        if [ -f "${BASH_SCRIPTS_ROOT}${BASH_SCRIPT}" ]
+        if [ -f "${BASH_SCRIPTS_ROOT}/${BASH_SCRIPT}" ]
         then
             echo -e "${GREEN}[INSTALLING]${WHITE}\tExisting file '${BASH_SCRIPT}' already found in ${BASH_SCRIPTS_ROOT}${NC}"
             continue
         fi
 
-        sudo ln -s ${SOURCE_SCRIPT} "${BASH_SCRIPTS_ROOT}${BASH_SCRIPT}"
-        sudo chmod ${BASH_SCRIPTS_DEFAULT_PERMISSIONS} "${BASH_SCRIPTS_ROOT}${BASH_SCRIPT}"
+        sudo ln -s ${SOURCE_SCRIPT} "${BASH_SCRIPTS_ROOT}/${BASH_SCRIPT}"
+        sudo chmod ${BASH_SCRIPTS_DEFAULT_PERMISSIONS} "${BASH_SCRIPTS_ROOT}/${BASH_SCRIPT}"
 
-        echo -e "${GREEN}[INSTALLING]${WHITE}\tCompleted adding ${BASH_SCRIPTS_ROOT}${BASH_SCRIPT} and permissions were set to ${BASH_SCRIPTS_DEFAULT_PERMISSIONS}${NC}"
+        echo -e "${GREEN}[INSTALLING]${WHITE}\tCompleted adding ${BASH_SCRIPTS_ROOT}/${BASH_SCRIPT} and permissions were set to ${BASH_SCRIPTS_DEFAULT_PERMISSIONS}${NC}"
     done
 }
