@@ -72,7 +72,7 @@ then
 
     . ${INSTALL_FOLDER}/setup-guest-additions.sh
 
-    update_status 'workspace'
+    update_status 'samba'
     echo -e "${GREEN}[INSTALLING]${WHITE}\tVirtualBox Guest Additions has been installed and your user has been added the the vboxsf group.${NC}"
     echo
     echo -e "\t${WHITE}You need to make SURE that you added the 2 virtualbox shares."
@@ -84,6 +84,53 @@ then
 else
     echo -e "${YELLOW}[INSTALLING]${WHITE}\tSkipping guest additions installation...${NC}"
 fi
+
+# ZEN WORKSPACE SETUP
+if [[ $(cat ${STATUS_FILE}) =~ 'samba' ]]
+then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting Samba shares for Windows access${NC}"
+
+    sudo mkdir -p ${SAMBA_PUBLIC}
+    sudo chown -R nobody:nogroup ${SAMBA_PUBLIC}
+    sudo chmod -R 0775 ${SAMBA_PUBLIC}
+
+    sudo addgroup smbgroup
+    sudo usermod -aG smbgroup ${USER}
+    sudo smbpasswd -a ${USER}
+
+    sudo chown -R root:smbgroup ${WORKSPACE_WWW_FOLDER}
+    sudo chmod -R 0770 ${WORKSPACE_WWW_FOLDER}
+
+    sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
+    sudo cp ${INSTALL_FOLDER}/smb.conf /etc/samba/smb.conf
+
+    sudo service smbd restart
+
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSamba has been successfully setup, now you should setup your shares in Windows.${NC}"
+
+    update_status 'netplan'
+fi
+echo
+echo 'completed netplan install'
+echo
+exit 0
+
+# ZEN WORKSPACE SETUP
+if [[ $(cat ${STATUS_FILE}) =~ 'netplan' ]]
+then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting netplan configuration for host-only network${NC}"
+
+    sudo cat ${INSTALL_FOLDER}/netplan > /etc/netplan/01-netcfg.yaml
+    sudo netplay generate
+    sudo netplay apply
+
+    echo -e "${PURPLE}[INSTALLING]${WHITE}\tNetplan configuration successfully installed, please restart the server in headless mode and you should be able to connect via ${WORKSPACE_IP} in your SSH client!${NC}"
+
+    update_status 'workspace'
+fi
+
+echo 'completed netplan install'
+exit 0
 
 # ZEN WORKSPACE SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'workspace' ]]

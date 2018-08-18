@@ -7,7 +7,7 @@ then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tUpdating package manager and installing required packages..."
 
     sudo apt-get update -yqq && sudo apt-get upgrade -y
-    sudo apt-get install -y dkms build-essential linux-headers-generic apt-transport-https linux-headers-$(uname -r)
+    sudo apt-get install -y dkms build-essential linux-headers-generic apt-transport-https python-glade2 system-config-samba linux-headers-$(uname -r)
 
     clear
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up mount to load the VBox Linux Additions"
