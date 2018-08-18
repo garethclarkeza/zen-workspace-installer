@@ -32,6 +32,11 @@ if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_APP_FOLDER}/sandbox
     cp -r ${WORKSPACE_APP_FOLDER}/sandbox ${WORKSPACE_WWW_FOLDER}/sandbox
 fi
 
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_APP_FOLDER}/sandbox ]]; then
+    echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying readme file over to www${NC}"
+    cp -r ${WORKSPACE_APP_FOLDER}/readme.md ${WORKSPACE_WWW_FOLDER}/readme.md
+fi
+
 #@todo - see how windows deals with this
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}/packages && -d ${WORKSPACE_APP_FOLDER}/packages ]]; then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tLinking packages folder into www${NC}"

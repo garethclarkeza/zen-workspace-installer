@@ -130,30 +130,34 @@ die_if_workspace_is_not_installed
 
 
 # ZEN WORKSPACE SETUP
-if [[ $(cat ${STATUS_FILE}) =~ 'samba' ]]
-then
-    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting Samba shares for Windows access${NC}"
-
-    sudo mkdir -p ${SAMBA_PUBLIC}
-    sudo chown -R nobody:nogroup ${SAMBA_PUBLIC}
-    sudo chmod -R 0775 ${SAMBA_PUBLIC}
-
-    sudo addgroup smbgroup
-    sudo usermod -aG smbgroup ${USER}
-    sudo smbpasswd -a ${USER}
-
-    sudo chown -R root:smbgroup ${WORKSPACE_WWW_FOLDER}
-    sudo chmod -R 0770 ${WORKSPACE_WWW_FOLDER}
-
-    sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
-    sudo cp ${INSTALL_FOLDER}/smb.conf /etc/samba/smb.conf
-
-    sudo service smbd restart
-
-    echo -e "${GREEN}[INSTALLING]${WHITE}\tSamba has been successfully setup, now you should setup your shares in Windows.${NC}"
-
-    update_status 'laradock-install'
-fi
+#if [[ $(cat ${STATUS_FILE}) =~ 'samba' ]]
+#then
+#    echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting Samba shares for Windows access${NC}"
+#
+#    sudo mkdir -p ${SAMBA_PUBLIC}
+#    sudo chown -R nobody:nogroup ${SAMBA_PUBLIC}
+#    sudo chmod -R 0775 ${SAMBA_PUBLIC}
+#
+#    sudo addgroup smbgroup
+#    sudo usermod -aG smbgroup ${USER}
+#    sudo smbpasswd -a ${USER}
+#
+#    sudo chown -R root:smbgroup ${WORKSPACE_WWW_FOLDER}
+#    sudo chmod -R 0770 ${WORKSPACE_WWW_FOLDER}
+#
+#    sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
+#    sudo cp ${INSTALL_FOLDER}/smb.conf /etc/samba/smb.conf
+#
+#    sudo service smbd restart
+#
+#    echo -e "${GREEN}[INSTALLING]${WHITE}\tSamba has been successfully setup, now you should setup your shares in Windows.${NC}"
+#    echo
+#    read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Please exit and re-login${NC} ${WHITE}[*/8/9]${NC} " -n 1 -r
+#
+#    update_status 'laradock-install'
+#    exit 0
+#
+#fi
 
 # DOCKER AND LARADOCK SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'docker' || $(cat ${STATUS_FILE}) =~ 'laradock-' ]]
