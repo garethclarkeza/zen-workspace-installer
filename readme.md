@@ -117,6 +117,7 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - A menu with will up on the screen, follow along below...
  - install
  - select language, country and keyboard layout (dont autodetect keyboard)
+ - when the configure the network window comes up, select enp0s8
  - enter a hostname
  - select mirror location, package and proxy
 

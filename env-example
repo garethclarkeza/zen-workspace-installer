@@ -10,7 +10,7 @@ WORKSPACE_REPO=https://github.com/garethclarkeza/zen-workspace.git
 WORKSPACE_REPO_BRANCH=develop
 WORKSPACE_APP_FOLDER=~/zen
 WORKSPACE_WWW_FOLDER=/var/www
-WORKSPACE_WIN_SYNC_FOLDER=/media/sf_workspace
+WORKSPACE_WIN_SYNC_FOLDER=/media/sf_workspace_backup
 WORKSPACE_WIN_HOSTS_FOLDER=/media/sf_win_hosts
 WORKSPACE_WELCOME_PAGE=/hello/world
 
