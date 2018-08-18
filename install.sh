@@ -116,10 +116,9 @@ if [[ $(cat ${STATUS_FILE}) =~ 'netplan' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting netplan configuration for host-only network${NC}"
 
-    sudo cat ${INSTALL_FOLDER}/netplan > /etc/netplan/01-netcfg.yaml
     cat ${INSTALL_FOLDER}/netplan.yaml | sudo tee /etc/netplan/01-netcfg.yaml > /dev/null
-    sudo netplay generate
-    sudo netplay apply
+    sudo netplan generate
+    sudo netplan apply
 
     echo -e "${PURPLE}[INSTALLING]${WHITE}\tNetplan configuration successfully installed, please restart the server in headless mode and you should be able to connect via ${WORKSPACE_IP} in your SSH client!${NC}"
 
