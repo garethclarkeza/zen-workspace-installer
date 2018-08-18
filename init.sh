@@ -81,7 +81,7 @@ then
         exit 1
     fi
 
-    update_status 'start'
+    update_status 'netplan'
 
     # BEGIN INSTALLATION
     echo

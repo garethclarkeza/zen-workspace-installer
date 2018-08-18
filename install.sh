@@ -37,7 +37,7 @@ then
     echo -e "${PURPLE}[INSTALLING]${WHITE}\tNetplan configuration successfully installed, please restart the server in headless mode and you should be able to connect via ${WORKSPACE_IP} in your SSH client!${NC}"
     read -p  "Press any key to shutdown the VM so that you can restart it in headless mode and connect via SSH client on IP ${WHITE}${WORKSPACE_IP}${NC}. "
 
-    update_status 'ssh'
+    update_status 'start'
 
     sudo shutdown -h now
     exit 0
@@ -48,7 +48,7 @@ if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
 then
     echo -e "${CYAN}[CONFIG]${WHITE}\t\tMaking installation files executable${NC}"
     chmod 775 ${INSTALL_FOLDER}/*.sh
-    update_status 'netplan'
+    update_status 'ssh'
 else
     echo -e "${YELLOW}[CONFIG]${WHITE}\t\tContinuing from previous installation...${NC}"
 fi
