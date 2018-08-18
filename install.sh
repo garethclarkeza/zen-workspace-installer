@@ -110,10 +110,6 @@ then
 
     update_status 'netplan'
 fi
-echo
-echo 'completed netplan install'
-echo
-exit 0
 
 # ZEN WORKSPACE SETUP
 if [[ $(cat ${STATUS_FILE}) =~ 'netplan' ]]
