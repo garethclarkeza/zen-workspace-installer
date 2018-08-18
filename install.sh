@@ -18,21 +18,6 @@ WORKSPACE_ENV_FILE=~/.zen
 TAB_SPACES='    '
 
 tabs 4
-
-#/etc/netplan/<config-file>.cfg
-#network:
-#  version: 2
-#  renderer: networkd
-#  ethernets:
-#    enp0s3:
-#      addresses: [192.168.100.102/24]
-#      dhcp4: no
-#    enp0s8:
-#      dhcp4: yes
-
-#sudo netplan generate
-#sudo netplan apply
-
 # INITIALIZE THE SETUP AND CHECKING FOR CONTINUED INSTALLS
 . ${INSTALL_FOLDER}/init.sh
 
@@ -40,17 +25,7 @@ tabs 4
 echo -e "${CYAN}[CONFIG]${WHITE}\t\tIncluding installation utilities${NC}"
 . ${INSTALL_FOLDER}/utils.sh
 
-# This can only be loaded after the .env file is setup
-if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
-then
-    echo -e "${CYAN}[CONFIG]${WHITE}\t\tMaking installation files executable${NC}"
-    chmod 775 ${INSTALL_FOLDER}/*.sh
-    update_status 'netplan'
-else
-    echo -e "${YELLOW}[CONFIG]${WHITE}\t\tContinuing from previous installation...${NC}"
-fi
-
-# ZEN WORKSPACE SETUP
+# SETUP THE HOST-ONLY NETWORK SETTINGS
 if [[ $(cat ${STATUS_FILE}) =~ 'netplan' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting netplan configuration for host-only network${NC}"
@@ -60,8 +35,22 @@ then
     sudo netplan apply
 
     echo -e "${PURPLE}[INSTALLING]${WHITE}\tNetplan configuration successfully installed, please restart the server in headless mode and you should be able to connect via ${WORKSPACE_IP} in your SSH client!${NC}"
+    read -p  "Press any key to shutdown the VM so that you can restart it in headless mode and connect via SSH client on IP ${WHITE}${WORKSPACE_IP}${NC}. "
 
     update_status 'ssh'
+
+    sudo shutdown -h now
+    exit 0
+fi
+
+# This can only be loaded after the .env file is setup
+if [[ $(cat ${STATUS_FILE}) =~ 'start' ]]
+then
+    echo -e "${CYAN}[CONFIG]${WHITE}\t\tMaking installation files executable${NC}"
+    chmod 775 ${INSTALL_FOLDER}/*.sh
+    update_status 'netplan'
+else
+    echo -e "${YELLOW}[CONFIG]${WHITE}\t\tContinuing from previous installation...${NC}"
 fi
 
 # GET THE SSH SERVER RUNNING WITH ACCESS
@@ -134,7 +123,7 @@ if [[ $(cat ${STATUS_FILE}) =~ 'samba' ]]
 then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting Samba shares for Windows access${NC}"
 
-#    sudo mkdir -p ${SAMBA_PUBLIC}
+    sudo mkdir -p ${SAMBA_PUBLIC}
     sudo chown -R nobody:nogroup ${SAMBA_PUBLIC}
     sudo chmod -R 0775 ${SAMBA_PUBLIC}
 
@@ -142,7 +131,7 @@ then
 #    sudo usermod -aG smbgroup ${USER}
 #    sudo smbpasswd -a ${USER}
 
-    sudo chown -R root:smbgroup ${WORKSPACE_WWW_FOLDER}
+    sudo chown -R root:${SHARE_GROUP} ${WORKSPACE_WWW_FOLDER}
     sudo chmod -R 0770 ${WORKSPACE_WWW_FOLDER}
 
     sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
@@ -151,11 +140,10 @@ then
     sudo service smbd restart
 
     echo -e "${GREEN}[INSTALLING]${WHITE}\tSamba has been successfully setup, now you should setup your shares in Windows.${NC}"
-    echo
-    read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Please exit and re-login to refresh your permissions${NC} " -n 1 -r
+#    echo
+#    read -p "${PURPLE}[INSTALLING]${WHITE}${TAB_SPACES}Please exit and re-login to refresh your permissions${NC} " -n 1 -r
 
     update_status 'laradock-install'
-    exit 0
 fi
 
 # DOCKER AND LARADOCK SETUP

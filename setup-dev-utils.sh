@@ -87,6 +87,9 @@ then
         php-uuid "
 
     sudo apt install -y ${PHP_EXTENSIONS}
+    # add support for swoole
+    sudo pecl channel-update pecl.php.net
+    sudo pecl install swoole
     sleep 2
     clear
     echo -e "${GREEN}[INSTALLING]${WHITE}\tPHP${PHP_VERSION} extensions have been installed?${NC}"

@@ -15,6 +15,7 @@ WORKSPACE_WIN_HOSTS_FOLDER=/media/sf_win_hosts
 WORKSPACE_WELCOME_PAGE=/hello/world
 
 SAMBA_PUBLIC=/home/gareth/public
+SHARE_GROUP=vboxsf
 
 BASH_SCRIPTS_ROOT=/usr/bin
 BASH_SCRIPTS_SOURCE_ROOT=${WORKSPACE_APP_FOLDER}/packages/bash/*.sh

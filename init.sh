@@ -66,16 +66,16 @@ if [[ $(cat ${STATUS_FILE}) =~ 'env' ]]
 then
     if [[ ! -f '~/.zen' ]]
     then
-        echo -e "${BLUE}[PRECHECK]${WHITE}\t\tInstaller .env file not found! Creating one from the default.${NC}"
+        echo -e "${BLUE}[PRECHECK]${WHITE}\t\tInstaller .zen file not found! Creating one from the default.${NC}"
         cp ${INSTALL_FOLDER}/env-example ${WORKSPACE_ENV_FILE}
-        read -p "${CYAN}[CONFIG]${WHITE}${TAB_SPACES}${TAB_SPACES}Press any key to continue and edit your .env file to fit your requirements...${NC}"
+        read -p "${CYAN}[CONFIG]${WHITE}${TAB_SPACES}${TAB_SPACES}Press any key to continue and edit your .zen file to fit your requirements...${NC}"
         vim ${WORKSPACE_ENV_FILE}
         ENV_LOADED=true
     fi
 
     if [[ ! ${ENV_LOADED} ]]
     then
-        echo -e "${RED}[ERROR]${WHITE}\t\t\tInstaller .env file was never loaded, please create an .env file file in the root folder of the installer."
+        echo -e "${RED}[ERROR]${WHITE}\t\t\tInstaller .zen file was never loaded, please create an .zen file in your home folder of the installer."
         echo "You can copy from the example file in the installer folder env-example. Exiting installation...${NC}"
         echo
         exit 1
