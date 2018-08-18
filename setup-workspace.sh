@@ -9,11 +9,11 @@ echo -e "${GREEN}[INSTALLING]${WHITE}\tChecking out Zen Workspace branch: ${WORK
 sleep 1
 git checkout ${WORKSPACE_REPO_BRANCH}
 
-#if [ ! -d ${WORKSPACE_WWW_FOLDER} ]; then
-#    sudo mkdir ${WORKSPACE_WWW_FOLDER}
-#    sudo chown -R ${USER}:${USER} ${WORKSPACE_WWW_FOLDER}
-#    sudo chmod -R 775 ${WORKSPACE_WWW_FOLDER}
-#fi
+if [ ! -d ${WORKSPACE_WWW_FOLDER} ]; then
+    sudo mkdir ${WORKSPACE_WWW_FOLDER}
+    sudo chown -R ${USER}:${USER} ${WORKSPACE_WWW_FOLDER}
+    sudo chmod -R 775 ${WORKSPACE_WWW_FOLDER}
+fi
 
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}/repo && -d ${WORKSPACE_APP_FOLDER}/repo ]]; then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying repo folder over to www${NC}"
@@ -30,7 +30,7 @@ if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_APP_FOLDER}/sandbox
     cp -r ${WORKSPACE_APP_FOLDER}/sandbox ${WORKSPACE_WWW_FOLDER}/sandbox
 fi
 
-if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_APP_FOLDER}/sandbox ]]; then
+if [[ ! -d ${WORKSPACE_WWW_FOLDER}/readme.md && -d ${WORKSPACE_APP_FOLDER}/readme.md ]]; then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying readme file over to www${NC}"
     cp -r ${WORKSPACE_APP_FOLDER}/readme.md ${WORKSPACE_WWW_FOLDER}/readme.md
 fi
