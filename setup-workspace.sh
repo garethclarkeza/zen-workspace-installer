@@ -61,6 +61,7 @@ manage-hosts updatehost *.zen 0.0.0.0 > /dev/null
 manage-hosts win-updatehost ${HOSTNAME} ${WORKSPACE_IP} > /dev/null
 manage-hosts win-updatehost workspace.zen ${WORKSPACE_IP} > /dev/null
 manage-hosts win-updatehost hello.zen ${WORKSPACE_IP} > /dev/null
+manage-hosts win-updatehost mongoui.zen ${WORKSPACE_IP} > /dev/null
 
 echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up workspace links to windows volumes${NC}"
 
