@@ -1,6 +1,9 @@
 HOST_IP=192.168.100.101
 WORKSPACE_IP=192.168.100.102
 
+MASTER_WWW_GROUP=www-data
+MASTER_WWW_GID=1111
+
 WORKSPACE_INSTALLER_BRANCH=master
 
 LARADOCK_REPO=https://github.com/garethclarkeza/laradock.git

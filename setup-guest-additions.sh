@@ -26,8 +26,8 @@ then
 
     echo -e "${GREEN}[INSTALLING]${WHITE}\tRunning VBox Linux Additions${NC}"
 
-    sudo groupadd -g 998 vboxsf
-    sudo usermod -aG vboxsf ${USER}
+    sudo groupadd -g ${MASTER_WWW_GID} ${MASTER_WWW_GROUP}
+    sudo usermod -aG ${MASTER_WWW_GROUP} ${USER}
     sudo ./VBoxLinuxAdditions.run
 else
     echo -e "${RED}[ERROR]${WHITE}\t\t\tPlease insert the guest additions iso into the VM as per readme file and then try again!${NC}"

@@ -11,7 +11,7 @@ git checkout ${WORKSPACE_REPO_BRANCH}
 
 if [ ! -d ${WORKSPACE_WWW_FOLDER} ]; then
     sudo mkdir ${WORKSPACE_WWW_FOLDER}
-    sudo chown -R ${USER}:${USER} ${WORKSPACE_WWW_FOLDER}
+    sudo chown -R ${MASTER_WWW_GROUP}:${MASTER_WWW_GROUP} ${WORKSPACE_WWW_FOLDER}
     sudo chmod -R 775 ${WORKSPACE_WWW_FOLDER}
 fi
 
@@ -59,8 +59,8 @@ manage-hosts updatehost *.zen 0.0.0.0 > /dev/null
 
 # add ubuntu servers IP address to windows under the selected ubuntu hostname
 manage-hosts win-updatehost ${HOSTNAME} ${WORKSPACE_IP} > /dev/null
-manage-hosts win-updatehost hello.zen ${WORKSPACE_IP} > /dev/null
 manage-hosts win-updatehost workspace.zen ${WORKSPACE_IP} > /dev/null
+manage-hosts win-updatehost hello.zen ${WORKSPACE_IP} > /dev/null
 
 echo -e "${GREEN}[INSTALLING]${WHITE}\tSetting up workspace links to windows volumes${NC}"
 
