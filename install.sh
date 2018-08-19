@@ -129,7 +129,7 @@ then
     sudo usermod -aG smbgroup ${USER}
     sudo smbpasswd -a ${USER}
 #
-    sudo chown -R root:${SHARE_GROUP} ${WORKSPACE_WWW_FOLDER}
+    sudo chown -R root:${MASTER_WWW_GROUP} ${WORKSPACE_WWW_FOLDER}
     sudo chmod -R 0770 ${WORKSPACE_WWW_FOLDER}
 
     sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.bak

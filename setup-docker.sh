@@ -56,7 +56,7 @@ then
     composer install
 
     cd ${WORKSPACE_APP_FOLDER}/services/laradock
-    docker-compose build php-fpm
+#    docker-compose build php-fpm
 
     echo
     sleep 1
@@ -71,7 +71,7 @@ then
     echo '----------------------------------------------------------------------------'
     echo
 
-    docker-compose up -d nginx
+#    docker-compose up -d nginx
     clear
 
     echo
