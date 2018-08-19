@@ -11,7 +11,7 @@ git checkout ${WORKSPACE_REPO_BRANCH}
 
 if [ ! -d ${WORKSPACE_WWW_FOLDER} ]; then
     sudo mkdir ${WORKSPACE_WWW_FOLDER}
-    sudo chown -R ${MASTER_WWW_GROUP}:${MASTER_WWW_GROUP} ${WORKSPACE_WWW_FOLDER}
+    sudo chown -R ${USER}:${MASTER_WWW_GROUP} ${WORKSPACE_WWW_FOLDER}
     sudo chmod -R 775 ${WORKSPACE_WWW_FOLDER}
 fi
 
