@@ -13,6 +13,7 @@ then
         cifs-utils \
         libpng-dev \
         traceroute \
+        mongo-tools \
         php${PHP_VERSION} \
         php${PHP_VERSION}-fpm \
         php-pear "
