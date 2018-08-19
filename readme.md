@@ -168,6 +168,12 @@ The first thing you will need to do is setup a VirtualBox VM. In the VirtualBox 
  - Follow the output and prompts.
  - Well done! :P Your Linux Server with docker support and development environment server is now running.
  - Open your browser, the welcome page should be visible at http://workspace.zen/.
+ 
+##### Want your VM to boot into headless mode automatically on Windows startup?
+ - go to ```C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup```
+ - create a new text file called ```whatever-you-want.bat```
+ - edit in notepad and add ```"C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" startvm "NameOfYourVM" --type "headless"```, replacing NameOfYourVM.
+ - next time you restart your VM should automatically boot in headless mode
 
 
 ### What Now?

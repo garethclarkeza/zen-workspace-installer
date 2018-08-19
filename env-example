@@ -1,11 +1,11 @@
 HOST_IP=192.168.100.101
 WORKSPACE_IP=192.168.100.102
 
-MASTER_WWW_GROUP=smbgroup
-MASTER_WWW_GID=1111
-SAMBA_PUBLIC=/home/gareth/public
-
 WORKSPACE_INSTALLER_BRANCH=master
+
+MASTER_WWW_GROUP=zenshare
+MASTER_WWW_GID=666
+SAMBA_PUBLIC=/home/gareth/public
 
 LARADOCK_REPO=https://github.com/garethclarkeza/laradock.git
 LARADOCK_BRANCH=develop
