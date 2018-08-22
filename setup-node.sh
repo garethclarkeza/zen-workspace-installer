@@ -40,6 +40,7 @@ function install_node_setup {
     # Yarn configurations
     export PATH="$HOME/.yarn/bin:$PATH"
     yarn config set prefix ~/.yarn -g
+    yarn global add @vue/cli
 
     echo -e "${GREEN}[INSTALLING]${WHITE}\tChecking for versions"
     echo -e "${GREEN}[INSTALLING]${WHITE}\tNVM ${INSTALL_NVM_VER} installed"
