@@ -23,6 +23,7 @@ fi
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}/logs && -d ${WORKSPACE_APP_FOLDER}/logs ]]; then
     echo -e "${GREEN}[INSTALLING]${WHITE}\tCopying logs folder over to www${NC}"
     cp -r ${WORKSPACE_APP_FOLDER}/logs ${WORKSPACE_WWW_FOLDER}/logs
+    sudo chmod -R 777 ${WORKSPACE_WWW_FOLDER}/logs
 fi
 
 if [[ ! -d ${WORKSPACE_WWW_FOLDER}/sandbox && -d ${WORKSPACE_APP_FOLDER}/sandbox ]]; then
